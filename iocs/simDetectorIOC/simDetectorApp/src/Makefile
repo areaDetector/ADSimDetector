@@ -23,7 +23,7 @@ PROD_SRCS_vxWorks += $(PROD_NAME)_registerRecordDeviceDriver.cpp
 
 PROD_LIBS += simDetector
 
-include $(ADCORE)/ADApp/commonDriverMakefile
+include $(ADEXAMPLE)/exampleApp/commonDriverMakefile
 
 #=============================
 
