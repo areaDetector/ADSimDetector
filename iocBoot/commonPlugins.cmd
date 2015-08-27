@@ -98,6 +98,10 @@ dbLoadRecords("NDAttributeN.template", "P=$(PREFIX),R=Attr1:6:,  PORT=ATTR1,ADDR
 dbLoadRecords("NDAttributeN.template", "P=$(PREFIX),R=Attr1:7:,  PORT=ATTR1,ADDR=6,TIMEOUT=1,NCHANS=$(NCHANS)")
 dbLoadRecords("NDAttributeN.template", "P=$(PREFIX),R=Attr1:8:,  PORT=ATTR1,ADDR=7,TIMEOUT=1,NCHANS=$(NCHANS)")
 
+# Optional: load NDPluginEdge plugin
+NDEdgeConfigure("EDGE1", $(QSIZE), 0, "$(PORT)", 0, 0, 0, 0)
+dbLoadRecords("NDEdge.template",  "P=$(PREFIX),R=Edge1:, PORT=EDGE1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT)")
+
 # Optional: load scan records
 dbLoadRecords("$(SSCAN)/sscanApp/Db/scan.db", "P=$(PREFIX),MAXPTS1=2000,MAXPTS2=200,MAXPTS3=20,MAXPTS4=10,MAXPTSH=10")
 
@@ -112,6 +116,7 @@ dbLoadRecords("$(DEVIOCSTATS)/db/iocAdminSoft.db", "IOC=$(PREFIX)")
 
 set_requestfile_path("./")
 set_requestfile_path("$(ADCORE)/ADApp/Db")
+set_requestfile_path("$(ADEXAMPLE)/iocBoot")
 set_requestfile_path("$(CALC)/calcApp/Db")
 set_requestfile_path("$(SSCAN)/sscanApp/Db")
 set_savefile_path("./autosave")
