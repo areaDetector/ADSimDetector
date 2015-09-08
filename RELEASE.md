@@ -24,7 +24,7 @@ Release Notes
 =============
 
 
-R3-0 (September XXX, 2015)
+R2-0 (September XXX, 2015)
 ========================
 This is the first release of this repository.  
 The files in this this repository were previously located in the ADCore repository.
