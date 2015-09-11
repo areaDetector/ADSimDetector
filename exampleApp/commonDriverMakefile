@@ -7,9 +7,13 @@ PROD_LIBS               += NDPlugin ADBase netCDF
 
 ifdef ADPLUGINEDGE
   PROD_LIBS             += NDPluginEdge
-  PROD_SYS_LIBS_Linux   += opencv_core opencv_imgproc
-  opencv_core_DIR       += $(OPENCV_LIB)
   $(PROD_NAME)_DBD      += NDPluginEdge.dbd
+  ifdef OPENCV_LIB
+    opencv_core_DIR     += $(OPENCV_LIB)
+    PROD_LIBS           += opencv_core opencv_imgproc
+  else
+    PROD_SYS_LIBS       += opencv_core opencv_imgproc
+  endif
 endif
 
 ifneq (vxWorks, $(findstring vxWorks, $(T_A)))
