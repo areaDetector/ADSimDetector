@@ -63,7 +63,7 @@ NDStdArraysConfigure("Image2", 1, 0, "SIM2", 0)
 dbLoadRecords("$(ADCORE)/db/NDStdArrays.template", "P=$(PREFIX),R=image2:,PORT=Image2,ADDR=0,TIMEOUT=1,TYPE=Float64,FTVL=DOUBLE,NELEMENTS=921600")
 
 # Load all other plugins using commonPlugins.cmd
-< $(ADEXAMPLE)/iocBoot/commonPlugins.cmd
+< $(ADCORE)/iocBoot/commonPlugins.cmd
 
 #asynSetTraceIOMask("$(PORT)",0,2)
 #asynSetTraceMask("$(PORT)",0,255)
