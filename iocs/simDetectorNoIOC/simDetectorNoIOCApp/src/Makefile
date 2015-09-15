@@ -27,7 +27,7 @@ ifeq ($(EPICS_LIBCOM_ONLY),YES)
   PROD_LIBS += asyn
   PROD_LIBS += Com
 else
-  include $(ADEXAMPLE)/exampleApp/commonDriverMakefile
+  include $(ADCORE)/ADApp/commonDriverMakefile
 endif
 
 USR_INCLUDES += $(HDF5_INCLUDE)
