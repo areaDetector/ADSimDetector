@@ -1,17 +1,17 @@
-ADCore Releases
+ADExample Releases
 ===============
 
 The latest untagged master branch can be obtained at
-https://github.com/areaDetector/ADCore.
+https://github.com/areaDetector/ADExample.
 
 Tagged source code and pre-built binary releases prior to R2-0 are included
 in the areaDetector releases available via links at
 http://cars.uchicago.edu/software/epics/areaDetector.html.
 
-Tagged source code releases from R3-0 onward can be obtained at 
+Tagged source code releases from R2-0 onward can be obtained at 
 https://github.com/areaDetector/ADExample/releases.
 
-Tagged prebuilt binaries from R3-0 onward can be obtained at
+Tagged prebuilt binaries from R2-0 onward can be obtained at
 http://cars.uchicago.edu/software/pub/ADExample.
 
 The versions of EPICS base, asyn, and other synApps modules used for each release can be obtained from 
