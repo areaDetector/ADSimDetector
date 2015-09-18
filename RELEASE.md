@@ -24,10 +24,13 @@ Release Notes
 =============
 
 
-R2-0 (September XXX, 2015)
+R2-0 (September 18, 2015)
 ========================
-This is the first release of this repository.  
+This is the first release of this repository.  It contains the simDetector driver and
+example IOCS.
+
 The files in this this repository were previously located in the ADCore repository.
+
 
 R1-9-1 and earlier
 ==================
