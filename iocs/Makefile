@@ -6,6 +6,10 @@ ifneq ($(EPICS_LIBCOM_ONLY),YES)
   DIRS += simDetectorIOC
 endif
 
+ifeq ($(EPICS_V4),YES)
+  DIRS += pvaDriverIOC
+endif
+
 include $(TOP)/configure/RULES_TOP
 
 uninstallTargets = $(foreach dir, $(DIRS), $(dir)$(DIVIDER)uninstall)
