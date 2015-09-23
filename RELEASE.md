@@ -23,6 +23,11 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-0-1 (September 23, 2015)
+========================
+Changed iocs/iocSimDetector*/configure/RELEASE, replacing ADEXAMPLE_TOP with
+ADEXAMPLE.  The _TOP is not needed, and it broke the st.cmd IOC startup script.
+
 
 R2-0 (September 18, 2015)
 ========================
