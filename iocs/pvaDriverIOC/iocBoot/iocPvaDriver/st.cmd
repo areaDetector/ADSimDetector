@@ -8,7 +8,7 @@ pvaDriverApp_registerRecordDeviceDriver(pdbbase)
 epicsEnvSet("PREFIX", "13PVA1:")
 epicsEnvSet("PORT",   "PVA1")
 epicsEnvSet("QSIZE",  "20")
-epicsEnvSet("PVNAME", "13SIM1:pva2:Image")
+epicsEnvSet("PVNAME", "13SIM1:pva1:Image")
 epicsEnvSet("NELM",   "3000000")
 epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
 
