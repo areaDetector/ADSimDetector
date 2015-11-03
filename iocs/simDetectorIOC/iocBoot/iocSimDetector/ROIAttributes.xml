@@ -2,7 +2,10 @@
 <!-- Attributes -->
 <Attributes
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://epics.aps.anl.gov/areaDetector/attributes ../attributes.xsd"
+    xsi:schemaLocation="
+            https://github.com/areaDetector/ADCore/blob/master/XML_schema
+            ../../../../../ADCore/XML_schema/NDAttributes.xsd
+        " 
     >
     <Attribute name="BinX"          type="EPICS_PV" source="13SIM1:ROI1:0:BinX_RBV"  dbrtype="DBR_NATIVE"  description="X binning"/>
     <Attribute name="BinY"          type="EPICS_PV" source="13SIM1:ROI1:0:BinY_RBV"  dbrtype="DBR_NATIVE"  description="Y binning"/>
