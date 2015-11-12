@@ -2,7 +2,7 @@
 <!-- Attributes -->
 <Attributes
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://epics.aps.anl.gov/areaDetector/attributes ../attributes.xsd"
+    xsi:noNamespaceSchemaLocation="../../../../../ADCore/XML_schema/NDAttributes.xsd"
     >
     <Attribute name="temperature"     type="EPICS_PV" source="13SIM1:cam1:Temperature"      dbrtype="DBR_NATIVE"  description="detector temperature"/>
     <Attribute name="temperature_EGU" type="EPICS_PV" source="13SIM1:cam1:Temperature.EGU"  dbrtype="DBR_NATIVE"  description="detector temperature units"/>
