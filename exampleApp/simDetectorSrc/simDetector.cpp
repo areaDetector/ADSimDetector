@@ -715,10 +715,10 @@ asynStatus simDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
     /* Ensure that ADStatus is set correctly before we set ADAcquire.*/
     getIntegerParam(ADStatus, &adstatus);
     getIntegerParam(ADAcquire, &acquiring);
+    getIntegerParam(ADImageMode, &imageMode);
     if (function == ADAcquire) {
       if (value && !acquiring) {
         setStringParam(ADStatusMessage, "Acquiring data");
-        getIntegerParam(ADImageMode, &imageMode);
       }
       if (!value && acquiring) {
         setStringParam(ADStatusMessage, "Acquisition stopped");
