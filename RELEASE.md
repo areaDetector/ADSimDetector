@@ -23,6 +23,15 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-1 (January 9, 2016)
+========================
+* Changed SchemaLocation in XML files to relative path to ADCore.
+* Fixed bug in simDetector::writeInt32.  ImageMode could be initialized.  
+  Thanks to Phil Atkin for fixing this.
+* Changed st.cmd to use FTVL=SHORT rather than USHORT for 16-bit images.
+  This is more efficient, and works fine with ImageJ which always treats 16-bit images as unsigned.
+
+
 R2-0-1 (September 23, 2015)
 ========================
 Changed iocs/iocSimDetector*/configure/RELEASE, replacing ADEXAMPLE_TOP with
