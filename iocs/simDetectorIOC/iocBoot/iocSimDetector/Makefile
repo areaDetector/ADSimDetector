@@ -1,7 +1,7 @@
 TOP = ../..
 include $(TOP)/configure/CONFIG
 #ARCH = win32-x86
-#ARCH = windows-x64
+#ARCH = windows-x64-static
 #ARCH = windows-x64-debug
 #ARCH = cygwin-x86
 #ARCH = linux-x86
