@@ -7,8 +7,10 @@
 #include "asynNDArrayDriver.h"
 
 #define SimAcquireString        "SIM_ACQUIRE"
+#define SimTimeStepString       "SIM_TIME_STEP"
 #define SimNumTimePointsString  "SIM_NUM_TIME_POINTS"
 #define SimAmplitudeString      "SIM_AMPLITUDE"
+#define SimOffsetString         "SIM_OFFSET"
 #define SimFrequencyString      "SIM_FREQUENCY"
 #define SimPhaseString          "SIM_PHASE"
 #define SimNoiseString          "SIM_NOISE"
@@ -31,8 +33,10 @@ public:
 protected:
     int P_Acquire;
     #define FIRST_SIM_DETECTOR_PARAM P_Acquire
+    int P_TimeStep;
     int P_NumTimePoints;
     int P_Amplitude;
+    int P_Offset;
     int P_Frequency;
     int P_Phase;
     int P_Noise;
@@ -48,7 +52,7 @@ private:
     epicsEventId startEventId_;
     epicsEventId stopEventId_;
     int arrayCounter_;
-    int currentPoint_;
+    double currentTime_;
 };
 
 
