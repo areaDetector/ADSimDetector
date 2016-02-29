@@ -1,3 +1,12 @@
-file "simDetector_settings.req",    P=$(P),  R=cam1:
-file "NDStdArrays_settings.req",    P=$(P),  R=image1:
-file "commonPlugin_settings.req",   P=$(P)
+file "ADCSimDetector_settings.req",  P=$(P),  R=det1:
+file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:1:
+file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:2:
+file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:3:
+file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:4:
+file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:5:
+file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:6:
+file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:7:
+file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:8:
+file "NDStdArrays_settings.req",     P=$(P),  R=image1:
+file "NDTimeSeries_settings.req",    P=$(P),  R=TS:
+file "commonPlugin_settings.req",    P=$(P)
