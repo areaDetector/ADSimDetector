@@ -1,22 +1,23 @@
-# Must have loaded envPaths via st.cmd.linux or st.cmd.win32
-
+< envPaths
 errlogInit(20000)
 
-dbLoadDatabase("$(TOP)/dbd/simDetectorApp.dbd")
-simDetectorApp_registerRecordDeviceDriver(pdbbase) 
+dbLoadDatabase("$(TOP)/dbd/ADCSimDetectorApp.dbd")
+ADCSimDetectorApp_registerRecordDeviceDriver(pdbbase) 
 
 # Prefix for all records
-epicsEnvSet("PREFIX", "13SIM1:")
+epicsEnvSet("PREFIX", "13ADCSIM1:")
 # The port name for the detector
 epicsEnvSet("PORT",   "SIM1")
 # The queue size for all plugins
 epicsEnvSet("QSIZE",  "20")
 # The maximim image width; used for row profiles in the NDPluginStats plugin
-epicsEnvSet("XSIZE",  "2000")
+epicsEnvSet("XSIZE",  "8")
 # The maximim image height; used for column profiles in the NDPluginStats plugin
-epicsEnvSet("YSIZE",  "1500")
+epicsEnvSet("YSIZE",  "2000")
 # The maximum number of time series points in the NDPluginStats plugin
 epicsEnvSet("NCHANS", "2048")
+# The maximum number of time series points in the NDPluginTimeSeries plugin
+epicsEnvSet("TSPOINTS", "2048")
 # The maximum number of frames buffered in the NDPluginCircularBuff plugin
 epicsEnvSet("CBUFFS", "500")
 # The search path for database files
@@ -36,49 +37,43 @@ asynSetMinTimerPeriod(0.001)
 # Uncomment the following line to set it in the IOC.
 #epicsEnvSet("EPICS_CA_MAX_ARRAY_BYTES", "10000000")
 
-# Create a simDetector driver
-# simDetectorConfig(const char *portName, int maxSizeX, int maxSizeY, int dataType,
-#                   int maxBuffers, int maxMemory, int priority, int stackSize)
-simDetectorConfig("$(PORT)", $(XSIZE), $(YSIZE), 1, 0, 0)
-# To have the rate calculation use a non-zero smoothing factor use the following line
-#dbLoadRecords("simDetector.template",     "P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1,RATE_SMOOTH=0.2")
-dbLoadRecords("$(ADEXAMPLE)/db/simDetector.template","P=$(PREFIX),R=cam1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
+# Create an ADCimDetector driver
+# ADCSimDetectorConfig(const char *portName, int numTimePoints, int dataType,
+#                      int maxBuffers, int maxMemory, int priority, int stackSize)
+ADCSimDetectorConfig("$(PORT)", $(YSIZE), 7, 0, 0)
+dbLoadRecords("$(ADEXAMPLE)/db/ADCSimDetector.template",  "P=$(PREFIX),R=det1:,  PORT=$(PORT),ADDR=0,TIMEOUT=1")
+dbLoadRecords("$(ADEXAMPLE)/db/ADCSimDetectorN.template", "P=$(PREFIX),R=det1:1:,PORT=$(PORT),ADDR=0,TIMEOUT=1")
+dbLoadRecords("$(ADEXAMPLE)/db/ADCSimDetectorN.template", "P=$(PREFIX),R=det1:2:,PORT=$(PORT),ADDR=1,TIMEOUT=1")
+dbLoadRecords("$(ADEXAMPLE)/db/ADCSimDetectorN.template", "P=$(PREFIX),R=det1:3:,PORT=$(PORT),ADDR=2,TIMEOUT=1")
+dbLoadRecords("$(ADEXAMPLE)/db/ADCSimDetectorN.template", "P=$(PREFIX),R=det1:4:,PORT=$(PORT),ADDR=3,TIMEOUT=1")
+dbLoadRecords("$(ADEXAMPLE)/db/ADCSimDetectorN.template", "P=$(PREFIX),R=det1:5:,PORT=$(PORT),ADDR=4,TIMEOUT=1")
+dbLoadRecords("$(ADEXAMPLE)/db/ADCSimDetectorN.template", "P=$(PREFIX),R=det1:6:,PORT=$(PORT),ADDR=5,TIMEOUT=1")
+dbLoadRecords("$(ADEXAMPLE)/db/ADCSimDetectorN.template", "P=$(PREFIX),R=det1:7:,PORT=$(PORT),ADDR=6,TIMEOUT=1")
+dbLoadRecords("$(ADEXAMPLE)/db/ADCSimDetectorN.template", "P=$(PREFIX),R=det1:8:,PORT=$(PORT),ADDR=7,TIMEOUT=1")
 
-# Create a second simDetector driver
-simDetectorConfig("SIM2", 300, 200, 1, 50, 50000000)
-dbLoadRecords("$(ADEXAMPLE)/db/simDetector.template","P=$(PREFIX),R=cam2:,PORT=SIM2,ADDR=0,TIMEOUT=1")
-
-# Load an NDFile database.  This is not supported for the simDetector which does not write files.
-#dbLoadRecords("NDFile.template","P=$(PREFIX),R=cam1:,PORT=SIM1,ADDR=0,TIMEOUT=1")
-
-# Create a standard arrays plugin, set it to get data from first simDetector driver.
+# Create a standard arrays plugin, set it to get data from ADCSDetector driver.
 NDStdArraysConfigure("Image1", 3, 0, "$(PORT)", 0)
+# This creates a waveform large enough for 100000x8 arrays.
+dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),TYPE=Float64,FTVL=DOUBLE,NELEMENTS=800000")
 
-# This creates a waveform large enough for 2000x2000x3 (e.g. RGB color) arrays.
-# This waveform only allows transporting 8-bit images
-dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),TYPE=Int8,FTVL=UCHAR,NELEMENTS=12000000")
-# This waveform only allows transporting 16-bit images
-#dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),TYPE=Int16,FTVL=SHORT,NELEMENTS=12000000")
-# This waveform allows transporting 32-bit images
-#dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),TYPE=Int32,FTVL=LONG,NELEMENTS=12000000")
+# Time series plugin
+NDTimeSeriesConfigure("TS1", $(QSIZE), 0, "$(PORT)", 0, 8, SIM_TIME_STEP)
+dbLoadRecords("$(ADCORE)/db/NDTimeSeries.template",  "P=$(PREFIX),R=TS:,   PORT=TS1,ADDR=0, TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=0,NCHANS=$(TSPOINTS),ENABLED=1")
+dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:1:, PORT=TS1,ADDR=0, TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:2:, PORT=TS1,ADDR=1, TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:3:, PORT=TS1,ADDR=2, TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:4:, PORT=TS1,ADDR=3, TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:5:, PORT=TS1,ADDR=4, TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:6:, PORT=TS1,ADDR=5, TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:7:, PORT=TS1,ADDR=6, TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:8:, PORT=TS1,ADDR=7, TIMEOUT=1,NCHANS=$(TSPOINTS)")
 
-# Create a standard arrays plugin, set it to get data from second simDetector driver.
-NDStdArraysConfigure("Image2", 1, 0, "SIM2", 0)
-
-# This creates a waveform large enough for 640x480x3 (e.g. RGB color) arrays.
-# This waveform allows transporting 64-bit images, so it can handle any detector data type at the expense of more memory and bandwidth
-dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image2:,PORT=Image2,ADDR=0,TIMEOUT=1,NDARRAY_PORT=SIM2,TYPE=Float64,FTVL=DOUBLE,NELEMENTS=921600")
-
-# Load all other plugins using commonPlugins.cmd
+## Load all other plugins using commonPlugins.cmd
 < $(ADCORE)/iocBoot/commonPlugins.cmd
 set_requestfile_path("$(ADEXAMPLE)/exampleApp/Db")
 
 #asynSetTraceIOMask("$(PORT)",0,2)
 #asynSetTraceMask("$(PORT)",0,255)
-#asynSetTraceIOMask("FileNetCDF",0,2)
-#asynSetTraceMask("FileNetCDF",0,255)
-#asynSetTraceMask("FileNexus",0,255)
-#asynSetTraceMask("SIM2",0,255)
 
 iocInit()
 
