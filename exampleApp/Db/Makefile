@@ -12,6 +12,8 @@ include $(TOP)/configure/CONFIG
 # databases, templates, substitutions like this
 
 DB += simDetector.template
+DB += ADCSimDetector.template
+DB += ADCSimDetectorN.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
