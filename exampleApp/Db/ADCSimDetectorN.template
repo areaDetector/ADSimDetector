@@ -1,0 +1,51 @@
+#=================================================================#
+# Template file: ADCSDetector.template
+# Database for the records specific to the ADC simulated detector driver
+# Mark Rivers
+# February 28, 2016
+
+record(ao, "$(P)$(R)Amplitude")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_AMPLITUDE")
+   field(PREC, "3")
+   info(autosaveFields, "VAL")
+}
+
+record(ao, "$(P)$(R)Offset")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_OFFSET")
+   field(PREC, "3")
+   info(autosaveFields, "VAL")
+}
+
+record(ao, "$(P)$(R)Frequency")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_FREQUENCY")
+   field(PREC, "3")
+   info(autosaveFields, "VAL")
+}
+
+record(ao, "$(P)$(R)Phase")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_PHASE")
+   field(PREC, "3")
+   info(autosaveFields, "VAL")
+}
+
+record(ao, "$(P)$(R)Noise")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_NOISE")
+   field(PREC, "3")
+   info(autosaveFields, "VAL")
+}
+
