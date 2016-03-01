@@ -22,13 +22,21 @@ record(ao, "$(P)$(R)Offset")
    info(autosaveFields, "VAL")
 }
 
-record(ao, "$(P)$(R)Frequency")
+record(ao, "$(P)$(R)Period")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_FREQUENCY")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_PERIOD")
    field(PREC, "3")
    info(autosaveFields, "VAL")
+}
+
+record(ai, "$(P)$(R)Frequency")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_FREQUENCY")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
 }
 
 record(ao, "$(P)$(R)Phase")
