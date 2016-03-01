@@ -160,19 +160,19 @@ template <typename epicsType> void ADCSimDetector::computeArraysT()
         rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
         // Signal 0 is a sin wave
         j = 0;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm +
-                                   amplitude[j] * sin((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI);
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
+                                   sin((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI);
         // Signal 1 is a cos wave
         j = 1;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm +
-                                   amplitude[j] * cos((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI);
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
+                                   cos((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI);
         // Signal 2 is a square wave
         j = 2;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm +
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
                                    (sin((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI) > 0 ? 1.0 : -1.0);
         // Signal 3 is a sawtooth
         j = 3;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm +
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
                                    -2.0/M_PI * atan(1./tan((elapsedTime_ * frequency[j] + phase[j]) * M_PI));
         // Signal 4 is white noise
         j = 4;
@@ -180,11 +180,13 @@ template <typename epicsType> void ADCSimDetector::computeArraysT()
 
         // Signal 5 is signal 0 + signal 1
         j = 5;
-        pData[MAX_SIGNALS*i + j] =  pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 1] ;
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
+                                   pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 1] ;
 
         // Signal 6 is signal 0 + signal 2
         j = 6;
-        pData[MAX_SIGNALS*i + j] =  pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 2] ;
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
+                                   pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 2] ;
 
         // Signal 7 is 4 sin waves
         j = 7;
