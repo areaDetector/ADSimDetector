@@ -34,6 +34,14 @@ record(ao, "$(P)$(R)TimeStep")
    info(autosaveFields, "VAL")
 }
 
+record(ai, "$(P)$(R)TimeStep_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_TIME_STEP")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
 record(longout, "$(P)$(R)NumTimePoints")
 {
    field(PINI, "YES")
@@ -41,4 +49,37 @@ record(longout, "$(P)$(R)NumTimePoints")
    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_NUM_TIME_POINTS")
    info(autosaveFields, "VAL")
 }
+
+record(longin, "$(P)$(R)NumTimePoints_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_NUM_TIME_POINTS")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)AcquireTime")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_ACQUIRE_TIME")
+   field(PREC, "3")
+   info(autosaveFields, "VAL")
+}
+
+record(ai, "$(P)$(R)AcquireTime_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_ACQUIRE_TIME")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)ElapsedTime")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_ELAPSED_TIME")
+   field(PREC, "3")
+   field(SCAN, "I/O Intr")
+}
+
 
