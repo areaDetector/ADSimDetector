@@ -23,8 +23,97 @@
 
 static const char *driverName = "ADCSimDetector";
 
-// Time to sleep in simTask
-#define SLEEP_TIME 0.1
+// vxWorks does not have M_PI
+#ifdef vxWorks
+  #define M_PI 3.14159265358979323846
+#endif
+
+static void simTaskC(void *drvPvt)
+{
+    ADCSimDetector *pPvt = (ADCSimDetector *)drvPvt;
+
+    pPvt->simTask();
+}
+
+/** Constructor for ADCSimDetector; most parameters are simply passed to ADDriver::ADDriver.
+  * After calling the base class constructor this method creates a thread to compute the simulated detector data,
+  * and sets reasonable default values for parameters defined in this class, asynNDArrayDriver and ADDriver.
+  * \param[in] portName The name of the asyn port driver to be created.
+  * \param[in] numPointPoinst The initial number of time points.
+  * \param[in] dataType The initial data type (NDDataType_t) of the arrays that this driver will create.
+  * \param[in] maxBuffers The maximum number of NDArray buffers that the NDArrayPool for this driver is
+  *            allowed to allocate. Set this to -1 to allow an unlimited number of buffers.
+  * \param[in] maxMemory The maximum amount of memory that the NDArrayPool for this driver is
+  *            allowed to allocate. Set this to -1 to allow an unlimited amount of memory.
+  * \param[in] priority The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
+  * \param[in] stackSize The stack size for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
+  */
+ADCSimDetector::ADCSimDetector(const char *portName, int numTimePoints, NDDataType_t dataType,
+                               int maxBuffers, size_t maxMemory, int priority, int stackSize)
+
+    : asynNDArrayDriver(portName, MAX_SIGNALS, NUM_SIM_DETECTOR_PARAMS, maxBuffers, maxMemory,
+               0, 0, /* No interfaces beyond those set in ADDriver.cpp */
+               ASYN_CANBLOCK | ASYN_MULTIDEVICE, /* asyn flags*/
+               1,                                /* autoConnect=1 */
+               priority, stackSize),
+    acquiring_(0)
+
+{
+    int status = asynSuccess;
+    const char *functionName = "ADCSimDetector";
+
+    /* Create the epicsEvents for signaling to the simulate task when acquisition starts and stops */
+    this->startEventId_ = epicsEventCreate(epicsEventEmpty);
+    if (!this->startEventId_) {
+        printf("%s:%s epicsEventCreate failure for start event\n",
+            driverName, functionName);
+        return;
+    }
+    this->stopEventId_ = epicsEventCreate(epicsEventEmpty);
+    if (!this->stopEventId_) {
+        printf("%s:%s epicsEventCreate failure for stop event\n",
+            driverName, functionName);
+        return;
+    }
+
+    createParam(SimAcquireString,         asynParamInt32, &P_Acquire);
+    createParam(SimAcquireTimeString,   asynParamFloat64, &P_AcquireTime);
+    createParam(SimElapsedTimeString,   asynParamFloat64, &P_ElapsedTime);
+    createParam(SimTimeStepString,      asynParamFloat64, &P_TimeStep);
+    createParam(SimNumTimePointsString,   asynParamInt32, &P_NumTimePoints);
+    createParam(SimPeriodString,        asynParamFloat64, &P_Period);
+    createParam(SimAmplitudeString,     asynParamFloat64, &P_Amplitude);
+    createParam(SimOffsetString,        asynParamFloat64, &P_Offset);
+    createParam(SimFrequencyString,     asynParamFloat64, &P_Frequency);
+    createParam(SimPhaseString,         asynParamFloat64, &P_Phase);
+    createParam(SimNoiseString,         asynParamFloat64, &P_Noise);
+
+    status |= setIntegerParam(P_NumTimePoints, numTimePoints);
+    status |= setIntegerParam(NDDataType, dataType);
+    status |= setDoubleParam(P_TimeStep, 0.001);
+    status |= setDoubleParam(P_Amplitude, 1.0);
+    status |= setDoubleParam(P_Offset,    0.0);
+    status |= setDoubleParam(P_Period,    1.0);
+    status |= setDoubleParam(P_Phase,     0.0);
+    status |= setDoubleParam(P_Noise,     0.0);
+
+    if (status) {
+        printf("%s: unable to set parameters\n", functionName);
+        return;
+    }
+
+    /* Create the thread that updates the images */
+    status = (epicsThreadCreate("SimDetTask",
+                                epicsThreadPriorityMedium,
+                                epicsThreadGetStackSize(epicsThreadStackMedium),
+                                (EPICSTHREADFUNC)simTaskC,
+                                this) == NULL);
+    if (status) {
+        printf("%s:%s epicsThreadCreate failure for simulation task\n",
+            driverName, functionName);
+        return;
+    }
+}
 
 /** Template function to compute the simulated detector data for any data type */
 template <typename epicsType> void ADCSimDetector::computeArraysT()
@@ -34,16 +123,20 @@ template <typename epicsType> void ADCSimDetector::computeArraysT()
     int i, j;
     NDDataType_t dataType;
     epicsType *pData;
+    double acquireTime;
     double timeStep;
-    double amplitude[MAX_SIGNALS], amplitudeTmp;
+    double rndm;
+    double amplitude[MAX_SIGNALS];
+    double period[MAX_SIGNALS];
     double frequency[MAX_SIGNALS];
-    double phase[MAX_SIGNALS], phaseTmp;
-    double noise[MAX_SIGNALS], noiseTmp;
+    double phase[MAX_SIGNALS];
+    double noise[MAX_SIGNALS];
     double offset[MAX_SIGNALS];
     
     getIntegerParam(NDDataType, (int *)&dataType);
     getIntegerParam(P_NumTimePoints, &numTimePoints);
     getDoubleParam(P_TimeStep, &timeStep);
+    getDoubleParam(P_AcquireTime, &acquireTime);
 
     dims[0] = MAX_SIGNALS;
     dims[1] = numTimePoints;
@@ -51,35 +144,64 @@ template <typename epicsType> void ADCSimDetector::computeArraysT()
     if (this->pArrays[0]) this->pArrays[0]->release();
     this->pArrays[0] = pNDArrayPool->alloc(2, dims, dataType, 0, 0);
     pData = (epicsType *)this->pArrays[0]->pData;
+    memset(pData, 0, MAX_SIGNALS * numTimePoints * sizeof(epicsType));
 
     for (j=0; j<MAX_SIGNALS; j++) {
-        getDoubleParam(j, P_Amplitude, &amplitudeTmp);
+        getDoubleParam(j, P_Amplitude, amplitude+j);
         getDoubleParam(j, P_Offset,    offset+j);
-        getDoubleParam(j, P_Frequency, frequency+j);
-        getDoubleParam(j, P_Phase,     &phaseTmp);
-        phase[j] = phaseTmp/360.0;
-        getDoubleParam(j, P_Noise,     &noiseTmp);
-        noise[j] = 1. + noiseTmp * (rand()/(double)RAND_MAX - 0.5);
-        amplitude[j] = amplitudeTmp * (1. + noise[j]);
+        getDoubleParam(j, P_Period,    period+j);
+        frequency[j] = 1. / period[j];
+        setDoubleParam(j, P_Frequency, frequency[j]);
+        getDoubleParam(j, P_Phase,     phase+j);
+        getDoubleParam(j, P_Noise,     noise+j);
+        phase[j] = phase[j]/360.0;
     }
     for (i=0; i<numTimePoints; i++) {
+        rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
         // Signal 0 is a sin wave
         j = 0;
-        pData[numTimePoints*j + i] = offset[j] + amplitude[j] * sin((currentTime_ * frequency[j] + phase[j]) * 2. * M_PI);
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm +
+                                   amplitude[j] * sin((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI);
         // Signal 1 is a cos wave
         j = 1;
-        pData[numTimePoints*j + i] = offset[j] + amplitude[j] * cos((currentTime_ * frequency[j] + phase[j]) * 2. * M_PI);
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm +
+                                   amplitude[j] * cos((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI);
         // Signal 2 is a square wave
         j = 2;
-        pData[numTimePoints*j + i] = offset[j] + amplitude[j] * 
-                                     (sin((currentTime_ * frequency[j] + phase[j]) * 2. * M_PI) > 0 ? 1.0 : -1.0) + offset[j];
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm +
+                                   (sin((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI) > 0 ? 1.0 : -1.0);
         // Signal 3 is a sawtooth
         j = 3;
-        pData[numTimePoints*j + i] = offset[j] + amplitude[j] * 
-                                     -2.0/M_PI * atan(1./tan((currentTime_ * frequency[j] + phase[j]) * M_PI));
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm +
+                                   -2.0/M_PI * atan(1./tan((elapsedTime_ * frequency[j] + phase[j]) * M_PI));
+        // Signal 4 is white noise
+        j = 4;
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * rndm;
 
-        currentTime_ += timeStep;
+        // Signal 5 is signal 0 + signal 1
+        j = 5;
+        pData[MAX_SIGNALS*i + j] =  pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 1] ;
+
+        // Signal 6 is signal 0 + signal 2
+        j = 6;
+        pData[MAX_SIGNALS*i + j] =  pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 2] ;
+
+        // Signal 7 is 4 sin waves
+        j = 7;
+        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] *
+                                   (sin((elapsedTime_ * 1.*frequency[j] + phase[j]) * 2. * M_PI) +
+                                    sin((elapsedTime_ * 2.*frequency[j] + phase[j]) * 2. * M_PI) +
+                                    sin((elapsedTime_ * 3.*frequency[j] + phase[j]) * 2. * M_PI) +
+                                    sin((elapsedTime_ * 4.*frequency[j] + phase[j]) * 2. * M_PI));
+
+        elapsedTime_ += timeStep;
+        if ((acquireTime > 0) && (elapsedTime_ > acquireTime)) {
+            setAcquire(0);
+            setIntegerParam(P_Acquire, 0);
+            break;
+        }
     }
+    setDoubleParam(P_ElapsedTime, elapsedTime_);
 }
 
 /** Computes the new image data */
@@ -116,11 +238,17 @@ void ADCSimDetector::computeArrays()
     }
 }
 
-static void simTaskC(void *drvPvt)
+void ADCSimDetector::setAcquire(int value)
 {
-    ADCSimDetector *pPvt = (ADCSimDetector *)drvPvt;
-
-    pPvt->simTask();
+    if (value && !acquiring_) {
+        /* Send an event to wake up the simulation task */
+        epicsEventSignal(this->startEventId_); 
+    }
+    if (!value && acquiring_) {
+        /* This was a command to stop acquisition */
+        /* Send the stop event */
+        epicsEventSignal(this->stopEventId_); 
+    }
 }
 
 /** This thread calls computeImage to compute new image data and does the callbacks to send it to higher layers.
@@ -128,9 +256,11 @@ static void simTaskC(void *drvPvt)
 void ADCSimDetector::simTask()
 {
     int status = asynSuccess;
-    int acquire=0;
     NDArray *pImage;
     epicsTimeStamp startTime;
+    int numTimePoints;
+    double timeStep;
+    int i;
     const char *functionName = "simTask";
 
     this->lock();
@@ -139,23 +269,20 @@ void ADCSimDetector::simTask()
         /* Has acquisition been stopped? */
         status = epicsEventTryWait(this->stopEventId_);
         if (status == epicsEventWaitOK) {
-            acquire = 0;
+            acquiring_ = 0;
         }
        
         /* If we are not acquiring then wait for a semaphore that is given when acquisition is started */
-        if (!acquire) {
+        if (!acquiring_) {
           /* Release the lock while we wait for an event that says acquire has started, then lock again */
             asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
                 "%s:%s: waiting for acquire to start\n", driverName, functionName);
             this->unlock();
             status = epicsEventWait(this->startEventId_);
             this->lock();
-            acquire = 1;
-            currentTime_ = 0.0;
+            acquiring_ = 1;
+            elapsedTime_ = 0.0;
         }
-
-        /* Get the current time */
-        epicsTimeGetCurrent(&startTime);
 
         /* Update the data */
         computeArrays();
@@ -164,6 +291,7 @@ void ADCSimDetector::simTask()
 
         /* Put the frame number and time stamp into the buffer */
         pImage->uniqueId = arrayCounter_++;
+        setIntegerParam(NDArrayCounter, arrayCounter_);
         pImage->timeStamp = startTime.secPastEpoch + startTime.nsec / 1.e9;
         updateTimeStamp(&pImage->epicsTS);
 
@@ -178,11 +306,15 @@ void ADCSimDetector::simTask()
         this->lock();
 
         /* Call the callbacks to update any changes */
-        callParamCallbacks();
+        for (i=0; i<MAX_SIGNALS; i++) {
+            callParamCallbacks(i);
+        }
 
-        /* Sleep for 0.1 second */
+        /* Sleep for numTimePoint * timeStep seconds */
+        getIntegerParam(P_NumTimePoints, &numTimePoints);
+        getDoubleParam(P_TimeStep, &timeStep);
         unlock();
-        epicsThreadSleep(SLEEP_TIME);
+        epicsThreadSleep(numTimePoints * timeStep);
         lock();
     }
 }
@@ -196,36 +328,24 @@ void ADCSimDetector::simTask()
 asynStatus ADCSimDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
     int function = pasynUser->reason;
-    int acquiring;
     int addr;
     asynStatus status = asynSuccess;
 
-    callParamCallbacks();
     getAddress(pasynUser, &addr);
  
-    getIntegerParam(P_Acquire, &acquiring);
     /* Set the parameter and readback in the parameter library.  This may be overwritten when we read back the
      * status at the end, but that's OK */
     status = setIntegerParam(addr, function, value);
 
     if (function == P_Acquire) {
-        if (value && !acquiring) {
-            /* Send an event to wake up the simulation task.
-             * It won't actually start generating new images until we release the lock below */
-            epicsEventSignal(this->startEventId_); 
-        }
-        if (!value && acquiring) {
-            /* This was a command to stop acquisition */
-            /* Send the stop event */
-            epicsEventSignal(this->stopEventId_); 
-        }
+        setAcquire(value);
     } else {
         /* If this parameter belongs to a base class call its method */
         if (function < FIRST_SIM_DETECTOR_PARAM) status = asynNDArrayDriver::writeInt32(pasynUser, value);
     }
 
     /* Do callbacks so higher layers see any changes */
-    callParamCallbacks();
+    callParamCallbacks(addr);
 
     if (status)
         asynPrint(pasynUser, ASYN_TRACE_ERROR,
@@ -261,80 +381,6 @@ void ADCSimDetector::report(FILE *fp, int details)
     asynNDArrayDriver::report(fp, details);
 }
 
-/** Constructor for ADCSimDetector; most parameters are simply passed to ADDriver::ADDriver.
-  * After calling the base class constructor this method creates a thread to compute the simulated detector data,
-  * and sets reasonable default values for parameters defined in this class, asynNDArrayDriver and ADDriver.
-  * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] numPointPoinst The initial number of time points.
-  * \param[in] dataType The initial data type (NDDataType_t) of the arrays that this driver will create.
-  * \param[in] maxBuffers The maximum number of NDArray buffers that the NDArrayPool for this driver is
-  *            allowed to allocate. Set this to -1 to allow an unlimited number of buffers.
-  * \param[in] maxMemory The maximum amount of memory that the NDArrayPool for this driver is
-  *            allowed to allocate. Set this to -1 to allow an unlimited amount of memory.
-  * \param[in] priority The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
-  * \param[in] stackSize The stack size for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
-  */
-ADCSimDetector::ADCSimDetector(const char *portName, int numTimePoints, NDDataType_t dataType,
-                               int maxBuffers, size_t maxMemory, int priority, int stackSize)
-
-    : asynNDArrayDriver(portName, MAX_SIGNALS, NUM_SIM_DETECTOR_PARAMS, maxBuffers, maxMemory,
-               0, 0, /* No interfaces beyond those set in ADDriver.cpp */
-               0, 1, /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
-               priority, stackSize)
-
-{
-    int status = asynSuccess;
-    const char *functionName = "ADCSimDetector";
-
-    /* Create the epicsEvents for signaling to the simulate task when acquisition starts and stops */
-    this->startEventId_ = epicsEventCreate(epicsEventEmpty);
-    if (!this->startEventId_) {
-        printf("%s:%s epicsEventCreate failure for start event\n",
-            driverName, functionName);
-        return;
-    }
-    this->stopEventId_ = epicsEventCreate(epicsEventEmpty);
-    if (!this->stopEventId_) {
-        printf("%s:%s epicsEventCreate failure for stop event\n",
-            driverName, functionName);
-        return;
-    }
-
-    createParam(SimAcquireString,         asynParamInt32, &P_Acquire);
-    createParam(SimTimeStepString,      asynParamFloat64, &P_TimeStep);
-    createParam(SimNumTimePointsString,   asynParamInt32, &P_NumTimePoints);
-    createParam(SimAmplitudeString,     asynParamFloat64, &P_Amplitude);
-    createParam(SimOffsetString,        asynParamFloat64, &P_Offset);
-    createParam(SimFrequencyString,     asynParamFloat64, &P_Frequency);
-    createParam(SimPhaseString,         asynParamFloat64, &P_Phase);
-    createParam(SimNoiseString,         asynParamFloat64, &P_Noise);
-
-    status |= setIntegerParam(P_NumTimePoints, numTimePoints);
-    status |= setIntegerParam(NDDataType, dataType);
-    status |= setDoubleParam(P_TimeStep, 0.001);
-    status |= setDoubleParam(P_Amplitude, 1.0);
-    status |= setDoubleParam(P_Offset,    0.0);
-    status |= setDoubleParam(P_Frequency, 1.0);
-    status |= setDoubleParam(P_Phase,     0.0);
-    status |= setDoubleParam(P_Noise,     0.0);
-
-    if (status) {
-        printf("%s: unable to set parameters\n", functionName);
-        return;
-    }
-
-    /* Create the thread that updates the images */
-    status = (epicsThreadCreate("SimDetTask",
-                                epicsThreadPriorityMedium,
-                                epicsThreadGetStackSize(epicsThreadStackMedium),
-                                (EPICSTHREADFUNC)simTaskC,
-                                this) == NULL);
-    if (status) {
-        printf("%s:%s epicsThreadCreate failure for simulation task\n",
-            driverName, functionName);
-        return;
-    }
-}
 
 /** Configuration command, called directly or from iocsh */
 extern "C" int ADCSimDetectorConfig(const char *portName, int numTimePoints, int dataType,

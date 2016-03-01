@@ -4,13 +4,17 @@
  */
 
 #include <epicsEvent.h>
+#include <epicsTime.h>
 #include "asynNDArrayDriver.h"
 
 #define SimAcquireString        "SIM_ACQUIRE"
+#define SimAcquireTimeString    "SIM_ACQUIRE_TIME"
+#define SimElapsedTimeString    "SIM_ELAPSED_TIME"
 #define SimTimeStepString       "SIM_TIME_STEP"
 #define SimNumTimePointsString  "SIM_NUM_TIME_POINTS"
 #define SimAmplitudeString      "SIM_AMPLITUDE"
 #define SimOffsetString         "SIM_OFFSET"
+#define SimPeriodString         "SIM_PERIOD"
 #define SimFrequencyString      "SIM_FREQUENCY"
 #define SimPhaseString          "SIM_PHASE"
 #define SimNoiseString          "SIM_NOISE"
@@ -33,8 +37,11 @@ public:
 protected:
     int P_Acquire;
     #define FIRST_SIM_DETECTOR_PARAM P_Acquire
+    int P_AcquireTime;
+    int P_ElapsedTime;
     int P_TimeStep;
     int P_NumTimePoints;
+    int P_Period;
     int P_Amplitude;
     int P_Offset;
     int P_Frequency;
@@ -47,12 +54,14 @@ private:
     /* These are the methods that are new to this class */
     template <typename epicsType> void computeArraysT();
     void computeArrays();
+    void setAcquire(int value);
 
     /* Our data */
     epicsEventId startEventId_;
     epicsEventId stopEventId_;
     int arrayCounter_;
-    double currentTime_;
+    int acquiring_;
+    double elapsedTime_;
 };
 
 
