@@ -39,7 +39,7 @@ static void simTaskC(void *drvPvt)
   * After calling the base class constructor this method creates a thread to compute the simulated detector data,
   * and sets reasonable default values for parameters defined in this class, asynNDArrayDriver and ADDriver.
   * \param[in] portName The name of the asyn port driver to be created.
-  * \param[in] numPointPoinst The initial number of time points.
+  * \param[in] numTimePoints The initial number of time points.
   * \param[in] dataType The initial data type (NDDataType_t) of the arrays that this driver will create.
   * \param[in] maxBuffers The maximum number of NDArray buffers that the NDArrayPool for this driver is
   *            allowed to allocate. Set this to -1 to allow an unlimited number of buffers.
