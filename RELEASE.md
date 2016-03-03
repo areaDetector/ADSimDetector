@@ -23,6 +23,18 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-2 (March XXX, 2016)
+========================
+* Created a new driver in ADExample/exampleApp/ADCSimDetectorSrc.
+  This driver generates times-series data for 8 signals as a 2-D array [8, NumTimePoints].  
+  The signals are common waveforms (sine, cosine, square wave, sawtooth, random noise, etc.)
+  The driver was written in part to test the new NDPluginTimeSeries plugin in ADCore R2-5.  
+  But it can also serve as a starting point for writing drivers that are used to collect
+  time-series data like ADCs, waveform digitizers, etc.  
+  There is a new iocs/iocADCSimDetector directory that creates an application for testing
+  the driver.
+
+
 R2-1 (January 9, 2016)
 ========================
 * Changed SchemaLocation in XML files to relative path to ADCore.
