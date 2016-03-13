@@ -68,6 +68,18 @@ dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:6:, PORT=
 dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:7:, PORT=TS1,ADDR=6,TIMEOUT=1,NCHANS=$(TSPOINTS)")
 dbLoadRecords("$(ADCORE)/db/NDTimeSeriesN.template", "P=$(PREFIX),R=TS:8:, PORT=TS1,ADDR=7,TIMEOUT=1,NCHANS=$(TSPOINTS)")
 
+# FFT plugin
+NDFFTConfigure("FFT1", $(QSIZE), 0, "TS1", 0, 8)
+dbLoadRecords("$(ADCORE)/db/NDFFT.template",  "P=$(PREFIX),R=FFT:,   PORT=FFT1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=TS1,NDARRAY_ADDR=0,NCHANS=$(TSPOINTS),TIME_LINK=$(PREFIX)TS:TSAveragingTime_RBV CP MS,ENABLED=1")
+dbLoadRecords("$(ADCORE)/db/NDFFTN.template", "P=$(PREFIX),R=FFT:1:, PORT=FFT1,ADDR=0,TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDFFTN.template", "P=$(PREFIX),R=FFT:2:, PORT=FFT1,ADDR=1,TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDFFTN.template", "P=$(PREFIX),R=FFT:3:, PORT=FFT1,ADDR=2,TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDFFTN.template", "P=$(PREFIX),R=FFT:4:, PORT=FFT1,ADDR=3,TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDFFTN.template", "P=$(PREFIX),R=FFT:5:, PORT=FFT1,ADDR=4,TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDFFTN.template", "P=$(PREFIX),R=FFT:6:, PORT=FFT1,ADDR=5,TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDFFTN.template", "P=$(PREFIX),R=FFT:7:, PORT=FFT1,ADDR=6,TIMEOUT=1,NCHANS=$(TSPOINTS)")
+dbLoadRecords("$(ADCORE)/db/NDFFTN.template", "P=$(PREFIX),R=FFT:8:, PORT=FFT1,ADDR=7,TIMEOUT=1,NCHANS=$(TSPOINTS)")
+
 ## Load all other plugins using commonPlugins.cmd
 < $(ADCORE)/iocBoot/commonPlugins.cmd
 set_requestfile_path("$(ADEXAMPLE)/exampleApp/Db")
