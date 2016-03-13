@@ -294,6 +294,7 @@ void ADCSimDetector::simTask()
         /* Put the frame number and time stamp into the buffer */
         pImage->uniqueId = arrayCounter_++;
         setIntegerParam(NDArrayCounter, arrayCounter_);
+        epicsTimeGetCurrent(&startTime);
         pImage->timeStamp = startTime.secPastEpoch + startTime.nsec / 1.e9;
         updateTimeStamp(&pImage->epicsTS);
 
