@@ -114,7 +114,7 @@ text {
 composite {
 	object {
 		x=5
-		y=150
+		y=175
 		width=350
 		height=60
 	}
@@ -134,7 +134,7 @@ composite {
 composite {
 	object {
 		x=94
-		y=215
+		y=240
 		width=169
 		height=20
 	}
@@ -143,7 +143,7 @@ composite {
 		"related display" {
 			object {
 				x=193
-				y=215
+				y=240
 				width=70
 				height=20
 			}
@@ -163,7 +163,7 @@ composite {
 		text {
 			object {
 				x=94
-				y=215
+				y=240
 				width=90
 				height=20
 			}
@@ -222,34 +222,6 @@ text {
 		clr=14
 	}
 	textix="8"
-}
-"related display" {
-	object {
-		x=264
-		y=125
-		width=70
-		height=20
-	}
-	display[0] {
-		label="Time series"
-		name="NDPluginTimeSeries.adl"
-		args="P=$(P),R=TS:,R1=TS:1:,T1=Sin(x),R2=TS:2:,T2=Cos(x),R3=TS:3:,T3=SquareWave(x),R4=TS:4:,T4=Sawtooth(x),R5=TS:5:,T5=Noise,R6=TS:6:,T6=Sinx)+Cos(x),R7=TS:7:,T7=Sin(x)+SquareWave(x),R8=TS:8:,T8=SinSums"
-	}
-	clr=14
-	bclr=51
-}
-text {
-	object {
-		x=145
-		y=125
-		width=110
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Time series"
-	align="horiz. right"
 }
 rectangle {
 	object {
@@ -1645,4 +1617,60 @@ composite {
 	format="string"
 	limits {
 	}
+}
+"related display" {
+	object {
+		x=264
+		y=125
+		width=70
+		height=20
+	}
+	display[0] {
+		label="Time series"
+		name="NDPluginTimeSeries.adl"
+		args="P=$(P),R=TS:,R1=TS:1:,T1=Sin(x),R2=TS:2:,T2=Cos(x),R3=TS:3:,T3=SquareWave(x),R4=TS:4:,T4=Sawtooth(x),R5=TS:5:,T5=Noise,R6=TS:6:,T6=Sinx)+Cos(x),R7=TS:7:,T7=Sin(x)+SquareWave(x),R8=TS:8:,T8=SinSums"
+	}
+	clr=14
+	bclr=51
+}
+text {
+	object {
+		x=145
+		y=125
+		width=110
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Time series"
+	align="horiz. right"
+}
+"related display" {
+	object {
+		x=264
+		y=150
+		width=70
+		height=20
+	}
+	display[0] {
+		label="FFTs"
+		name="NDFFT.adl"
+		args="P=$(P),R=FFT:,RTS=TS:,R1=FFT:1:,T1=Sin(x),R2=FFT:2:,T2=Cos(x),R3=FFT:3:,T3=SquareWave(x),R4=FFT:4:,T4=Sawtooth(x),R5=FFT:5:,T5=Noise,R6=FFT:6:,T6=Sinx)+Cos(x),R7=FFT:7:,T7=Sin(x)+SquareWave(x),R8=FFT:8:,T8=SinSums"
+	}
+	clr=14
+	bclr=51
+}
+text {
+	object {
+		x=215
+		y=150
+		width=40
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="FFTs"
+	align="horiz. right"
 }
