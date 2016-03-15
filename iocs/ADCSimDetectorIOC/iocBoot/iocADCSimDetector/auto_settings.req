@@ -18,3 +18,11 @@ file "NDTimeSeriesN_settings.req",   P=$(P),  R=TS:5:
 file "NDTimeSeriesN_settings.req",   P=$(P),  R=TS:6:
 file "NDTimeSeriesN_settings.req",   P=$(P),  R=TS:7:
 file "NDTimeSeriesN_settings.req",   P=$(P),  R=TS:8:
+file "NDFFT_settings.req",           P=$(P),  R=FFT1:
+file "NDFFT_settings.req",           P=$(P),  R=FFT2:
+file "NDFFT_settings.req",           P=$(P),  R=FFT3:
+file "NDFFT_settings.req",           P=$(P),  R=FFT4:
+file "NDFFT_settings.req",           P=$(P),  R=FFT5:
+file "NDFFT_settings.req",           P=$(P),  R=FFT6:
+file "NDFFT_settings.req",           P=$(P),  R=FFT7:
+file "NDFFT_settings.req",           P=$(P),  R=FFT8:
