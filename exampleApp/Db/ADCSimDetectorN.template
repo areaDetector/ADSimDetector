@@ -4,12 +4,19 @@
 # Mark Rivers
 # February 28, 2016
 
+record(stringout, "$(P)$(R)Name")
+{
+   field(VAL,  "$(NAME)")
+   info(autosaveFields, "VAL")
+}
+
 record(ao, "$(P)$(R)Amplitude")
 {
    field(PINI, "YES")
    field(DTYP, "asynFloat64")
    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_AMPLITUDE")
    field(PREC, "3")
+   field(VAL,  "1")
    info(autosaveFields, "VAL")
 }
 
@@ -28,6 +35,7 @@ record(ao, "$(P)$(R)Period")
    field(DTYP, "asynFloat64")
    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_PERIOD")
    field(PREC, "3")
+   field(VAL,  "1")
    info(autosaveFields, "VAL")
 }
 
