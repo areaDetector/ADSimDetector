@@ -183,10 +183,10 @@ template <typename epicsType> void ADCSimDetector::computeArraysT()
         pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
                                    pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 1] ;
 
-        // Signal 6 is signal 0 + signal 2
+        // Signal 6 is signal 0 * signal 1
         j = 6;
         pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
-                                   pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 2] ;
+                                   pData[MAX_SIGNALS*i + 0] * pData[MAX_SIGNALS*i + 1] ;
 
         // Signal 7 is 4 sin waves
         j = 7;
