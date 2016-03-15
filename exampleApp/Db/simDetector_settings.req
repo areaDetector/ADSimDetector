@@ -14,4 +14,24 @@ $(P)$(R)PeakWidthX
 $(P)$(R)PeakWidthY
 $(P)$(R)PeakVariation
 $(P)$(R)Noise
+$(P)$(R)XSine1Amplitude
+$(P)$(R)XSine1Frequency
+$(P)$(R)XSine1Phase
+$(P)$(R)XSine1Offset
+$(P)$(R)XSine1Noise
+$(P)$(R)XSine2Amplitude
+$(P)$(R)XSine2Frequency
+$(P)$(R)XSine2Phase
+$(P)$(R)XSine2Offset
+$(P)$(R)XSine2Noise
+$(P)$(R)YSine1Amplitude
+$(P)$(R)YSine1Frequency
+$(P)$(R)YSine1Phase
+$(P)$(R)YSine1Offset
+$(P)$(R)YSine1Noise
+$(P)$(R)YSine2Amplitude
+$(P)$(R)YSine2Frequency
+$(P)$(R)YSine2Phase
+$(P)$(R)YSine2Offset
+$(P)$(R)YSine2Noise
 file "ADBase_settings.req", P=$(P), R=$(R)
