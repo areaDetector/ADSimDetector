@@ -322,6 +322,64 @@ record(longin, "$(P)$(R)PeakVariation_RBV")
 }
 
 # Records for sine wave simulation mode
+record(ao, "$(P)$(R)SineOffset")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_SINE_OFFSET")
+   field(PREC, "2")
+   info(autosaveFields, "VAL")
+}
+
+record(ai, "$(P)$(R)SineOffset_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_SINE_OFFSET")
+   field(PREC, "2")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)SineNoise")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_SINE_NOISE")
+   field(PREC, "2")
+   info(autosaveFields, "VAL")
+}
+
+record(ai, "$(P)$(R)SineNoise_RBV")
+{
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_SINE_NOISE")
+   field(PREC, "2")
+   field(SCAN, "I/O Intr")
+}
+
+record(mbbo, "$(P)$(R)XSineOperation")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE_OPERATION")
+   field(ZRST, "Add")
+   field(ZRVL, "0")
+   field(ONST, "Multiply")
+   field(ONVL, "1")
+   info(autosaveFields, "VAL")
+}
+
+record(mbbi, "$(P)$(R)XSineOperation_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE_OPERATION")
+   field(ZRST, "LinearRamp")
+   field(ZRST, "Add")
+   field(ZRVL, "0")
+   field(ONST, "Multiply")
+   field(ONVL, "1")
+   field(SCAN, "I/O Intr")
+}
+
 record(ao, "$(P)$(R)XSine1Amplitude")
 {
    field(PINI, "YES")
@@ -371,40 +429,6 @@ record(ai, "$(P)$(R)XSine1Phase_RBV")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE1_PHASE")
-   field(PREC, "2")
-   field(SCAN, "I/O Intr")
-}
-
-record(ao, "$(P)$(R)XSine1Offset")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE1_OFFSET")
-   field(PREC, "2")
-   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)XSine1Offset_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE1_OFFSET")
-   field(PREC, "2")
-   field(SCAN, "I/O Intr")
-}
-
-record(ao, "$(P)$(R)XSine1Noise")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE1_NOISE")
-   field(PREC, "2")
-   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)XSine1Noise_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE1_NOISE")
    field(PREC, "2")
    field(SCAN, "I/O Intr")
 }
@@ -463,37 +487,27 @@ record(ai, "$(P)$(R)XSine2Phase_RBV")
    field(SCAN, "I/O Intr")
 }
 
-record(ao, "$(P)$(R)XSine2Offset")
+record(mbbo, "$(P)$(R)YSineOperation")
 {
    field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE2_OFFSET")
-   field(PREC, "2")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE_OPERATION")
+   field(ZRST, "Add")
+   field(ZRVL, "0")
+   field(ONST, "Multiply")
+   field(ONVL, "1")
    info(autosaveFields, "VAL")
 }
 
-record(ai, "$(P)$(R)XSine2Offset_RBV")
+record(mbbi, "$(P)$(R)YSineOperation_RBV")
 {
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE2_OFFSET")
-   field(PREC, "2")
-   field(SCAN, "I/O Intr")
-}
-
-record(ao, "$(P)$(R)XSine2Noise")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE2_NOISE")
-   field(PREC, "2")
-   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)XSine2Noise_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_XSINE2_NOISE")
-   field(PREC, "2")
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE_OPERATION")
+   field(ZRST, "LinearRamp")
+   field(ZRST, "Add")
+   field(ZRVL, "0")
+   field(ONST, "Multiply")
+   field(ONVL, "1")
    field(SCAN, "I/O Intr")
 }
 
@@ -546,40 +560,6 @@ record(ai, "$(P)$(R)YSine1Phase_RBV")
 {
    field(DTYP, "asynFloat64")
    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE1_PHASE")
-   field(PREC, "2")
-   field(SCAN, "I/O Intr")
-}
-
-record(ao, "$(P)$(R)YSine1Offset")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE1_OFFSET")
-   field(PREC, "2")
-   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)YSine1Offset_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE1_OFFSET")
-   field(PREC, "2")
-   field(SCAN, "I/O Intr")
-}
-
-record(ao, "$(P)$(R)YSine1Noise")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE1_NOISE")
-   field(PREC, "2")
-   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)YSine1Noise_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE1_NOISE")
    field(PREC, "2")
    field(SCAN, "I/O Intr")
 }
@@ -637,40 +617,4 @@ record(ai, "$(P)$(R)YSine2Phase_RBV")
    field(PREC, "2")
    field(SCAN, "I/O Intr")
 }
-
-record(ao, "$(P)$(R)YSine2Offset")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE2_OFFSET")
-   field(PREC, "2")
-   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)YSine2Offset_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE2_OFFSET")
-   field(PREC, "2")
-   field(SCAN, "I/O Intr")
-}
-
-record(ao, "$(P)$(R)YSine2Noise")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE2_NOISE")
-   field(PREC, "2")
-   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)YSine2Noise_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_YSINE2_NOISE")
-   field(PREC, "2")
-   field(SCAN, "I/O Intr")
-}
-
-
 
