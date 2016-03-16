@@ -11,10 +11,10 @@ epicsEnvSet("PREFIX", "13SIM1:")
 epicsEnvSet("PORT",   "SIM1")
 # The queue size for all plugins
 epicsEnvSet("QSIZE",  "20")
-# The maximim image width; used for row profiles in the NDPluginStats plugin
-epicsEnvSet("XSIZE",  "2000")
-# The maximim image height; used for column profiles in the NDPluginStats plugin
-epicsEnvSet("YSIZE",  "1500")
+# The maximim image width; used to set the maximum size for this driver and for row profiles in the NDPluginStats plugin
+epicsEnvSet("XSIZE",  "1024")
+# The maximim image height; used to set the maximum size for this driver and for column profiles in the NDPluginStats plugin
+epicsEnvSet("YSIZE",  "1024")
 # The maximum number of time series points in the NDPluginStats plugin
 epicsEnvSet("NCHANS", "2048")
 # The maximum number of frames buffered in the NDPluginCircularBuff plugin
