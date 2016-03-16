@@ -34,28 +34,24 @@ protected:
     int SimPeakStepX;
     int SimPeakStepY;
     int SimPeakHeightVariation;
+    int SimSineOffset;
+    int SimSineNoise;
+    int SimXSineOperation;
     int SimXSine1Amplitude;
     int SimXSine1Frequency;
     int SimXSine1Phase;
-    int SimXSine1Offset;
-    int SimXSine1Noise;
     int SimXSine2Amplitude;
     int SimXSine2Frequency;
     int SimXSine2Phase;
-    int SimXSine2Offset;
-    int SimXSine2Noise;
+    int SimYSineOperation;
     int SimYSine1Amplitude;
     int SimYSine1Frequency;
     int SimYSine1Phase;
-    int SimYSine1Offset;
-    int SimYSine1Noise;
     int SimYSine2Amplitude;
     int SimYSine2Frequency;
     int SimYSine2Phase;
-    int SimYSine2Offset;
-    int SimYSine2Noise;
 
-    #define LAST_SIM_DETECTOR_PARAM SimYSine2Noise
+    #define LAST_SIM_DETECTOR_PARAM SimYSine2Phase
 
 private:
     /* These are the methods that are new to this class */
@@ -81,7 +77,12 @@ typedef enum {
     SimModeLinearRamp,
     SimModePeaks,
     SimModeSine
-}SimModes_t;
+} SimModes_t;
+
+typedef enum {
+    SimSineOperationAdd,
+    SimSineOperationMultiply
+} SimSineOperation_t;
 
 #define SimGainXString                "SIM_GAIN_X"
 #define SimGainYString                "SIM_GAIN_Y"
@@ -100,26 +101,22 @@ typedef enum {
 #define SimPeakStepXString            "SIM_PEAK_STEP_X"
 #define SimPeakStepYString            "SIM_PEAK_STEP_Y"
 #define SimPeakHeightVariationString  "SIM_PEAK_HEIGHT_VARIATION"
+#define SimSineOffsetString           "SIM_SINE_OFFSET"
+#define SimSineNoiseString            "SIM_SINE_NOISE"
+#define SimXSineOperationString       "SIM_XSINE_OPERATION"
 #define SimXSine1AmplitudeString      "SIM_XSINE1_AMPLITUDE"
 #define SimXSine1FrequencyString      "SIM_XSINE1_FREQUENCY"
 #define SimXSine1PhaseString          "SIM_XSINE1_PHASE"
-#define SimXSine1OffsetString         "SIM_XSINE1_OFFSET"
-#define SimXSine1NoiseString          "SIM_XSINE1_NOISE"
 #define SimXSine2AmplitudeString      "SIM_XSINE2_AMPLITUDE"
 #define SimXSine2FrequencyString      "SIM_XSINE2_FREQUENCY"
 #define SimXSine2PhaseString          "SIM_XSINE2_PHASE"
-#define SimXSine2OffsetString         "SIM_XSINE2_OFFSET"
-#define SimXSine2NoiseString          "SIM_XSINE2_NOISE"
+#define SimYSineOperationString       "SIM_YSINE_OPERATION"
 #define SimYSine1AmplitudeString      "SIM_YSINE1_AMPLITUDE"
 #define SimYSine1FrequencyString      "SIM_YSINE1_FREQUENCY"
 #define SimYSine1PhaseString          "SIM_YSINE1_PHASE"
-#define SimYSine1OffsetString         "SIM_YSINE1_OFFSET"
-#define SimYSine1NoiseString          "SIM_YSINE1_NOISE"
 #define SimYSine2AmplitudeString      "SIM_YSINE2_AMPLITUDE"
 #define SimYSine2FrequencyString      "SIM_YSINE2_FREQUENCY"
 #define SimYSine2PhaseString          "SIM_YSINE2_PHASE"
-#define SimYSine2OffsetString         "SIM_YSINE2_OFFSET"
-#define SimYSine2NoiseString          "SIM_YSINE2_NOISE"
 
 #define NUM_SIM_DETECTOR_PARAMS ((int)(&LAST_SIM_DETECTOR_PARAM - &FIRST_SIM_DETECTOR_PARAM + 1))
 

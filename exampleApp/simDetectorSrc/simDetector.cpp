@@ -344,11 +344,13 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
     epicsType *pMono=NULL, *pRed=NULL, *pGreen=NULL, *pBlue=NULL;
     int columnStep=0, rowStep=0, colorMode;
     int status = asynSuccess;
+    int xSineOperation, ySineOperation;   
     double exposureTime, gain, gainX, gainY, gainRed, gainGreen, gainBlue;
-    double xSine1Amplitude, xSine1Frequency, xSine1Phase, xSine1Offset, xSine1Noise;
-    double xSine2Amplitude, xSine2Frequency, xSine2Phase, xSine2Offset, xSine2Noise;
-    double ySine1Amplitude, ySine1Frequency, ySine1Phase, ySine1Offset, ySine1Noise;
-    double ySine2Amplitude, ySine2Frequency, ySine2Phase, ySine2Offset, ySine2Noise;
+    double sineOffset, sineNoise;
+    double xSine1Amplitude, xSine1Frequency, xSine1Phase;
+    double xSine2Amplitude, xSine2Frequency, xSine2Phase;
+    double ySine1Amplitude, ySine1Frequency, ySine1Phase;
+    double ySine2Amplitude, ySine2Frequency, ySine2Phase;
     double rndm;
     double xTime, yTime;
     int resetImage;
@@ -363,26 +365,22 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
     status = getIntegerParam(SimResetImage,     &resetImage);
     status = getIntegerParam(NDColorMode,       &colorMode);
     status = getDoubleParam (ADAcquireTime,     &exposureTime);
+    status = getDoubleParam(SimSineOffset,      &sineOffset);
+    status = getDoubleParam(SimSineNoise,       &sineNoise);
+    status = getIntegerParam(SimXSineOperation, &xSineOperation);
     status = getDoubleParam(SimXSine1Amplitude, &xSine1Amplitude);
     status = getDoubleParam(SimXSine1Frequency, &xSine1Frequency);
     status = getDoubleParam(SimXSine1Phase,     &xSine1Phase);
-    status = getDoubleParam(SimXSine1Offset,    &xSine1Offset);
-    status = getDoubleParam(SimXSine1Noise,     &xSine1Noise);
     status = getDoubleParam(SimXSine2Amplitude, &xSine2Amplitude);
     status = getDoubleParam(SimXSine2Frequency, &xSine2Frequency);
     status = getDoubleParam(SimXSine2Phase,     &xSine2Phase);
-    status = getDoubleParam(SimXSine2Offset,    &xSine2Offset);
-    status = getDoubleParam(SimXSine2Noise,     &xSine2Noise);
+    status = getIntegerParam(SimYSineOperation, &ySineOperation);
     status = getDoubleParam(SimYSine1Amplitude, &ySine1Amplitude);
     status = getDoubleParam(SimYSine1Frequency, &ySine1Frequency);
     status = getDoubleParam(SimYSine1Phase,     &ySine1Phase);
-    status = getDoubleParam(SimYSine1Offset,    &ySine1Offset);
-    status = getDoubleParam(SimYSine1Noise,     &ySine1Noise);
     status = getDoubleParam(SimYSine2Amplitude, &ySine2Amplitude);
     status = getDoubleParam(SimYSine2Frequency, &ySine2Frequency);
     status = getDoubleParam(SimYSine2Phase,     &ySine2Phase);
-    status = getDoubleParam(SimYSine2Offset,    &ySine2Offset);
-    status = getDoubleParam(SimYSine2Noise,     &ySine2Noise);
 
     switch (colorMode) {
         case NDColorModeMono:
@@ -427,37 +425,55 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
     
     for (i=0; i<sizeX; i++) {
         xTime = xSineCounter_++ * gainX / sizeX;
-        rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-        xSine1_[i] = gain * (xSine1Offset + xSine1Noise * rndm + 
-                             xSine1Amplitude * sin((xTime  * xSine1Frequency + xSine1Phase/360.) * 2. * M_PI));
-        rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-        xSine2_[i] = gain * (xSine2Offset + xSine2Noise * rndm +  
-                             xSine2Amplitude * sin((xTime  * xSine2Frequency + xSine2Phase/360.) * 2. * M_PI));
+        xSine1_[i] = xSine1Amplitude * sin((xTime  * xSine1Frequency + xSine1Phase/360.) * 2. * M_PI);
+        xSine2_[i] = xSine2Amplitude * sin((xTime  * xSine2Frequency + xSine2Phase/360.) * 2. * M_PI);
     }
     for (i=0; i<sizeY; i++) {
         yTime = ySineCounter_++ * gainY / sizeY;
-        rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-        ySine1_[i] = gain * (ySine1Offset + ySine1Noise * rndm + 
-                             ySine1Amplitude * sin((yTime  * ySine1Frequency + ySine1Phase/360.) * 2. * M_PI));
-        rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-        ySine2_[i] = gain * (ySine2Offset + ySine2Noise * rndm +  
-                             ySine2Amplitude * sin((yTime  * ySine2Frequency + ySine2Phase/360.) * 2. * M_PI));
+        ySine1_[i] = ySine1Amplitude * sin((yTime  * ySine1Frequency + ySine1Phase/360.) * 2. * M_PI);
+        ySine2_[i] = ySine2Amplitude * sin((yTime  * ySine2Frequency + ySine2Phase/360.) * 2. * M_PI);
     }                             
     
+    if (colorMode == NDColorModeMono) {
+        if (xSineOperation == SimSineOperationAdd) {
+            for (i=0; i<sizeX; i++) {
+                xSine1_[i] = xSine1_[i] + xSine2_[i];
+            }
+        }
+        else {
+            for (i=0; i<sizeX; i++) {
+                xSine1_[i] = xSine1_[i] * xSine2_[i];
+            }
+        }
+        if (ySineOperation == SimSineOperationAdd) {
+            for (i=0; i<sizeY; i++) {
+                ySine1_[i] = ySine1_[i] + ySine2_[i];
+            }
+        }
+        else {
+            for (i=0; i<sizeY; i++) {
+                ySine1_[i] = ySine1_[i] * ySine2_[i];
+            }
+        }
+    }
     for (i=0; i<sizeY; i++) {
         switch (colorMode) {
             case NDColorModeMono:
                 for (j=0; j<sizeX; j++) {
-                    *pMono++ = ySine1_[i] + ySine2_[i] + xSine1_[j] + xSine2_[j];
+                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
+                    *pMono++ = gain * (sineOffset + sineNoise*rndm + ySine1_[i] + xSine1_[j]);
                 }
                 break;
             case NDColorModeRGB1:
             case NDColorModeRGB2:
             case NDColorModeRGB3:
                 for (j=0; j<sizeX; j++) {
-                    *pRed   = gainRed   * ySine1_[i];
-                    *pGreen = gainGreen * xSine1_[j];
-                    *pBlue  = gainBlue  * ySine2_[i];
+                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
+                    *pRed   = gain * gainRed   * (sineOffset + sineNoise*rndm + xSine1_[j]);
+                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
+                    *pGreen = gain * gainGreen * (sineOffset + sineNoise*rndm + ySine1_[i]);
+                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
+                    *pBlue  = gain * gainBlue  * (sineOffset + sineNoise*rndm + (xSine2_[j] + ySine2_[i])/2.);
                     pRed   += columnStep;
                     pGreen += columnStep;
                     pBlue  += columnStep;
@@ -1030,26 +1046,22 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
     createParam(SimPeakWidthXString,          asynParamInt32,   &SimPeakWidthX);
     createParam(SimPeakWidthYString,          asynParamInt32,   &SimPeakWidthY);
     createParam(SimPeakHeightVariationString, asynParamInt32,   &SimPeakHeightVariation);
+    createParam(SimSineOffsetString,          asynParamFloat64, &SimSineOffset);
+    createParam(SimSineNoiseString,           asynParamFloat64, &SimSineNoise);
+    createParam(SimXSineOperationString,      asynParamInt32,   &SimXSineOperation);
+    createParam(SimYSineOperationString,      asynParamInt32,   &SimYSineOperation);
     createParam(SimXSine1AmplitudeString,     asynParamFloat64, &SimXSine1Amplitude);
     createParam(SimXSine1FrequencyString,     asynParamFloat64, &SimXSine1Frequency);
     createParam(SimXSine1PhaseString,         asynParamFloat64, &SimXSine1Phase);
-    createParam(SimXSine1OffsetString,        asynParamFloat64, &SimXSine1Offset);
-    createParam(SimXSine1NoiseString,         asynParamFloat64, &SimXSine1Noise);
     createParam(SimXSine2AmplitudeString,     asynParamFloat64, &SimXSine2Amplitude);
     createParam(SimXSine2FrequencyString,     asynParamFloat64, &SimXSine2Frequency);
     createParam(SimXSine2PhaseString,         asynParamFloat64, &SimXSine2Phase);
-    createParam(SimXSine2OffsetString,        asynParamFloat64, &SimXSine2Offset);
-    createParam(SimXSine2NoiseString,         asynParamFloat64, &SimXSine2Noise);
     createParam(SimYSine1AmplitudeString,     asynParamFloat64, &SimYSine1Amplitude);
     createParam(SimYSine1FrequencyString,     asynParamFloat64, &SimYSine1Frequency);
     createParam(SimYSine1PhaseString,         asynParamFloat64, &SimYSine1Phase);
-    createParam(SimYSine1OffsetString,        asynParamFloat64, &SimYSine1Offset);
-    createParam(SimYSine1NoiseString,         asynParamFloat64, &SimYSine1Noise);
     createParam(SimYSine2AmplitudeString,     asynParamFloat64, &SimYSine2Amplitude);
     createParam(SimYSine2FrequencyString,     asynParamFloat64, &SimYSine2Frequency);
     createParam(SimYSine2PhaseString,         asynParamFloat64, &SimYSine2Phase);
-    createParam(SimYSine2OffsetString,        asynParamFloat64, &SimYSine2Offset);
-    createParam(SimYSine2NoiseString,         asynParamFloat64, &SimYSine2Noise);
 
     /* Set some default values for parameters */
     status =  setStringParam (ADManufacturer, "Simulated detector");
