@@ -418,8 +418,8 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
       if (ySine1_) free(ySine1_);
       if (ySine2_) free(ySine2_);
       xSine1_ = (double *)calloc(sizeX, sizeof(double));
-      xSine2_ = (double *)calloc(sizeY, sizeof(double));
-      ySine1_ = (double *)calloc(sizeX, sizeof(double));
+      xSine2_ = (double *)calloc(sizeX, sizeof(double));
+      ySine1_ = (double *)calloc(sizeY, sizeof(double));
       ySine2_ = (double *)calloc(sizeY, sizeof(double));
       xSineCounter_ = 0;
       ySineCounter_ = 0;
