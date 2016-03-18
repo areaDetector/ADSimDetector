@@ -33,6 +33,11 @@
 
 static const char *driverName = "simDetector";
 
+/* vxWorks does not have M_PI */
+#ifdef vxWorks
+  #define M_PI 3.14159265358979323846
+#endif
+
 /** Template function to compute the simulated detector data for any data type */
 template <typename epicsType> int simDetector::computeArray(int sizeX, int sizeY)
 {
