@@ -23,8 +23,8 @@
 
 static const char *driverName = "ADCSimDetector";
 
-// vxWorks does not have M_PI
-#ifdef vxWorks
+// Some systems don't define M_PI in math.h
+#ifndef M_PI
   #define M_PI 3.14159265358979323846
 #endif
 
@@ -160,41 +160,41 @@ template <typename epicsType> void ADCSimDetector::computeArraysT()
         rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
         // Signal 0 is a sin wave
         j = 0;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
-                                   sin((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI);
+        pData[MAX_SIGNALS*i + j] = (epicsType)(offset[j] + noise[j] * rndm + amplitude[j] * 
+                                               sin((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI));
         // Signal 1 is a cos wave
         j = 1;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
-                                   cos((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI);
+        pData[MAX_SIGNALS*i + j] = (epicsType)(offset[j] + noise[j] * rndm + amplitude[j] * 
+                                               cos((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI));
         // Signal 2 is a square wave
         j = 2;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
-                                   (sin((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI) > 0 ? 1.0 : -1.0);
+        pData[MAX_SIGNALS*i + j] = (epicsType)(offset[j] + noise[j] * rndm + amplitude[j] * 
+                                              (sin((elapsedTime_ * frequency[j] + phase[j]) * 2. * M_PI) > 0 ? 1.0 : -1.0));
         // Signal 3 is a sawtooth
         j = 3;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
-                                   -2.0/M_PI * atan(1./tan((elapsedTime_ * frequency[j] + phase[j]) * M_PI));
+        pData[MAX_SIGNALS*i + j] = (epicsType)(offset[j] + noise[j] * rndm + amplitude[j] * 
+                                               -2.0/M_PI * atan(1./tan((elapsedTime_ * frequency[j] + phase[j]) * M_PI)));
         // Signal 4 is white noise
         j = 4;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * rndm;
+        pData[MAX_SIGNALS*i + j] = (epicsType)(offset[j] + noise[j] * rndm + amplitude[j] * rndm);
 
         // Signal 5 is signal 0 + signal 1
         j = 5;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
-                                   pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 1] ;
+        pData[MAX_SIGNALS*i + j] = (epicsType)(offset[j] + noise[j] * rndm + amplitude[j] * 
+                                               pData[MAX_SIGNALS*i + 0] + pData[MAX_SIGNALS*i + 1]) ;
 
         // Signal 6 is signal 0 * signal 1
         j = 6;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] * 
-                                   pData[MAX_SIGNALS*i + 0] * pData[MAX_SIGNALS*i + 1] ;
+        pData[MAX_SIGNALS*i + j] = (epicsType)(offset[j] + noise[j] * rndm + amplitude[j] * 
+                                               pData[MAX_SIGNALS*i + 0] * pData[MAX_SIGNALS*i + 1]) ;
 
         // Signal 7 is 4 sin waves
         j = 7;
-        pData[MAX_SIGNALS*i + j] = offset[j] + noise[j] * rndm + amplitude[j] *
-                                   (sin((elapsedTime_ * 1.*frequency[j] + phase[j]) * 2. * M_PI) +
-                                    sin((elapsedTime_ * 2.*frequency[j] + phase[j]) * 2. * M_PI) +
-                                    sin((elapsedTime_ * 3.*frequency[j] + phase[j]) * 2. * M_PI) +
-                                    sin((elapsedTime_ * 4.*frequency[j] + phase[j]) * 2. * M_PI));
+        pData[MAX_SIGNALS*i + j] = (epicsType)(offset[j] + noise[j] * rndm + amplitude[j] *
+                                              (sin((elapsedTime_ * 1.*frequency[j] + phase[j]) * 2. * M_PI) +
+                                               sin((elapsedTime_ * 2.*frequency[j] + phase[j]) * 2. * M_PI) +
+                                               sin((elapsedTime_ * 3.*frequency[j] + phase[j]) * 2. * M_PI) +
+                                               sin((elapsedTime_ * 4.*frequency[j] + phase[j]) * 2. * M_PI)));
 
         elapsedTime_ += timeStep;
         if ((acquireTime > 0) && (elapsedTime_ > acquireTime)) {
