@@ -10,7 +10,7 @@
     <h1 style="text-align: center">
       areaDetector Simulation driver</h1>
     <h2>
-      October 1, 2012</h2>
+      March 19, 2016</h2>
     <h2>
       Mark Rivers and John Hammonds</h2>
     <h2>
@@ -28,6 +28,7 @@
       <ol>
         <li><a href="#LinearRamp">Linear ramp</a></li>
         <li><a href="#Peaks">Array of peaks</a></li>
+        <li><a href="#Sine">Sums or products of sine waves</a></li>
       </ol>
     </li>
     <li><a href="#Configuration">Configuration</a></li>
@@ -202,8 +203,9 @@
         <td>
           Sets the simulation mode. Options are:<br />
           <ul>
-            <li>Linear Ramp</li>
-            <li>Array of Peaks</li>
+            <li>0: LinearRamp (linear ramp)</li>
+            <li>1: Peaks (Array of peaks)</li>
+            <li>1: Sine (Sum or product of sine waves)</li>
           </ul>
         </td>
         <td>
@@ -212,8 +214,8 @@
           $(P)$(R)SimMode<br />
           $(P)$(R)SimMode_RBV</td>
         <td>
-          longout<br />
-          longin</td>
+          mbbo<br />
+          mbbi</td>
       </tr>
       <tr>
         <td align="center" colspan="7">
@@ -353,7 +355,7 @@
         <td>
           r/w</td>
         <td>
-          Y location of the first peak centroid</td>
+          Y step between peaks</td>
         <td>
           SIM_PEAK_STEP_Y</td>
         <td>
@@ -371,8 +373,8 @@
         <td>
           r/w</td>
         <td>
-          Used to introduce randomness in the peak height. Each gaussian peak in the array
-          is assigned a scaling factor.<br />
+          Used to introduce randomness in the peak height. If non-zero then each gaussian
+          peak in the array is assigned a scaling factor.<br />
           scalingFactor = 1.0 + (rand()%peakVariation +1)/100.0 </td>
         <td>
           SIM_PEAK_HEIGHT_VARIATION</td>
@@ -391,7 +393,8 @@
         <td>
           r/w</td>
         <td>
-          Used to introduce randomness. Each affected pixel is assigned a scaling factor.<br />
+          Used to introduce randomness. If non-zero then each affected pixel is assigned a
+          scaling factor.<br />
           scalingFactor = 1.0 + (rand()%noise +1)/100.0 </td>
         <td>
           SIM_NOISE</td>
@@ -401,6 +404,147 @@
         <td>
           longout<br />
           longin</td>
+      </tr>
+      <tr>
+        <td align="center" colspan="7">
+          <b>Parameters for Sine Mode</b></td>
+      </tr>
+      <tr>
+        <td>
+          SimSinOffset</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The offset value added to the image. </td>
+        <td>
+          SIM_SIN_OFFSET</td>
+        <td>
+          $(P)$(R)SineOffset<br />
+          $(P)$(R)SineOffset_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
+      </tr>
+      <tr>
+        <td>
+          SimSinNoise</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The amount of random noise added to the image. </td>
+        <td>
+          SIM_SIN_NOISE</td>
+        <td>
+          $(P)$(R)SineNoise<br />
+          $(P)$(R)SineNoise_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
+      </tr>
+      <tr>
+        <td>
+          SimXSinOperation</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          The operation to use to combine XSine1 and XSine2. Choices are:
+          <br />
+          0: Add<br />
+          1: Multiply</td>
+        <td>
+          SIM_XSIN_OPERATION</td>
+        <td>
+          $(P)$(R)XSineOperation<br />
+          $(P)$(R)XSineOperation_RBV</td>
+        <td>
+          mbbo<br />
+          mbbi</td>
+      </tr>
+      <tr>
+        <td>
+          SimYSinOperation</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          The operation to use to combine YSine1 and YSine2. Choices are:
+          <br />
+          0: Add<br />
+          1: Multiply</td>
+        <td>
+          SIM_YSIN_OPERATION</td>
+        <td>
+          $(P)$(R)YSineOperation<br />
+          $(P)$(R)YSineOperation_RBV</td>
+        <td>
+          mbbo<br />
+          mbbi</td>
+      </tr>
+      <tr>
+        <td>
+          Sim[X,Y]Sin[1,2]Ampliude</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The amplitude of the sine wave. There is a record for each of the 4 sine waves:
+          XSine1, XSine2, YSine1, YSine2.</td>
+        <td>
+          SIM_[X,Y]SIN[1,2]_AMPLITUDE</td>
+        <td>
+          $(P)$(R)[X,Y]Sine[1,2]Amplitude<br />
+          $(P)$(R)[X,Y]Sine[1,2]Amplitude_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
+      </tr>
+      <tr>
+        <td>
+          Sim[X,Y]Sin[1,2]Frequency</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The frequency of the sine wave. A frequency of 1 means there is one complete period
+          of the sine wave across the image in the X or Y direction. There is a record for
+          each of the 4 sine waves: XSine1, XSine2, YSine1, YSine2.</td>
+        <td>
+          SIM_[X,Y]SIN[1,2]_FREQUENCY</td>
+        <td>
+          $(P)$(R)[X,Y]Sine[1,2]Frequency<br />
+          $(P)$(R)[X,Y]Sine[1,2]Frequency_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
+      </tr>
+      <tr>
+        <td>
+          Sim[X,Y]Sin[1,2]Phase</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The phase of the sine wave in degrees. A phase of 90 is the same as a cosine wave.
+          There is a record for each of the 4 sine waves: XSine1, XSine2, YSine1, YSine2.
+        </td>
+        <td>
+          SIM_[X,Y]SIN[1,2]_PHASE</td>
+        <td>
+          $(P)$(R)[X,Y]Sine[1,2]Phase<br />
+          $(P)$(R)[X,Y]Sine[1,2]Phase_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
       </tr>
     </tbody>
   </table>
@@ -451,6 +595,76 @@
     The description for RGB images is the same as for the Linear Ramp. Pixels are computed
     the same way as for monochrome and there is a separate gain for each color.
   </p>
+  <h3 id="Sine">
+    Sine</h3>
+  <p>
+    The image is constructed from 2 sine waves in the X direction and 2 sine waves in
+    the Y direction. The amplitude, frequency, and phase of each of the 4 sine waves
+    can be controlled. The two sine waves in each direction can be combined either by
+    addition or by multiplication. There also global offset and noise parameters. Each
+    sine wave is constructed using the following equation:</p>
+  <pre>
+    X/YSine[i] = Amplitude * sin((Count[X,Y] * Gain[X,Y] / Size[X,Y] * Frequency + Phase/360) * 2 * PI)
+    </pre>
+  <p>
+    where</p>
+  <ul>
+    <li><code>Count[X,Y]</code> is an integer counter that increments by 1 for each element
+      of the sine wave for each new image. It reset to 0 when the image is reset with
+      SimResetImage, or when the image dimensions or datatype are changed.</li>
+    <li><code>Amplitude</code> sets the sine-wave amplitude. The peak-to-peak value is
+      twice this.</li>
+    <li><code>i</code> is an index that goes from 0 to the image dimension SizeX or SizeY.</li>
+    <li><code>Gain[X,Y]</code> is GainX or GainY defined above.</li>
+    <li><code>Size[X,Y]</code> is SizeX or SizeY, the number of pixels in the X or Y direction.</li>
+    <li><code>Frequency</code> is the sine wave frequency. Frequency=1 is one full period
+      across the image.</li>
+    <li><code>Phase</code> is the phase angle in degrees.</li>
+  </ul>
+  <p>
+    There are 4 separate values for Amplitude, Gain, and Frequency, one for each of
+    the 4 sine waves.</p>
+  <p>
+    If the Frequency is an integer then there will be an integer number of sine wave
+    periods across the image, and these will appear to be stationary from one image
+    to the next. If Frequency is not an integer then there will be a non-integer number
+    of periods across the image, and the sine wave will appear to move from one image
+    to the next. This is because Count[X,Y] is not reset to 0 for each new image.</p>
+  <p>
+    In monochrome mode the following equation is used to construct each image:</p>
+  <pre>
+    Value[i,j] = Gain * (Offset + (Noise * random) + 
+                         XSine1[i] (+ or *) XSine2[i] + 
+                         YSine1[j] (+ or *) YSine2[j])
+    </pre>
+  <p>
+    where</p>
+  <ul>
+    <li><code>Gain</code> is the overall image gain defined in ADBase.template.</li>
+    <li><code>Noise</code> is the overall noise level in the image.</li>
+    <li><code>random</code> is a random number in the range -1 to 1 that is different
+      for each pixel in the image.</li>
+    <li><code>i</code> is an index that goes from 0 to the image dimension SizeX.</li>
+    <li><code>j</code> is an index that goes from 0 to the image dimension SizeY.</li>
+    <li><code>XSine1, XSine1, YSine1, YSine2</code> are the 4 sine waves described above.</li>
+    <li><code>(+ or -)</code> is either addition or multiplication depending on the value
+      of XSineOperation and YSineOperation described above.</li>
+  </ul>
+  <p>
+    In color mode (NDColorMode=NDColorModeRGB1, RGB2 or RGB3) the following equations
+    are used to construct each image:</p>
+  <pre>
+    Red[i,j]   = Gain * GainRed   * (Offset + (Noise * random) + XSine1[i])
+    Green[i,j] = Gain * GainGreen * (Offset + (Noise * random) + YSine1[j]
+    Blue[i,j]  = Gain * GainBlue  * (Offset + (Noise * random) + 
+                                    (XSine2[i] + YSine2[j]) / 2))
+    </pre>
+  <p>
+    where the values have the same meaning as for monochrome images, and GainRed, GainGreen,
+    and GainBlue are the same as for Linear Ramp mode explained above. Note that the
+    red image is a single sine wave in the X direction (XSine1), the green image is
+    a single sine wave in the Y direction (YSine1), and the blue image is the sum of
+    XSine2 and YSine2.</p>
   <h2 id="Unsupported">
     Unsupported standard driver parameters</h2>
   <ul>
@@ -504,19 +718,63 @@
   <p>
     The following is the MEDM screen simDetector.adl for the simulation detector.
   </p>
-  <div style="text-align: center">
+  <div style="text-align: center; margin-bottom: 2em">
     <h3>
       simDetector.adl</h3>
     <img alt="simDetector.png" src="simDetector.png" />
   </div>
   <p>
-    The following is the MEDM screen that provides access to the specific parameters
-    for the simulation detector.
+    This is an example of the MEDM screen that provides access to the specific parameters
+    for the simulation detector. In this case Peaks mode is selected.
   </p>
-  <div style="text-align: center">
-    <h3>
-      simDetectorSetup.adl</h3>
-    <img alt="simDetectorSetup.png" src="simDetectorSetup.png" />
+  <div style="text-align: center; margin-bottom: 2em">
+    <h4>
+      Simulation setup screen with Peaks mode selected</h4>
+    <img alt="simDetectorSetupPeaks.png" src="simDetectorSetupPeaks.png" />
+  </div>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h4>
+      ImageJ display with the above Peaks mode parameters</h4>
+    <img alt="simDetectorImagePeaks.png" src="simDetectorImagePeaks.png" />
+  </div>
+  <p>
+    This is a simple example of Sine mode. The XSine1 frequency is 2 and the YSine1
+    frequency is 4. The Sine2 amplitudes are zero, so there is a single sine wave in
+    each direction.</p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h4>
+      Simulation setup screen with simple Sine mode setup.
+    </h4>
+    <img alt="simDetectorSetupSimpleSine.png" src="simDetectorSetupSimpleSine.png" />
+  </div>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h4>
+      ImageJ display with the above simple Sine mode parameters</h4>
+    <img alt="simDetectorImageSimpleSine.png" src="simDetectorImageSimpleSine.png" />
+  </div>
+  <p>
+    This is a complex example of Sine mode. There are 2 sine waves in each direction,
+    with multiplication in X and addition in Y.</p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h4>
+      Simulation setup screen with complex Sine mode parameters.
+    </h4>
+    <img alt="simDetectorSetupComplexSine.png" src="simDetectorSetupComplexSine.png" />
+  </div>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h4>
+      ImageJ display with the above complex Sine mode parameters.</h4>
+    <img alt="simDetectorImageComplexSine.png" src="simDetectorImageComplexSine.png" />
+  </div>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h4>
+      ImageJ X profile with the above complex Sine mode parameters.</h4>
+    <img alt="simDetectorXProfileComplexSine.png" src="simDetectorXProfileComplexSine.png" />
+  </div>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h4>
+      ImageJ Y profile with the above complex Sine mode parameters.</h4>
+    <img alt="simDetectorYProfileComplexSine.png" src="simDetectorYProfileComplexSine.png" />
   </div>
   <h2 id="Viewers">
     Image viewers</h2>
@@ -525,7 +783,7 @@
     screen using <a href="http://cars.uchicago.edu/software/idl/imaging_routines.html#image_display">
       image_display</a> to display the simulation detector images.
   </p>
-  <div style="text-align: center">
+  <div style="text-align: center; margin-bottom: 2em">
     <h3>
       epics_ad_display.pro</h3>
     <img alt="simDetector_image_display.png" src="simDetector_image_display.png" />
@@ -534,15 +792,10 @@
     The following is an ImageJ plugin <a href="areaDetectorViewers.html#ImageJViewer">
       EPICS_AD_Viewer</a> screen displaying color simulation detector images.
   </p>
-  <div style="text-align: center">
+  <div style="text-align: center; margin-bottom: 2em">
     <h3>
       ImageJ plugin EPICS_AD_Viewer</h3>
     <img alt="simDetector_ImageJ_display.png" src="simDetector_ImageJ_display.png" />
-  </div>
-  <div style="text-align: center">
-    <h3>
-      ImageJ plugin EPICS_AD_Viewer with an Array of Peaks</h3>
-    <img alt="simDetector_ImageJ_Peaks.png" src="simDetector_ImageJ_Peaks.png" />
   </div>
 </body>
 </html>
