@@ -33,8 +33,8 @@
 
 static const char *driverName = "simDetector";
 
-/* vxWorks does not have M_PI */
-#ifdef vxWorks
+/* Some systems don't define M_PI in math.h */
+#ifndef M_PI
   #define M_PI 3.14159265358979323846
 #endif
 
@@ -466,7 +466,7 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
             case NDColorModeMono:
                 for (j=0; j<sizeX; j++) {
                     rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-                    *pMono++ = gain * (sineOffset + sineNoise*rndm + ySine1_[i] + xSine1_[j]);
+                    *pMono++ = (epicsType) (gain * (sineOffset + sineNoise*rndm + ySine1_[i] + xSine1_[j]));
                 }
                 break;
             case NDColorModeRGB1:
@@ -474,11 +474,11 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
             case NDColorModeRGB3:
                 for (j=0; j<sizeX; j++) {
                     rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-                    *pRed   = gain * gainRed   * (sineOffset + sineNoise*rndm + xSine1_[j]);
+                    *pRed   = (epicsType)(gain * gainRed   * (sineOffset + sineNoise*rndm + xSine1_[j]));
                     rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-                    *pGreen = gain * gainGreen * (sineOffset + sineNoise*rndm + ySine1_[i]);
+                    *pGreen = (epicsType)(gain * gainGreen * (sineOffset + sineNoise*rndm + ySine1_[i]));
                     rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-                    *pBlue  = gain * gainBlue  * (sineOffset + sineNoise*rndm + (xSine2_[j] + ySine2_[i])/2.);
+                    *pBlue  = (epicsType)(gain * gainBlue  * (sineOffset + sineNoise*rndm + (xSine2_[j] + ySine2_[i])/2.));
                     pRed   += columnStep;
                     pGreen += columnStep;
                     pBlue  += columnStep;
