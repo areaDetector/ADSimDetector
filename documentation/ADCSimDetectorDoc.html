@@ -10,7 +10,7 @@
     <h1 style="text-align: center">
       ADC Simulation driver</h1>
     <h2>
-      March 2, 2016</h2>
+      March 20, 2016</h2>
     <h2>
       Mark Rivers</h2>
     <h2>
@@ -321,10 +321,40 @@
   <p>
     The following is the MEDM screen simDetector.adl for the simulation detector.
   </p>
-  <div style="text-align: center">
+  <div style="text-align: center; margin-bottom: 2em">
     <h3>
       ADCSimDetector.adl</h3>
     <img alt="ADCSimDetector.png" src="ADCSimDetector.png" />
+  </div>
+  <p>
+    The NDPluginTimeSeries is used to collect the time series data from the ADCSimDetector,
+    perform optional averaging. In this case it is being used in circular buffer mode.
+    The NDArrays it produces are being used by the NDPluginFFT plugin to compute Fast
+    Fourier Transforms.
+  </p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h3>
+      NDPluginTimeSeries.adl</h3>
+    <img alt="ADCSimDetectorTimeSeriesPlugin.png" src="ADCSimDetectorTimeSeriesPlugin.png" />
+  </div>
+  <p>
+    This is a plot for the sin(x)*cos(x) output. This screen contains some of the controls
+    for the time series plugin.
+  </p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h3>
+      NDTimeSeriesPlot.adl</h3>
+    <img alt="ADCSimDetectorSinCosPlot.png" src="ADCSimDetectorSinCosPlot.png" />
+  </div>
+  <p>
+    This is a combined plot for the square wave output. It contains the time-series
+    data, as well as the real, imaginary, and absolute value of the FFT. Note that the
+    square wave FFT contains the fundamental frequency of 5 Hz, and all of the odd harmonics.
+  </p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h3>
+      NDPluginTimeSeries.adl</h3>
+    <img alt="ADCSimDetectorSquareWavePlotAll.png" src="ADCSimDetectorSquareWavePlotAll.png" />
   </div>
 </body>
 </html>
