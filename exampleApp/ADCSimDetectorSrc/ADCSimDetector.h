@@ -59,7 +59,7 @@ private:
     /* Our data */
     epicsEventId startEventId_;
     epicsEventId stopEventId_;
-    int arrayCounter_;
+    int uniqueId_;
     int acquiring_;
     double elapsedTime_;
 };

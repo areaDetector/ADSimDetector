@@ -56,7 +56,7 @@ ADCSimDetector::ADCSimDetector(const char *portName, int numTimePoints, NDDataTy
                ASYN_CANBLOCK | ASYN_MULTIDEVICE, /* asyn flags*/
                1,                                /* autoConnect=1 */
                priority, stackSize),
-    acquiring_(0)
+    uniqueId_(0), acquiring_(0)
 
 {
     int status = asynSuccess;
@@ -261,6 +261,7 @@ void ADCSimDetector::simTask()
     NDArray *pImage;
     epicsTimeStamp startTime;
     int numTimePoints;
+    int arrayCounter;
     double timeStep;
     int i;
     const char *functionName = "simTask";
@@ -292,8 +293,10 @@ void ADCSimDetector::simTask()
         pImage = this->pArrays[0];
 
         /* Put the frame number and time stamp into the buffer */
-        pImage->uniqueId = arrayCounter_++;
-        setIntegerParam(NDArrayCounter, arrayCounter_);
+        pImage->uniqueId = uniqueId_++;
+        getIntegerParam(NDArrayCounter, &arrayCounter);
+        arrayCounter++;
+        setIntegerParam(NDArrayCounter, arrayCounter);
         epicsTimeGetCurrent(&startTime);
         pImage->timeStamp = startTime.secPastEpoch + startTime.nsec / 1.e9;
         updateTimeStamp(&pImage->epicsTS);
