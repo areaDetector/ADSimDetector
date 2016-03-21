@@ -96,7 +96,7 @@ NDFFTConfigure("FFT8", $(QSIZE), 0, "TS1", 7)
 dbLoadRecords("$(ADCORE)/db/NDFFT.template","P=$(PREFIX),R=FFT8:,PORT=FFT8,ADDR=0,TIMEOUT=1,NDARRAY_PORT=TS1,NDARRAY_ADDR=7,NCHANS=$(TSPOINTS),TIME_LINK=$(PREFIX)TS:TSAveragingTime_RBV CP MS,ENABLED=1,NAME=$(T8)")
 
 ## Load all other plugins using commonPlugins.cmd
-< $(ADCORE)/iocBoot/commonPlugins.cmd
+< $(ADCORE)/iocBoot/EXAMPLE_commonPlugins.cmd
 set_requestfile_path("$(ADEXAMPLE)/exampleApp/Db")
 
 #asynSetTraceIOMask("$(PORT)",0,2)
