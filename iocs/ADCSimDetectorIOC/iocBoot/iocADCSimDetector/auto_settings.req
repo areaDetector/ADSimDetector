@@ -8,7 +8,7 @@ file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:6:
 file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:7:
 file "ADCSimDetectorN_settings.req", P=$(P),  R=det1:8:
 file "NDStdArrays_settings.req",     P=$(P),  R=image1:
-file "EXAMPLE_commonPlugin_settings.req", P=$(P)
+file "commonPlugin_settings.req",    P=$(P)
 file "NDTimeSeries_settings.req",    P=$(P),  R=TS:
 file "NDTimeSeriesN_settings.req",   P=$(P),  R=TS:1:
 file "NDTimeSeriesN_settings.req",   P=$(P),  R=TS:2:
