@@ -1,4 +1,4 @@
-start medm -x -macro "P=13PS1:, R=cam1:" simDetector.adl
-..\..\bin\win32-x86\simDetectorApp st.cmd.windows
+start medm -x -macro "P=13ADCSIM1:, R=det1:" ADCSimDetector.adl
+..\..\bin\windows-x64-static\ADCSimDetectorApp st.cmd
 
 
