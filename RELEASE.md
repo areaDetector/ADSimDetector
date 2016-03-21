@@ -26,7 +26,7 @@ Release Notes
 R2-2 (March XXX, 2016)
 ========================
 * Created a new driver in ADExample/exampleApp/ADCSimDetectorSrc.
-  This driver generates times-series data for 8 signals as a 2-D array [8, NumTimePoints].  
+  This driver generates times-series data for 8 signals as a 2-D array [8, NumTimePoints].
   The signals are common waveforms (sine, cosine, square wave, sawtooth, random noise, etc.)
   
   The driver was written in part to test the new NDPluginTimeSeries and NDPluginFFT plugins 
