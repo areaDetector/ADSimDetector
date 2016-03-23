@@ -1603,7 +1603,7 @@ composite {
 			display[4] {
 				label="Combined plot"
 				name="NDFFTPlotAll.adl"
-				args="P=$(P),R=FFT1:"
+				args="P=$(P),RTS=TS:,R=FFT1:"
 			}
 			display[5] {
 				label="More"
@@ -1655,7 +1655,7 @@ composite {
 			display[4] {
 				label="Combined plot"
 				name="NDFFTPlotAll.adl"
-				args="P=$(P),R=FFT2:"
+				args="P=$(P),RTS=TS:,R=FFT2:"
 			}
 			display[5] {
 				label="More"
@@ -1695,7 +1695,7 @@ composite {
 			display[4] {
 				label="Combined plot"
 				name="NDFFTPlotAll.adl"
-				args="P=$(P),R=FFT3:"
+				args="P=$(P),RTS=TS:,R=FFT3:"
 			}
 			display[5] {
 				label="More"
@@ -1735,7 +1735,7 @@ composite {
 			display[4] {
 				label="Combined plot"
 				name="NDFFTPlotAll.adl"
-				args="P=$(P),R=FFT4:"
+				args="P=$(P),RTS=TS:,R=FFT4:"
 			}
 			display[5] {
 				label="More"
@@ -1775,7 +1775,7 @@ composite {
 			display[4] {
 				label="Combined plot"
 				name="NDFFTPlotAll.adl"
-				args="P=$(P),R=FFT5:"
+				args="P=$(P),RTS=TS:,R=FFT5:"
 			}
 			display[5] {
 				label="More"
@@ -1815,7 +1815,7 @@ composite {
 			display[4] {
 				label="Combined plot"
 				name="NDFFTPlotAll.adl"
-				args="P=$(P),R=FFT6:"
+				args="P=$(P),RTS=TS:,R=FFT6:"
 			}
 			display[5] {
 				label="More"
@@ -1855,7 +1855,7 @@ composite {
 			display[4] {
 				label="Combined plot"
 				name="NDFFTPlotAll.adl"
-				args="P=$(P),R=FFT7:"
+				args="P=$(P),RTS=TS:,R=FFT7:"
 			}
 			display[5] {
 				label="More"
@@ -1895,7 +1895,7 @@ composite {
 			display[4] {
 				label="Combined plot"
 				name="NDFFTPlotAll.adl"
-				args="P=$(P),R=FFT8:"
+				args="P=$(P),RTS=TS:,R=FFT8:"
 			}
 			display[5] {
 				label="More"
