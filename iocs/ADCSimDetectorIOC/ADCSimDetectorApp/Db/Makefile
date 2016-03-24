@@ -11,9 +11,7 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install)
 # databases, templates, substitutions like this
 
-DB += simDetector.template
-DB += ADCSimDetector.template
-DB += ADCSimDetectorN.template
+#DB += NDTransform.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

@@ -1,0 +1,5 @@
+$(P)$(R)TimeStep
+$(P)$(R)NumTimePoints
+$(P)$(R)AcquireTime
+
+file "NDArrayBase_settings.req", P=$(P), R=$(R)

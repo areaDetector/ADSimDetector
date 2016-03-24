@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>ADC Simulation driver</title>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type" />
+</head>
+<body>
+  <div style="text-align: center">
+    <h1 style="text-align: center">
+      ADC Simulation driver</h1>
+    <h2>
+      March 20, 2016</h2>
+    <h2>
+      Mark Rivers</h2>
+    <h2>
+      University of Chicago</h2>
+  </div>
+  <p>
+    &nbsp;</p>
+  <h2>
+    Table of Contents</h2>
+  <ul>
+    <li><a href="#Introduction">Introduction</a></li>
+    <li><a href="#Driver_parameters">ADC simulation driver specific parameters</a></li>
+    <li><a href="#Configuration">Configuration</a></li>
+    <li><a href="#MEDM_screens">MEDM screens</a></li>
+  </ul>
+  <h2 id="Introduction">
+    Introduction</h2>
+  <p>
+    This is an <a href="http://www.aps.anl.gov/epics/">EPICS</a> <a href="areaDetector.html">
+      areaDetector</a> driver for a simulated ADC driver. This driver generates times-series
+    data for 8 signals as a 2-D array [8, NumTimePoints]. The signals are common waveforms
+    (sine, cosine, square wave, sawtooth, random noise, etc.) The driver was written
+    in part to test the new NDPluginTimeSeries plugin in ADCore R2-5. But it can also
+    serve as a starting point for writing drivers that are used to collect time-series
+    data like ADCs, waveform digitizers, etc.
+  </p>
+  <p>
+    Each signal in the driver describes a waveform. The equations governing these signals
+    are similar. The equation for the sine wave is the following:</p>
+  <pre>
+    Signal[t] = Offset + Noise * random() + Amplitude * sin((time * Frequency + Phase/360.) * 2. * PI);
+    </pre>
+  <p>
+    This driver inherits from <a href="areaDetectorDoc.html#asynNDArrayDriver">asynNDArrayDriver</a>.
+    It also implements a number parameters that are specific to the ADC simulation detector.
+    The <a href="areaDetectorDoxygenHTML/class_a_d_c_sim_detector.html">ADCSimDetector
+      class documentation</a> describes this class in detail.</p>
+  <h2 id="Driver_parameters">
+    Simulation driver specific parameters</h2>
+  <p>
+    The simulation driver-specific parameters are the following:
+  </p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <td align="center" colspan="7">
+          <b>Parameters for the driver as a whole<br />
+            Parameter Definitions in ADCSimDetector.cpp and EPICS Record Definitions in ADCSimDetector.template</b>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          Parameter index variable</th>
+        <th>
+          asyn interface</th>
+        <th>
+          Access</th>
+        <th>
+          Description</th>
+        <th>
+          drvInfo string</th>
+        <th>
+          EPICS record name</th>
+        <th>
+          EPICS record type</th>
+      </tr>
+      <tr>
+        <td>
+          P_Acquire</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          Start/stop acquisition. Values are:<br />
+          0: "Done": Stops acquisition
+          <br />
+          1: "Acquire": Starts acquisition </td>
+        <td>
+          SIM_ACQUIRE</td>
+        <td>
+          $(P)$(R)Acquire<br />
+          $(P)$(R)Acquire_RBV</td>
+        <td>
+          busy<br />
+          bi</td>
+      </tr>
+      <tr>
+        <td>
+          P_TimeStep</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          Time per data point</td>
+        <td>
+          SIM_TIME_STEP</td>
+        <td>
+          $(P)$(R)TimeStep<br />
+          $(P)$(R)TimeStep_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
+      </tr>
+      <tr>
+        <td>
+          NumTimePoints</td>
+        <td>
+          asynInt32</td>
+        <td>
+          r/w</td>
+        <td>
+          Number of time points to accumulate before calling registered plugins</td>
+        <td>
+          SIM_NUM_TIME_POINTS</td>
+        <td>
+          $(P)$(R)NumTimePoints<br />
+          $(P)$(R)NumTimePoints_RBV</td>
+        <td>
+          longout<br />
+          longin</td>
+      </tr>
+      <tr>
+        <td>
+          P_AcquireTime</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          Total elapsed time before automatically stopping acquisition. If 0 then acquistion
+          continues until manually stopped. Note that this is "simulated time", i.e. the number
+          of time points since acquisition was started * TimeStep. This may differ from actual
+          time because of the processor speeds, granularity of epicsThreadSleep(), etc.</td>
+        <td>
+          SIM_ACQUIRE_TIME</td>
+        <td>
+          $(P)$(R)AcquireTime<br />
+          $(P)$(R)AcquireTime_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
+      </tr>
+      <tr>
+        <td>
+          P_ElapsedTime</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          Total elapsed time since acquisition was started.</td>
+        <td>
+          SIM_ELAPSED_TIME</td>
+        <td>
+          $(P)$(R)ElapsedTime</td>
+        <td>
+          ai</td>
+      </tr>
+      <tr>
+        <td align="center" colspan="7">
+          <b>Parameters for each signal N.
+            <br />
+            Parameter Definitions in NDPluginTimeSeries.h and EPICS Record Definitions in ADCSimDetectorN.template</b>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          P_Amplitude</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The amplitude of this signal.</td>
+        <td>
+          SIM_AMPLITUDE</td>
+        <td>
+          $(P)$(R)Amplitude</td>
+        <td>
+          ao</td>
+      </tr>
+      <tr>
+        <td>
+          P_Offset</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The offset of this signal.</td>
+        <td>
+          SIM_OFFSET</td>
+        <td>
+          $(P)$(R)Offset</td>
+        <td>
+          ao</td>
+      </tr>
+      <tr>
+        <td>
+          P_Phase</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The phase of the signal in degrees.</td>
+        <td>
+          SIM_PHASE</td>
+        <td>
+          $(P)$(R)Phase</td>
+        <td>
+          ao</td>
+      </tr>
+      <tr>
+        <td>
+          P_Noise</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The noise of this signal. This value is multipled by a random number between -1
+          and 1 for each time point.</td>
+        <td>
+          SIM_NOISE</td>
+        <td>
+          $(P)$(R)Noise</td>
+        <td>
+          ao</td>
+      </tr>
+      <tr>
+        <td>
+          P_Period</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The period of this signal. The frequency is calculated from the period.</td>
+        <td>
+          SIM_PERIOD</td>
+        <td>
+          $(P)$(R)Period</td>
+        <td>
+          ao</td>
+      </tr>
+      <tr>
+        <td>
+          P_Frequency</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/o</td>
+        <td>
+          The frequency of this signal, calculated from the period.</td>
+        <td>
+          SIM_FREQUENCY</td>
+        <td>
+          $(P)$(R)Frequency</td>
+        <td>
+          ai</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2 id="Configuration">
+    Configuration</h2>
+  <p>
+    The ADCimDetector driver is created with the ADCimDetectorConfig command, either
+    from C/C++ or from the EPICS IOC shell.</p>
+  <pre>int ADCSimDetectorConfig(const char *portName,
+                      int numTimePoints, int dataType,
+                      int maxBuffers, size_t maxMemory,
+                      int priority, int stackSize)
+  </pre>
+  <p>
+    The simDetector-specific fields in this command are:</p>
+  <ul>
+    <li><code>numTimePoints</code> Initial number of time points.</li>
+    <li><code>dataType</code> Initial data type of the detector data. These are the enum
+      values for NDDataType_t, i.e.
+      <ul>
+        <li>0=NDInt8</li>
+        <li>1=NDUInt8</li>
+        <li>2=NDInt16</li>
+        <li>3=NDUInt16</li>
+        <li>4=NDInt32</li>
+        <li>5=NDUInt32</li>
+        <li>6=NDFloat32</li>
+        <li>7=NDFloat64</li>
+      </ul>
+    </li>
+  </ul>
+  <p>
+    For details on the meaning of the other parameters to this function refer to the
+    detailed documentation on the simDetectorConfig function in the <a href="areaDetectorDoxygenHTML/_a_d_c_sim_detector_8cpp.html">
+      ADCSimDetector.cpp documentation</a> and in the documentation for the constructor
+    for the <a href="areaDetectorDoxygenHTML/class_a_d_c_sim_detector.html">ADCSimDetector
+      class</a>.
+  </p>
+  <p>
+    There an example IOC boot directory and startup script (<a href="ADCSimdetector_st_cmd.html">iocBoot/iocADCSimDetector/st.cmd)</a>
+    provided with ADExample.
+  </p>
+  <h2 id="MEDM_screens">
+    MEDM screens</h2>
+  <p>
+    The following is the MEDM screen simDetector.adl for the simulation detector.
+  </p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h3>
+      ADCSimDetector.adl</h3>
+    <img alt="ADCSimDetector.png" src="ADCSimDetector.png" />
+  </div>
+  <p>
+    The NDPluginTimeSeries is used to collect the time series data from the ADCSimDetector,
+    perform optional averaging. In this case it is being used in circular buffer mode.
+    The NDArrays it produces are being used by the NDPluginFFT plugin to compute Fast
+    Fourier Transforms.
+  </p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h3>
+      NDPluginTimeSeries.adl</h3>
+    <img alt="ADCSimDetectorTimeSeriesPlugin.png" src="ADCSimDetectorTimeSeriesPlugin.png" />
+  </div>
+  <p>
+    This is a plot for the sin(x)*cos(x) output. This screen contains some of the controls
+    for the time series plugin.
+  </p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h3>
+      NDTimeSeriesPlot.adl</h3>
+    <img alt="ADCSimDetectorSinCosPlot.png" src="ADCSimDetectorSinCosPlot.png" />
+  </div>
+  <p>
+    This is a combined plot for the square wave output. It contains the time-series
+    data, as well as the real, imaginary, and absolute value of the FFT. Note that the
+    square wave FFT contains the fundamental frequency of 5 Hz, and all of the odd harmonics.
+  </p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h3>
+      NDPluginTimeSeries.adl</h3>
+    <img alt="ADCSimDetectorSquareWavePlotAll.png" src="ADCSimDetectorSquareWavePlotAll.png" />
+  </div>
+</body>
+</html>

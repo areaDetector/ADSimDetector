@@ -33,6 +33,11 @@
 
 static const char *driverName = "simDetector";
 
+/* Some systems don't define M_PI in math.h */
+#ifndef M_PI
+  #define M_PI 3.14159265358979323846
+#endif
+
 /** Template function to compute the simulated detector data for any data type */
 template <typename epicsType> int simDetector::computeArray(int sizeX, int sizeY)
 {
@@ -46,6 +51,9 @@ template <typename epicsType> int simDetector::computeArray(int sizeX, int sizeY
             break;
         case SimModePeaks:
             status = computePeaksArray<epicsType>(sizeX, sizeY);
+            break;
+        case SimModeSine:
+            status = computeSineArray<epicsType>(sizeX, sizeY);
             break;
     }
     return status;
@@ -81,31 +89,31 @@ template <typename epicsType> int simDetector::computeLinearRampArray(int sizeX,
 
     switch (colorMode) {
         case NDColorModeMono:
-            pMono = (epicsType *)this->pRaw->pData;
+            pMono = (epicsType *)pRaw_->pData;
             break;
         case NDColorModeRGB1:
             columnStep = 3;
             rowStep = 0;
-            pRed   = (epicsType *)this->pRaw->pData;
-            pGreen = (epicsType *)this->pRaw->pData+1;
-            pBlue  = (epicsType *)this->pRaw->pData+2;
+            pRed   = (epicsType *)pRaw_->pData;
+            pGreen = (epicsType *)pRaw_->pData+1;
+            pBlue  = (epicsType *)pRaw_->pData+2;
             break;
         case NDColorModeRGB2:
             columnStep = 1;
             rowStep = 2 * sizeX;
-            pRed   = (epicsType *)this->pRaw->pData;
-            pGreen = (epicsType *)this->pRaw->pData + sizeX;
-            pBlue  = (epicsType *)this->pRaw->pData + 2*sizeX;
+            pRed   = (epicsType *)pRaw_->pData;
+            pGreen = (epicsType *)pRaw_->pData + sizeX;
+            pBlue  = (epicsType *)pRaw_->pData + 2*sizeX;
             break;
         case NDColorModeRGB3:
             columnStep = 1;
             rowStep = 0;
-            pRed   = (epicsType *)this->pRaw->pData;
-            pGreen = (epicsType *)this->pRaw->pData + sizeX*sizeY;
-            pBlue  = (epicsType *)this->pRaw->pData + 2*sizeX*sizeY;
+            pRed   = (epicsType *)pRaw_->pData;
+            pGreen = (epicsType *)pRaw_->pData + sizeX*sizeY;
+            pBlue  = (epicsType *)pRaw_->pData + 2*sizeX*sizeY;
             break;
     }
-    this->pRaw->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
+    pRaw_->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
 
     if (resetImage) {
         for (i=0; i<sizeY; i++) {
@@ -199,22 +207,22 @@ template <typename epicsType> int simDetector::computePeaksArray(int sizeX, int 
 
        switch (colorMode) {
         case NDColorModeMono:
-            pMono = (epicsType *)this->pRaw->pData;
+            pMono = (epicsType *)pRaw_->pData;
             break;
         case NDColorModeRGB1:
             columnStep = 3;
-            pRed   = (epicsType *)this->pRaw->pData;
+            pRed   = (epicsType *)pRaw_->pData;
             break;
         case NDColorModeRGB2:
             columnStep = 1;
-            pRed   = (epicsType *)this->pRaw->pData;
+            pRed   = (epicsType *)pRaw_->pData;
             break;
         case NDColorModeRGB3:
             columnStep = 1;
-            pRed   = (epicsType *)this->pRaw->pData;
+            pRed   = (epicsType *)pRaw_->pData;
             break;
     }
-    this->pRaw->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
+    pRaw_->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
     switch (colorMode) {
         case NDColorModeMono:
             // Clear the Image
@@ -335,6 +343,155 @@ template <typename epicsType> int simDetector::computePeaksArray(int sizeX, int 
     return status;
 }
 
+/** Template function to compute the simulated detector data for any data type */
+template <typename epicsType> int simDetector::computeSineArray(int sizeX, int sizeY)
+{
+    epicsType *pMono=NULL, *pRed=NULL, *pGreen=NULL, *pBlue=NULL;
+    int columnStep=0, rowStep=0, colorMode;
+    int status = asynSuccess;
+    int xSineOperation, ySineOperation;   
+    double exposureTime, gain, gainX, gainY, gainRed, gainGreen, gainBlue;
+    double sineOffset, sineNoise;
+    double xSine1Amplitude, xSine1Frequency, xSine1Phase;
+    double xSine2Amplitude, xSine2Frequency, xSine2Phase;
+    double ySine1Amplitude, ySine1Frequency, ySine1Phase;
+    double ySine2Amplitude, ySine2Frequency, ySine2Phase;
+    double rndm;
+    double xTime, yTime;
+    int resetImage;
+    int i, j;
+
+    status = getDoubleParam (ADGain,            &gain);
+    status = getDoubleParam (SimGainX,          &gainX);
+    status = getDoubleParam (SimGainY,          &gainY);
+    status = getDoubleParam (SimGainRed,        &gainRed);
+    status = getDoubleParam (SimGainGreen,      &gainGreen);
+    status = getDoubleParam (SimGainBlue,       &gainBlue);
+    status = getIntegerParam(SimResetImage,     &resetImage);
+    status = getIntegerParam(NDColorMode,       &colorMode);
+    status = getDoubleParam (ADAcquireTime,     &exposureTime);
+    status = getDoubleParam(SimSineOffset,      &sineOffset);
+    status = getDoubleParam(SimSineNoise,       &sineNoise);
+    status = getIntegerParam(SimXSineOperation, &xSineOperation);
+    status = getDoubleParam(SimXSine1Amplitude, &xSine1Amplitude);
+    status = getDoubleParam(SimXSine1Frequency, &xSine1Frequency);
+    status = getDoubleParam(SimXSine1Phase,     &xSine1Phase);
+    status = getDoubleParam(SimXSine2Amplitude, &xSine2Amplitude);
+    status = getDoubleParam(SimXSine2Frequency, &xSine2Frequency);
+    status = getDoubleParam(SimXSine2Phase,     &xSine2Phase);
+    status = getIntegerParam(SimYSineOperation, &ySineOperation);
+    status = getDoubleParam(SimYSine1Amplitude, &ySine1Amplitude);
+    status = getDoubleParam(SimYSine1Frequency, &ySine1Frequency);
+    status = getDoubleParam(SimYSine1Phase,     &ySine1Phase);
+    status = getDoubleParam(SimYSine2Amplitude, &ySine2Amplitude);
+    status = getDoubleParam(SimYSine2Frequency, &ySine2Frequency);
+    status = getDoubleParam(SimYSine2Phase,     &ySine2Phase);
+
+    switch (colorMode) {
+        case NDColorModeMono:
+            pMono = (epicsType *)pRaw_->pData;
+            break;
+        case NDColorModeRGB1:
+            columnStep = 3;
+            rowStep = 0;
+            pRed   = (epicsType *)pRaw_->pData;
+            pGreen = (epicsType *)pRaw_->pData+1;
+            pBlue  = (epicsType *)pRaw_->pData+2;
+            break;
+        case NDColorModeRGB2:
+            columnStep = 1;
+            rowStep = 2 * sizeX;
+            pRed   = (epicsType *)pRaw_->pData;
+            pGreen = (epicsType *)pRaw_->pData + sizeX;
+            pBlue  = (epicsType *)pRaw_->pData + 2*sizeX;
+            break;
+        case NDColorModeRGB3:
+            columnStep = 1;
+            rowStep = 0;
+            pRed   = (epicsType *)pRaw_->pData;
+            pGreen = (epicsType *)pRaw_->pData + sizeX*sizeY;
+            pBlue  = (epicsType *)pRaw_->pData + 2*sizeX*sizeY;
+            break;
+    }
+    pRaw_->pAttributeList->add("ColorMode", "Color mode", NDAttrInt32, &colorMode);
+
+    if (resetImage) {
+      if (xSine1_) free(xSine1_);
+      if (xSine2_) free(xSine2_);
+      if (ySine1_) free(ySine1_);
+      if (ySine2_) free(ySine2_);
+      xSine1_ = (double *)calloc(sizeX, sizeof(double));
+      xSine2_ = (double *)calloc(sizeX, sizeof(double));
+      ySine1_ = (double *)calloc(sizeY, sizeof(double));
+      ySine2_ = (double *)calloc(sizeY, sizeof(double));
+      xSineCounter_ = 0;
+      ySineCounter_ = 0;
+    } 
+    
+    for (i=0; i<sizeX; i++) {
+        xTime = xSineCounter_++ * gainX / sizeX;
+        xSine1_[i] = xSine1Amplitude * sin((xTime  * xSine1Frequency + xSine1Phase/360.) * 2. * M_PI);
+        xSine2_[i] = xSine2Amplitude * sin((xTime  * xSine2Frequency + xSine2Phase/360.) * 2. * M_PI);
+    }
+    for (i=0; i<sizeY; i++) {
+        yTime = ySineCounter_++ * gainY / sizeY;
+        ySine1_[i] = ySine1Amplitude * sin((yTime  * ySine1Frequency + ySine1Phase/360.) * 2. * M_PI);
+        ySine2_[i] = ySine2Amplitude * sin((yTime  * ySine2Frequency + ySine2Phase/360.) * 2. * M_PI);
+    }                             
+    
+    if (colorMode == NDColorModeMono) {
+        if (xSineOperation == SimSineOperationAdd) {
+            for (i=0; i<sizeX; i++) {
+                xSine1_[i] = xSine1_[i] + xSine2_[i];
+            }
+        }
+        else {
+            for (i=0; i<sizeX; i++) {
+                xSine1_[i] = xSine1_[i] * xSine2_[i];
+            }
+        }
+        if (ySineOperation == SimSineOperationAdd) {
+            for (i=0; i<sizeY; i++) {
+                ySine1_[i] = ySine1_[i] + ySine2_[i];
+            }
+        }
+        else {
+            for (i=0; i<sizeY; i++) {
+                ySine1_[i] = ySine1_[i] * ySine2_[i];
+            }
+        }
+    }
+    for (i=0; i<sizeY; i++) {
+        switch (colorMode) {
+            case NDColorModeMono:
+                for (j=0; j<sizeX; j++) {
+                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
+                    *pMono++ = (epicsType) (gain * (sineOffset + sineNoise*rndm + ySine1_[i] + xSine1_[j]));
+                }
+                break;
+            case NDColorModeRGB1:
+            case NDColorModeRGB2:
+            case NDColorModeRGB3:
+                for (j=0; j<sizeX; j++) {
+                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
+                    *pRed   = (epicsType)(gain * gainRed   * (sineOffset + sineNoise*rndm + xSine1_[j]));
+                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
+                    *pGreen = (epicsType)(gain * gainGreen * (sineOffset + sineNoise*rndm + ySine1_[i]));
+                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
+                    *pBlue  = (epicsType)(gain * gainBlue  * (sineOffset + sineNoise*rndm + (xSine2_[j] + ySine2_[i])/2.));
+                    pRed   += columnStep;
+                    pGreen += columnStep;
+                    pBlue  += columnStep;
+                }
+                pRed   += rowStep;
+                pGreen += rowStep;
+                pBlue  += rowStep;
+                break;
+        }
+    }
+    return(status);
+}
+
 /** Controls the shutter */
 void simDetector::setShutter(int open)
 {
@@ -449,14 +606,14 @@ int simDetector::computeImage()
 
     if (resetImage) {
     /* Free the previous raw buffer */
-        if (this->pRaw) this->pRaw->release();
+        if (pRaw_) pRaw_->release();
         /* Allocate the raw buffer we use to compute images. */
         dims[xDim] = maxSizeX;
         dims[yDim] = maxSizeY;
         if (ndims > 2) dims[colorDim] = 3;
-        this->pRaw = this->pNDArrayPool->alloc(ndims, dims, dataType, 0, NULL);
+        pRaw_ = this->pNDArrayPool->alloc(ndims, dims, dataType, 0, NULL);
 
-        if (!this->pRaw) {
+        if (!pRaw_) {
             asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
                       "%s:%s: error allocating raw buffer\n",
                       driverName, functionName);
@@ -494,9 +651,9 @@ int simDetector::computeImage()
     /* Extract the region of interest with binning.
      * If the entire image is being used (no ROI or binning) that's OK because
      * convertImage detects that case and is very efficient */
-    this->pRaw->initDimension(&dimsOut[xDim], sizeX);
-    this->pRaw->initDimension(&dimsOut[yDim], sizeY);
-    if (ndims > 2) this->pRaw->initDimension(&dimsOut[colorDim], 3);
+    pRaw_->initDimension(&dimsOut[xDim], sizeX);
+    pRaw_->initDimension(&dimsOut[yDim], sizeY);
+    if (ndims > 2) pRaw_->initDimension(&dimsOut[colorDim], 3);
     dimsOut[xDim].binning = binX;
     dimsOut[xDim].offset  = minX;
     dimsOut[xDim].reverse = reverseX;
@@ -506,7 +663,7 @@ int simDetector::computeImage()
     /* We save the most recent image buffer so it can be used in the read() function.
      * Now release it before getting a new version. */
     if (this->pArrays[0]) this->pArrays[0]->release();
-    status = this->pNDArrayPool->convert(this->pRaw,
+    status = this->pNDArrayPool->convert(pRaw_,
                                          &this->pArrays[0],
                                          dataType,
                                          dimsOut);
@@ -561,7 +718,7 @@ void simDetector::simTask()
             asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
                 "%s:%s: waiting for acquire to start\n", driverName, functionName);
             this->unlock();
-            status = epicsEventWait(this->startEventId);
+            status = epicsEventWait(startEventId_);
             this->lock();
             acquire = 1;
             setStringParam(ADStatusMessage, "Acquiring data");
@@ -590,10 +747,10 @@ void simDetector::simTask()
 
         if (acquireTime > 0.0) {
             this->unlock();
-            status = epicsEventWaitWithTimeout(this->stopEventId, acquireTime);
+            status = epicsEventWaitWithTimeout(stopEventId_, acquireTime);
             this->lock();
         } else {
-            status = epicsEventTryWait(this->stopEventId);
+            status = epicsEventTryWait(stopEventId_);
         }        
         if (status == epicsEventWaitOK) {
             acquire = 0;
@@ -682,7 +839,7 @@ void simDetector::simTask()
             setIntegerParam(ADStatus, ADStatusWaiting);
             callParamCallbacks();
             this->unlock();
-            status = epicsEventWaitWithTimeout(this->stopEventId, delay);
+            status = epicsEventWaitWithTimeout(stopEventId_, delay);
             this->lock();
             if (status == epicsEventWaitOK) {
               acquire = 0;
@@ -741,12 +898,12 @@ asynStatus simDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
         if (value && !acquiring) {
             /* Send an event to wake up the simulation task.
              * It won't actually start generating new images until we release the lock below */
-            epicsEventSignal(this->startEventId); 
+            epicsEventSignal(startEventId_); 
         }
         if (!value && acquiring) {
             /* This was a command to stop acquisition */
             /* Send the stop event */
-            epicsEventSignal(this->stopEventId); 
+            epicsEventSignal(stopEventId_); 
         }
     } else if ((function == NDDataType) || 
                (function == NDColorMode) ||
@@ -857,43 +1014,59 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
                0, 0, /* No interfaces beyond those set in ADDriver.cpp */
                0, 1, /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
                priority, stackSize),
-      pRaw(NULL)
+      pRaw_(NULL), xSine1_(0), xSine2_(0), ySine1_(0), ySine2_(0)
 
 {
     int status = asynSuccess;
     const char *functionName = "simDetector";
 
     /* Create the epicsEvents for signaling to the simulate task when acquisition starts and stops */
-    this->startEventId = epicsEventCreate(epicsEventEmpty);
-    if (!this->startEventId) {
+    startEventId_ = epicsEventCreate(epicsEventEmpty);
+    if (!startEventId_) {
         printf("%s:%s epicsEventCreate failure for start event\n",
             driverName, functionName);
         return;
     }
-    this->stopEventId = epicsEventCreate(epicsEventEmpty);
-    if (!this->stopEventId) {
+    stopEventId_ = epicsEventCreate(epicsEventEmpty);
+    if (!stopEventId_) {
         printf("%s:%s epicsEventCreate failure for stop event\n",
             driverName, functionName);
         return;
     }
 
-    createParam(SimGainXString,       asynParamFloat64, &SimGainX);
-    createParam(SimGainYString,       asynParamFloat64, &SimGainY);
-    createParam(SimGainRedString,     asynParamFloat64, &SimGainRed);
-    createParam(SimGainGreenString,   asynParamFloat64, &SimGainGreen);
-    createParam(SimGainBlueString,    asynParamFloat64, &SimGainBlue);
-    createParam(SimNoiseString,       asynParamInt32,   &SimNoise);
-    createParam(SimResetImageString,  asynParamInt32,   &SimResetImage);
-    createParam(SimModeString,        asynParamInt32,   &SimMode);
-    createParam(SimPeakNumXString,    asynParamInt32,   &SimPeakNumX);
-    createParam(SimPeakNumYString,    asynParamInt32,   &SimPeakNumY);
-    createParam(SimPeakStepXString,   asynParamInt32,   &SimPeakStepX);
-    createParam(SimPeakStepYString,   asynParamInt32,   &SimPeakStepY);
-    createParam(SimPeakStartXString,  asynParamInt32,   &SimPeakStartX);
-    createParam(SimPeakStartYString,  asynParamInt32,   &SimPeakStartY);
-    createParam(SimPeakWidthXString,  asynParamInt32,   &SimPeakWidthX);
-    createParam(SimPeakWidthYString,  asynParamInt32,   &SimPeakWidthY);
-    createParam(SimPeakHeightVariationString,  asynParamInt32,   &SimPeakHeightVariation);
+    createParam(SimGainXString,               asynParamFloat64, &SimGainX);
+    createParam(SimGainYString,               asynParamFloat64, &SimGainY);
+    createParam(SimGainRedString,             asynParamFloat64, &SimGainRed);
+    createParam(SimGainGreenString,           asynParamFloat64, &SimGainGreen);
+    createParam(SimGainBlueString,            asynParamFloat64, &SimGainBlue);
+    createParam(SimNoiseString,               asynParamInt32,   &SimNoise);
+    createParam(SimResetImageString,          asynParamInt32,   &SimResetImage);
+    createParam(SimModeString,                asynParamInt32,   &SimMode);
+    createParam(SimPeakNumXString,            asynParamInt32,   &SimPeakNumX);
+    createParam(SimPeakNumYString,            asynParamInt32,   &SimPeakNumY);
+    createParam(SimPeakStepXString,           asynParamInt32,   &SimPeakStepX);
+    createParam(SimPeakStepYString,           asynParamInt32,   &SimPeakStepY);
+    createParam(SimPeakStartXString,          asynParamInt32,   &SimPeakStartX);
+    createParam(SimPeakStartYString,          asynParamInt32,   &SimPeakStartY);
+    createParam(SimPeakWidthXString,          asynParamInt32,   &SimPeakWidthX);
+    createParam(SimPeakWidthYString,          asynParamInt32,   &SimPeakWidthY);
+    createParam(SimPeakHeightVariationString, asynParamInt32,   &SimPeakHeightVariation);
+    createParam(SimSineOffsetString,          asynParamFloat64, &SimSineOffset);
+    createParam(SimSineNoiseString,           asynParamFloat64, &SimSineNoise);
+    createParam(SimXSineOperationString,      asynParamInt32,   &SimXSineOperation);
+    createParam(SimYSineOperationString,      asynParamInt32,   &SimYSineOperation);
+    createParam(SimXSine1AmplitudeString,     asynParamFloat64, &SimXSine1Amplitude);
+    createParam(SimXSine1FrequencyString,     asynParamFloat64, &SimXSine1Frequency);
+    createParam(SimXSine1PhaseString,         asynParamFloat64, &SimXSine1Phase);
+    createParam(SimXSine2AmplitudeString,     asynParamFloat64, &SimXSine2Amplitude);
+    createParam(SimXSine2FrequencyString,     asynParamFloat64, &SimXSine2Frequency);
+    createParam(SimXSine2PhaseString,         asynParamFloat64, &SimXSine2Phase);
+    createParam(SimYSine1AmplitudeString,     asynParamFloat64, &SimYSine1Amplitude);
+    createParam(SimYSine1FrequencyString,     asynParamFloat64, &SimYSine1Frequency);
+    createParam(SimYSine1PhaseString,         asynParamFloat64, &SimYSine1Phase);
+    createParam(SimYSine2AmplitudeString,     asynParamFloat64, &SimYSine2Amplitude);
+    createParam(SimYSine2FrequencyString,     asynParamFloat64, &SimYSine2Frequency);
+    createParam(SimYSine2PhaseString,         asynParamFloat64, &SimYSine2Phase);
 
     /* Set some default values for parameters */
     status =  setStringParam (ADManufacturer, "Simulated detector");
