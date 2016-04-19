@@ -75,6 +75,15 @@ NDStdArraysConfigure("Image2", 3, 0, "FFT1", 0)
 dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image2:,PORT=Image2,ADDR=0,TIMEOUT=1,NDARRAY_PORT=SIM2,TYPE=Float64,FTVL=DOUBLE,NELEMENTS=12000000")
 
 
+# Creates EPICS v4 plugins to serve data as a V4 PV carrying NTNDArrays for both detectors
+# NDPvaConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr,
+#                pvName, maxMemory, priority, stackSize)
+#NDPvaConfigure("Pva1", 3, 0, "$(PORT)", 0, "$(PREFIX)pva1:Image")
+#dbLoadRecords("NDPva.template", "P=$(PREFIX),R=pva1:,PORT=Pva1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NDARRAY_ADDR=0")
+
+#NDPvaConfigure("Pva2", 3, 0, "SIM2", 0, "$(PREFIX)pva2:Image")
+#dbLoadRecords("NDPva.template", "P=$(PREFIX),R=pva2:,PORT=Pva2,ADDR=0,TIMEOUT=1,NDARRAY_PORT=SIM2,NDARRAY_ADDR=0")
+
 # Load all other plugins using commonPlugins.cmd
 < $(ADCORE)/iocBoot/commonPlugins.cmd
 set_requestfile_path("$(ADEXAMPLE)/exampleApp/Db")
