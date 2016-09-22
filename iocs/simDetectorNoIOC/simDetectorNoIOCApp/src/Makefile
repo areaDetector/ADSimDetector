@@ -11,7 +11,9 @@ CODE_CXXFLAGS=
 endif
 
 PROD_IOC_Linux  += simDetectorNoIOCApp
-PROD_IOC_WIN32  += simDetectorNoIOCApp
+ifneq (mingw, $(findstring mingw, $(T_A)))
+  PROD_IOC_WIN32  += simDetectorNoIOCApp
+endif
 PROD_IOC_Darwin  += simDetectorNoIOCApp
 PROD_SRCS += simDetectorNoIOC.cpp
 
