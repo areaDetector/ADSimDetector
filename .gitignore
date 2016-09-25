@@ -6,8 +6,8 @@ dbd
 *_BAK.adl
 documentation.html
 envPaths*
-cdCommands
-dllPath.bat
+cdCommands*
+dllPath*
 auto_settings.sav*
 configure/*.local
 O.*/
