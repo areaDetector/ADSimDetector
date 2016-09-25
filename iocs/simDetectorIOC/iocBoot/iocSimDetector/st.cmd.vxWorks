@@ -1,5 +1,5 @@
 # vxWorks startup file
-< cdCommands
+< cdCommands.vxWorks
 
 # Set the UNIX uid/gid to the EPICS account
 nfsAuthUnixSet("corvette",401,400,0,0)
