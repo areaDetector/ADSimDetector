@@ -7,7 +7,7 @@ ifneq ($(EPICS_LIBCOM_ONLY),YES)
   DIRS += simDetectorIOC
 endif
 
-ifeq ($(EPICS_V4),YES)
+ifeq ($(WITH_EPICS_V4),YES)
   DIRS += pvaDriverIOC
 endif
 
