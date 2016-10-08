@@ -10,7 +10,7 @@
     <h1 style="text-align: center">
       areaDetector Simulation driver</h1>
     <h2>
-      March 19, 2016</h2>
+      October 8, 2016</h2>
     <h2>
       Mark Rivers and John Hammonds</h2>
     <h2>
@@ -23,7 +23,6 @@
   <ul>
     <li><a href="#Introduction">Introduction</a></li>
     <li><a href="#Driver_parameters">Simulation driver specific parameters</a></li>
-    <li><a href="#Unsupported">Unsupported standard driver parameters</a></li>
     <li><a href="#SimModes">Simulation modes</a>
       <ol>
         <li><a href="#LinearRamp">Linear ramp</a></li>
@@ -31,9 +30,9 @@
         <li><a href="#Sine">Sums or products of sine waves</a></li>
       </ol>
     </li>
+    <li><a href="#Unsupported">Unsupported standard driver parameters</a></li>
     <li><a href="#Configuration">Configuration</a></li>
-    <li><a href="#MEDM_screens">MEDM screens</a></li>
-    <li><a href="#Viewers">Image viewers</a></li>
+    <li><a href="#Screens">Screen shots</a></li>
   </ul>
   <h2 id="Introduction">
     Introduction</h2>
@@ -713,8 +712,8 @@
     There an example IOC boot directory and startup script (<a href="simdetector_st_cmd.html">iocBoot/iocSimDetector/st.cmd)</a>
     provided with areaDetector.
   </p>
-  <h2 id="MEDM_screens">
-    MEDM screens</h2>
+  <h2 id="Screens">
+    Screen shots</h2>
   <p>
     The following is the MEDM screen simDetector.adl for the simulation detector.
   </p>
@@ -722,6 +721,28 @@
     <h3>
       simDetector.adl</h3>
     <img alt="simDetector.png" src="simDetector.png" />
+  </div>
+  <p>
+    The following is an IDL <a href="areaDetectorViewers.html#IDLViewer">epics_ad_display</a>
+    screen using <a href="http://cars.uchicago.edu/software/idl/imaging_routines.html#image_display">
+      image_display</a> to display the simulation detector in monochrome linear ramp
+    mode.
+  </p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h3>
+      IDL epics_ad_display.pro display of simulation detector in monochrome linear ramp
+      mode</h3>
+    <img alt="simDetector_image_display.png" src="simDetector_image_display.png" />
+  </div>
+  <p>
+    The following is an ImageJ plugin <a href="areaDetectorViewers.html#ImageJViewer">
+      EPICS_AD_Viewer</a> screen displaying the simulation detector in color linear
+    ramp mode.
+  </p>
+  <div style="text-align: center; margin-bottom: 2em">
+    <h3>
+      ImageJ EPICS_AD_Viewer display of simulation detector in color linear ramp mode</h3>
+    <img alt="simDetector_ImageJ_display.png" src="simDetector_ImageJ_display.png" />
   </div>
   <p>
     This is an example of the MEDM screen that provides access to the specific parameters
@@ -776,26 +797,27 @@
       ImageJ Y profile with the above complex Sine mode parameters.</h4>
     <img alt="simDetectorYProfileComplexSine.png" src="simDetectorYProfileComplexSine.png" />
   </div>
-  <h2 id="Viewers">
-    Image viewers</h2>
   <p>
-    The following is an IDL <a href="areaDetectorViewers.html#IDLViewer">epics_ad_display</a>
-    screen using <a href="http://cars.uchicago.edu/software/idl/imaging_routines.html#image_display">
-      image_display</a> to display the simulation detector images.
+    This is a example of Sine mode in RGB1 color mode.
   </p>
+  <ul>
+    <li>The red signal is controlled by a horizontal sine wave with a frequency of 2 and
+      a phase of 90 degrees.</li>
+    <li>The green signal is controlled by a vertical sine wave with a frequency of 4 and
+      a phase of 45 degrees.</li>
+    <li>The blue signal is controlled by the sum of sine waves in the horizontal with
+      a frequency of 5 and in the vertical with a frequency of 20.</li>
+  </ul>
   <div style="text-align: center; margin-bottom: 2em">
-    <h3>
-      epics_ad_display.pro</h3>
-    <img alt="simDetector_image_display.png" src="simDetector_image_display.png" />
+    <h4>
+      Simulation setup screen with Sine mode parameters in RGB1 color mode.
+    </h4>
+    <img alt="simDetectorSetupColrSine.png" src="simDetectorSetupColorSine.png" />
   </div>
-  <p>
-    The following is an ImageJ plugin <a href="areaDetectorViewers.html#ImageJViewer">
-      EPICS_AD_Viewer</a> screen displaying color simulation detector images.
-  </p>
   <div style="text-align: center; margin-bottom: 2em">
-    <h3>
-      ImageJ plugin EPICS_AD_Viewer</h3>
-    <img alt="simDetector_ImageJ_display.png" src="simDetector_ImageJ_display.png" />
+    <h4>
+      ImageJ display with the above color Sine mode parameters.</h4>
+    <img alt="simDetectorImageColorSine.png" src="simDetectorImageColorSine.png" />
   </div>
 </body>
 </html>
