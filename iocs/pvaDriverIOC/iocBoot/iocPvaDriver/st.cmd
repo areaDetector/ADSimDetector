@@ -68,3 +68,6 @@ iocInit()
 # Silence a very chatty ASYN_TRACE_FLOW
 # Remove this if performance testing
 #dbpf 13PVA1:cam1:PoolUsedMem.SCAN Passive
+
+# save things every thirty seconds
+create_monitor_set("auto_settings.req", 30, "P=$(PREFIX)")
