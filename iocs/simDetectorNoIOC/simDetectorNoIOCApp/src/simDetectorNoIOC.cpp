@@ -78,6 +78,11 @@ int main(int argc, char **argv)
   asynInt32Client      hdf5WriteMode  =   asynInt32Client("HDF5",   0, NDFileWriteModeString);
   asynInt32Client        hdf5Capture  =   asynInt32Client("HDF5",   0, NDFileCaptureString);
 
+  // Need to start each plugin
+  stats.start();
+  stdArrays.start();
+  fileHDF5.start();
+
   arrayCallbacks.write(1);
   simGain.write(1.0);
   acquireMode.write(ADImageSingle);
