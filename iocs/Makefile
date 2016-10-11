@@ -5,10 +5,10 @@ DIRS += simDetectorNoIOC
 ifneq ($(EPICS_LIBCOM_ONLY),YES)
   DIRS += ADCSimDetectorIOC
   DIRS += simDetectorIOC
-endif
 
-ifeq ($(WITH_EPICS_V4),YES)
-  DIRS += pvaDriverIOC
+  ifeq ($(WITH_EPICS_V4),YES)
+    DIRS += pvaDriverIOC
+  endif
 endif
 
 include $(TOP)/configure/RULES_TOP
