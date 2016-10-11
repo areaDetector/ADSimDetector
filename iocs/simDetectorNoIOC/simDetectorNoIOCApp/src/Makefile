@@ -10,11 +10,13 @@ ifeq (vxWorks,$(findstring vxWorks, $(T_A)))
 CODE_CXXFLAGS=
 endif
 
-PROD_IOC_Linux  += simDetectorNoIOCApp
-ifneq (mingw, $(findstring mingw, $(T_A)))
-  PROD_IOC_WIN32  += simDetectorNoIOCApp
+ifdef EPICS_LIBCOM_ONLY
+  USR_CXXFLAGS += -DEPICS_LIBCOM_ONLY
 endif
-PROD_IOC_Darwin  += simDetectorNoIOCApp
+
+PROD_IOC_Linux  += simDetectorNoIOCApp
+PROD_IOC_WIN32  += simDetectorNoIOCApp
+PROD_IOC_Darwin += simDetectorNoIOCApp
 PROD_SRCS += simDetectorNoIOC.cpp
 
 PROD_LIBS += simDetector
