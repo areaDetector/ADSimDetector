@@ -1,0 +1,7 @@
+<hdf5_layout>
+  <group name="detector">
+    <dataset name="data1" source="detector" det_default="true">
+    </dataset>
+  </group>
+</hdf5_layout>
+
