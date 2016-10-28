@@ -23,7 +23,7 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-2 (March XXX, 2016)
+R2-2 (October 28, 2016)
 ========================
 * Created a new driver in ADExample/exampleApp/ADCSimDetectorSrc.
   This driver generates times-series data for 8 signals as a 2-D array [8, NumTimePoints].
@@ -38,6 +38,9 @@ R2-2 (March XXX, 2016)
 * Added a new sine-wave simulation mode to simDetector.  This simulation mode constructs images
   as the sum or products of two sine waves in the X and Y directions.  It was designed in part
   to test the new NDPluginFFT plugin in ADCore R2-5.
+* Added new iocPvaDriver example IOC.  It implements the new pvaDriver from ADCore R2-5 which
+  receives EPICS V4 NTNDArrays over EPICS V4 PVAccess, converts them to NDArrays and calls
+  areaDetector plugins.
 
 
 R2-1 (January 9, 2016)
