@@ -13,11 +13,17 @@ repository.  ADSimDetector was split into its own repository on Nov. 22, 2016
 and the first release of the new repository was called R2-3 to continue the
 release numbering from ADExample.
 
-Tagged source code releases from R2-0 onward can be obtained at 
+Tagged source code releases from R2-3 onward can be obtained at 
 https://github.com/areaDetector/ADSimDetector/releases.
 
-Tagged prebuilt binaries from R2-0 onward can be obtained at
+Tagged source code releases from R2-0 to R2-2 can be obtained at 
+https://github.com/areaDetector/ADExample/releases.
+
+Tagged prebuilt binaries from R2-3 onward can be obtained at
 http://cars.uchicago.edu/software/pub/ADSimDetector.
+
+Tagged prebuilt binaries from R2-0 to R2-2 onward can be obtained at
+http://cars.uchicago.edu/software/pub/ADExample.
 
 The versions of EPICS base, asyn, and other synApps modules used for each release can be obtained from 
 the EXAMPLE_RELEASE_PATHS.local, EXAMPLE_RELEASE_LIBS.local, and EXAMPLE_RELEASE_PRODS.local
