@@ -1,5 +1,5 @@
 ADSimDetector Releases
-===============
+======================
 
 The latest untagged master branch can be obtained at
 https://github.com/areaDetector/ADSimDetector.
