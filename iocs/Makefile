@@ -3,12 +3,7 @@ include $(TOP)/configure/CONFIG
 
 DIRS += simDetectorNoIOC
 ifneq ($(EPICS_LIBCOM_ONLY),YES)
-  DIRS += ADCSimDetectorIOC
   DIRS += simDetectorIOC
-
-  ifeq ($(WITH_EPICS_V4),YES)
-    DIRS += pvaDriverIOC
-  endif
 endif
 
 include $(TOP)/configure/RULES_TOP
