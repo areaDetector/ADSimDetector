@@ -1018,6 +1018,7 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
 
 {
     int status = asynSuccess;
+    char versionString[20];
     const char *functionName = "simDetector";
 
     /* Create the epicsEvents for signaling to the simulate task when acquisition starts and stops */
@@ -1071,6 +1072,13 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
     /* Set some default values for parameters */
     status =  setStringParam (ADManufacturer, "Simulated detector");
     status |= setStringParam (ADModel, "Basic simulator");
+    epicsSnprintf(versionString, sizeof(versionString), "%d.%d.%d", 
+                  DRIVER_VERSION, DRIVER_REVISION, DRIVER_MODIFICATION);
+    setStringParam(NDDriverVersion, versionString);
+    setStringParam(ADSDKVersion, versionString);
+    setStringParam(ADSerialNumber, "No serial number");
+    setStringParam(ADFirmwareVersion, "No firmware");
+
     status |= setIntegerParam(ADMaxSizeX, maxSizeX);
     status |= setIntegerParam(ADMaxSizeY, maxSizeY);
     status |= setIntegerParam(ADMinX, 0);
