@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel-AD2.0/areaDetector-2-0/ADCore/ADApp/op/adl/simDetector.adl"
+	name="/home/epics/devel/areaDetector-2-5/ADSimDetector/simDetectorApp/op/adl/simDetector.adl"
 	version=030107
 }
 display {
@@ -8,7 +8,7 @@ display {
 		x=144
 		y=119
 		width=715
-		height=735
+		height=850
 	}
 	clr=14
 	bclr=4
@@ -155,7 +155,7 @@ composite {
 		x=5
 		y=35
 		width=350
-		height=215
+		height=340
 	}
 	"composite name"=""
 	"composite file"="ADSetup.adl"
@@ -163,7 +163,7 @@ composite {
 composite {
 	object {
 		x=5
-		y=340
+		y=465
 		width=350
 		height=380
 	}
@@ -193,7 +193,7 @@ composite {
 composite {
 	object {
 		x=5
-		y=255
+		y=380
 		width=350
 		height=80
 	}
