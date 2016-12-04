@@ -34,6 +34,12 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-4 (December XXX, 2016)
+========================
+* Add new parameters ADSerialNumber, ADFirmwareVersion, ADSDKVersion. Minor change to
+  driver and medm screen.
+
+  
 R2-3 (November 22, 2016)
 ========================
 * ADSimDetector was split into its own repository from ADExample.  The release numbering
