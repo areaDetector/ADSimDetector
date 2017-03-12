@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 
   simDetector                   simD  =       simDetector("SIM1", 1024, 1024, NDUInt8, 0, 0, 0, 0);
   NDPluginStats                stats  =     NDPluginStats("STATS1", 20, 0, "SIM1", 0, 0, 0, 0, 0);
-  NDPluginStdArrays        stdArrays  = NDPluginStdArrays("STD1",   20, 0, "SIM1", 0, 0, 0, 0);
+  NDPluginStdArrays        stdArrays  = NDPluginStdArrays("STD1",   20, 0, "SIM1", 0, 0, 0, 0, 0);
   NDFileHDF5                fileHDF5  =        NDFileHDF5("HDF5",   20, 0, "SIM1", 0, 0, 0);
   asynInt32Client            acquire  =   asynInt32Client("SIM1",   0, ADAcquireString);
   asynInt32Client        acquireMode  =   asynInt32Client("SIM1",   0, ADImageModeString);
