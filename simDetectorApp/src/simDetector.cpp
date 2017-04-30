@@ -1006,7 +1006,7 @@ void simDetector::report(FILE *fp, int details)
 simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDataType_t dataType,
                          int maxBuffers, size_t maxMemory, int priority, int stackSize)
 
-    : ADDriver(portName, 1, NUM_SIM_DETECTOR_PARAMS, maxBuffers, maxMemory,
+    : ADDriver(portName, 1, 0, maxBuffers, maxMemory,
                0, 0, /* No interfaces beyond those set in ADDriver.cpp */
                0, 1, /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
                priority, stackSize),
