@@ -22,5 +22,3 @@
     <Attribute name="Ten"                 type="FUNCTION" source="myAttrFunct1"                 param="10"            description="Value 10"/>
     <Attribute name="Gettysburg"          type="FUNCTION" source="myAttrFunct1"                 param="GETTYSBURG"    description="Start of Gettysburg address"/>
 </Attributes>
-    
-    
