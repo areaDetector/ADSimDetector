@@ -34,6 +34,14 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-5 (May 5, 2017)
+========================
+* Removed parameter counting from driver, not needed with asyn R4-31.
+* Added room for new PVs for attribute file status and macros in medm screen.
+* Moved NDPluginFFT loading from this IOC to EXAMPLE_commonPlugins.cmd.
+* Added new required maxBuffers argument when creating NDPluginStdArrays in simDetectorNoIOC.cpp.
+
+
 R2-4 (February 21, 2017)
 ========================
 * Add new parameters ADSerialNumber, ADFirmwareVersion, ADSDKVersion. Minor change to
