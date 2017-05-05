@@ -11,14 +11,16 @@ epicsEnvSet("PREFIX", "13SIM1:")
 epicsEnvSet("PORT",   "SIM1")
 # The queue size for all plugins
 epicsEnvSet("QSIZE",  "20")
-# The maximim image width; used to set the maximum size for this driver and for row profiles in the NDPluginStats plugin
+# The maximum image width; used to set the maximum size for this driver and for row profiles in the NDPluginStats plugin
 epicsEnvSet("XSIZE",  "1024")
-# The maximim image height; used to set the maximum size for this driver and for column profiles in the NDPluginStats plugin
+# The maximum image height; used to set the maximum size for this driver and for column profiles in the NDPluginStats plugin
 epicsEnvSet("YSIZE",  "1024")
 # The maximum number of time series points in the NDPluginStats plugin
 epicsEnvSet("NCHANS", "2048")
 # The maximum number of frames buffered in the NDPluginCircularBuff plugin
 epicsEnvSet("CBUFFS", "500")
+# The maximum number of threads for plugins which can run in multiple threads
+epicsEnvSet("MAX_THREADS", "8")
 # The search path for database files
 epicsEnvSet("EPICS_DB_INCLUDE_PATH", "$(ADCORE)/db")
 
@@ -65,10 +67,6 @@ dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,
 #dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image1:,PORT=Image1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),TYPE=Float64,FTVL=DOUBLE,NELEMENTS=12000000")
 # This waveform allows transporting 64-bit images, so it can handle any detector data type at the expense of more memory and bandwidth
 dbLoadRecords("NDStdArrays.template", "P=$(PREFIX),R=image2:,PORT=Image2,ADDR=0,TIMEOUT=1,NDARRAY_PORT=SIM2,TYPE=Float64,FTVL=DOUBLE,NELEMENTS=12000000")
-
-# Create an FFT plugin
-NDFFTConfigure("FFT1", 3, 0, "$(PORT)", 0, 0, 0, 0, 0, 5)
-dbLoadRecords("NDFFT.template", "P=$(PREFIX),R=FFT1:,PORT=FFT1,ADDR=0,TIMEOUT=1,NDARRAY_PORT=$(PORT),NAME=FFT1,NCHANS=2048")
 
 # Create a standard arrays plugin, set it to get data from FFT plugin.
 NDStdArraysConfigure("Image2", 3, 0, "FFT1", 0)
