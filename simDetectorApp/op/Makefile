@@ -2,21 +2,16 @@
 #DESCRIPTION:   convert MEDM screens to other GUI formats
 
 
-TOP = ../..
-include $(TOP)/configure/CONFIG
-
-include $(TOP)/configure/RULES
-
-## add additional directories once the Makefiles have been created
-#SUBDIRS = ui
-## SUBDIRS += edl
+# add additional directories once the Makefiles have been created
+# TODO: switch to system of EPICS Makefile rules
+SUBDIRS = ui edl
 
 
-#.PHONY: all subdirs $(SUBDIRS)
+.PHONY: all subdirs $(SUBDIRS)
 
-#all :: subdirs
+all :: subdirs
 
-#subdirs: $(SUBDIRS)
+subdirs: $(SUBDIRS)
 
-#$(SUBDIRS):
-#	$(MAKE) -C $@
+$(SUBDIRS):
+	$(MAKE) -C $@
