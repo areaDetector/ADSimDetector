@@ -6,7 +6,7 @@ release 0
 x 144
 y 119
 w 715
-h 735
+h 850
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-medium-r-8.0"
 btnFont "helvetica-medium-r-18.0"
@@ -23,25 +23,6 @@ snapToGrid
 gridSize 5
 endScreenProperties
 
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 399
-y 645
-w 160
-h 20
-font "helvetica-medium-r-8.0"
-fontAlign "right"
-fgColor index 14
-useDisplayBg
-value {
- "Simulation setup"
-}
-endObjectProperties
 
 # (Group)
 object activeGroupClass
@@ -106,7 +87,7 @@ release 0
 x 5
 y 35
 w 350
-h 215
+h 340
 
 beginGroup
 
@@ -119,14 +100,14 @@ release 0
 x 5
 y 35
 w 350
-h 215
+h 340
 fgColor index 14
 bgColor index 0
 topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADSetup.edl"
+file "ADSetup.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -145,7 +126,7 @@ major 4
 minor 0
 release 0
 x 5
-y 340
+y 465
 w 350
 h 380
 
@@ -158,7 +139,7 @@ major 4
 minor 0
 release 0
 x 5
-y 340
+y 465
 w 350
 h 380
 fgColor index 14
@@ -167,7 +148,7 @@ topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADReadout.edl"
+file "ADReadout.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -188,7 +169,7 @@ release 0
 x 360
 y 570
 w 350
-h 60
+h 110
 
 beginGroup
 
@@ -201,14 +182,14 @@ release 0
 x 360
 y 570
 w 350
-h 60
+h 110
 fgColor index 14
 bgColor index 0
 topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADAttrFile.edl"
+file "ADAttrFile.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -249,7 +230,7 @@ topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADShutter.edl"
+file "ADShutter.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -268,7 +249,7 @@ major 4
 minor 0
 release 0
 x 5
-y 255
+y 380
 w 350
 h 80
 
@@ -281,7 +262,7 @@ major 4
 minor 0
 release 0
 x 5
-y 255
+y 380
 w 350
 h 80
 fgColor index 14
@@ -290,7 +271,7 @@ topShadowColor index 0
 botShadowColor index 14
 noScroll
 displaySource "file"
-file "	composite file ADPlugins.edl"
+file "ADPlugins.edl"
 sizeOfs 5
 numDsps 0
 endObjectProperties
@@ -1185,34 +1166,43 @@ endGroup
 endObjectProperties
 
 
-# (Related Display)
-object relatedDisplayClass
+# (Group)
+object activeGroupClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 567
-y 645
-w 70
+x 410
+y 690
+w 238
 h 20
+
+beginGroup
+
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 410
+y 690
+w 160
+h 20
+font "helvetica-medium-r-8.0"
+fontAlign "right"
 fgColor index 14
-bgColor index 51
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-10.0"
-icon
-numPvs 2
-numDsps 1
-displayFileName {
-  0 /home/oxygen/MOONEY/epics/git/areaDetector/ADCore/ADApp/op/adl/simDetectorSetup.edl
-}
-menuLabel {
-  0 Simulation setup
-}
-symbols {
-  0 "P=$(P),R=$(R)"
+useDisplayBg
+value {
+ "Simulation setup"
 }
 endObjectProperties
+
+endGroup
+
+endObjectProperties
+
 # (Group)
 object activeGroupClass
 beginObjectProperties
@@ -1516,6 +1506,48 @@ endGroup
 
 endObjectProperties
 
+
+endGroup
+
+endObjectProperties
+
+# (Group)
+object activeGroupClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 410
+y 690
+w 238
+h 20
+
+beginGroup
+
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 578
+y 690
+w 70
+h 20
+fgColor index 14
+bgColor index 51
+topShadowColor index 2
+botShadowColor index 12
+font "helvetica-medium-r-10.0"
+icon
+numPvs 0
+numDsps 0
+displayFileName {
+}
+menuLabel {
+}
+endObjectProperties
 
 endGroup
 
