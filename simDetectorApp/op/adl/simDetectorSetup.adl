@@ -1,7 +1,7 @@
 
 file {
-	name="/home/epics/devel/areaDetector/ADExample/exampleApp/op/adl/simDetectorSetup.adl"
-	version=030107
+	name="/home/epics/devel/areaDetector-3-2/ADSimDetector/simDetectorApp/op/adl/simDetectorSetup.adl"
+	version=030109
 }
 display {
 	object {
@@ -113,44 +113,33 @@ text {
 	textix="$(P)$(R)"
 	align="horiz. centered"
 }
-composite {
+text {
 	object {
 		x=39
 		y=300
-		width=155
+		width=50
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=39
-				y=300
-				width=50
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Reset"
-			align="horiz. right"
-		}
-		"message button" {
-			object {
-				x=94
-				y=300
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Reset"
-				clr=14
-				bclr=51
-			}
-			label="Reset image"
-			press_msg="1"
-		}
+	"basic attribute" {
+		clr=14
 	}
+	textix="Reset"
+	align="horiz. right"
+}
+"message button" {
+	object {
+		x=94
+		y=300
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Reset"
+		clr=14
+		bclr=51
+	}
+	label="Reset image"
+	press_msg="1"
 }
 text {
 	object {
@@ -177,60 +166,49 @@ rectangle {
 		fill="outline"
 	}
 }
-composite {
+"text update" {
+	object {
+		x=417
+		y=311
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)Noise_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=352
+		y=310
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Noise"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
 	object {
 		x=297
 		y=310
-		width=181
+		width=50
 		height=20
 	}
-	"composite name"=""
-	children {
-		"text update" {
-			object {
-				x=417
-				y=311
-				width=61
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)Noise_RBV"
-				clr=54
-				bclr=4
-			}
-			align="horiz. centered"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=352
-				y=310
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)Noise"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=297
-				y=310
-				width=50
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Noise"
-			align="horiz. right"
-		}
+	"basic attribute" {
+		clr=14
 	}
+	textix="Noise"
+	align="horiz. right"
 }
 "text entry" {
 	object {
@@ -367,150 +345,139 @@ composite {
 	limits {
 	}
 }
-composite {
+"text update" {
+	object {
+		x=417
+		y=111
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PeakStartY_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
 	object {
 		x=417
 		y=86
 		width=60
-		height=217
+		height=18
 	}
-	"composite name"=""
-	children {
-		"text update" {
-			object {
-				x=417
-				y=111
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PeakStartY_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=417
-				y=86
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PeakStartX_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=417
-				y=136
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PeakNumX_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=417
-				y=161
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PeakNumY_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=417
-				y=186
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PeakStepX_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=417
-				y=211
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PeakStepY_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=417
-				y=236
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PeakWidthX_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=417
-				y=261
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PeakWidthY_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=417
-				y=285
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)PeakVariation"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
+	monitor {
+		chan="$(P)$(R)PeakStartX_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=417
+		y=136
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PeakNumX_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=417
+		y=161
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PeakNumY_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=417
+		y=186
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PeakStepX_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=417
+		y=211
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PeakStepY_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=417
+		y=236
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PeakWidthX_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=417
+		y=261
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PeakWidthY_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=417
+		y=285
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)PeakVariation"
+		clr=54
+		bclr=4
+	}
+	limits {
 	}
 }
 text {
@@ -621,386 +588,320 @@ text {
 	}
 	textix="Variation"
 }
-composite {
+text {
+	object {
+		x=97
+		y=55
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Gains"
+	align="horiz. right"
+}
+rectangle {
 	object {
 		x=5
 		y=50
 		width=235
 		height=195
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=97
-				y=55
-				width=50
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Gains"
-			align="horiz. right"
-		}
-		rectangle {
-			object {
-				x=5
-				y=50
-				width=235
-				height=195
-			}
-			"basic attribute" {
-				clr=14
-				fill="outline"
-			}
-		}
-		composite {
-			object {
-				x=22
-				y=85
-				width=201
-				height=145
-			}
-			"composite name"=""
-			children {
-				composite {
-					object {
-						x=22
-						y=85
-						width=70
-						height=145
-					}
-					"composite name"=""
-					children {
-						text {
-							object {
-								x=82
-								y=110
-								width=10
-								height=20
-							}
-							"basic attribute" {
-								clr=14
-							}
-							textix="Y"
-							align="horiz. right"
-						}
-						text {
-							object {
-								x=82
-								y=85
-								width=10
-								height=20
-							}
-							"basic attribute" {
-								clr=14
-							}
-							textix="X"
-							align="horiz. right"
-						}
-						text {
-							object {
-								x=22
-								y=135
-								width=70
-								height=20
-							}
-							"basic attribute" {
-								clr=14
-							}
-							textix="Overall"
-							align="horiz. right"
-						}
-						text {
-							object {
-								x=62
-								y=160
-								width=30
-								height=20
-							}
-							"basic attribute" {
-								clr=14
-							}
-							textix="Red"
-							align="horiz. right"
-						}
-						text {
-							object {
-								x=42
-								y=185
-								width=50
-								height=20
-							}
-							"basic attribute" {
-								clr=14
-							}
-							textix="Green"
-							align="horiz. right"
-						}
-						text {
-							object {
-								x=52
-								y=210
-								width=40
-								height=20
-							}
-							"basic attribute" {
-								clr=14
-							}
-							textix="Blue"
-							align="horiz. right"
-						}
-					}
-				}
-				composite {
-					object {
-						x=97
-						y=85
-						width=60
-						height=145
-					}
-					"composite name"=""
-					children {
-						"text entry" {
-							object {
-								x=97
-								y=110
-								width=60
-								height=20
-							}
-							control {
-								chan="$(P)$(R)GainY"
-								clr=14
-								bclr=51
-							}
-							limits {
-							}
-						}
-						"text entry" {
-							object {
-								x=97
-								y=85
-								width=60
-								height=20
-							}
-							control {
-								chan="$(P)$(R)GainX"
-								clr=14
-								bclr=51
-							}
-							limits {
-							}
-						}
-						"text entry" {
-							object {
-								x=97
-								y=135
-								width=60
-								height=20
-							}
-							control {
-								chan="$(P)$(R)Gain"
-								clr=14
-								bclr=51
-							}
-							limits {
-							}
-						}
-						"text entry" {
-							object {
-								x=97
-								y=160
-								width=60
-								height=20
-							}
-							control {
-								chan="$(P)$(R)GainRed"
-								clr=14
-								bclr=51
-							}
-							limits {
-							}
-						}
-						"text entry" {
-							object {
-								x=97
-								y=185
-								width=60
-								height=20
-							}
-							control {
-								chan="$(P)$(R)GainGreen"
-								clr=14
-								bclr=51
-							}
-							limits {
-							}
-						}
-						"text entry" {
-							object {
-								x=97
-								y=210
-								width=60
-								height=20
-							}
-							control {
-								chan="$(P)$(R)GainBlue"
-								clr=14
-								bclr=51
-							}
-							limits {
-							}
-						}
-					}
-				}
-				composite {
-					object {
-						x=162
-						y=86
-						width=61
-						height=143
-					}
-					"composite name"=""
-					children {
-						"text update" {
-							object {
-								x=162
-								y=111
-								width=61
-								height=18
-							}
-							monitor {
-								chan="$(P)$(R)GainY_RBV"
-								clr=54
-								bclr=4
-							}
-							align="horiz. centered"
-							limits {
-							}
-						}
-						"text update" {
-							object {
-								x=162
-								y=86
-								width=61
-								height=18
-							}
-							monitor {
-								chan="$(P)$(R)GainX_RBV"
-								clr=54
-								bclr=4
-							}
-							align="horiz. centered"
-							limits {
-							}
-						}
-						"text update" {
-							object {
-								x=162
-								y=136
-								width=61
-								height=18
-							}
-							monitor {
-								chan="$(P)$(R)Gain_RBV"
-								clr=54
-								bclr=4
-							}
-							align="horiz. centered"
-							limits {
-							}
-						}
-						"text update" {
-							object {
-								x=162
-								y=161
-								width=61
-								height=18
-							}
-							monitor {
-								chan="$(P)$(R)GainRed_RBV"
-								clr=54
-								bclr=4
-							}
-							align="horiz. centered"
-							limits {
-							}
-						}
-						"text update" {
-							object {
-								x=162
-								y=186
-								width=61
-								height=18
-							}
-							monitor {
-								chan="$(P)$(R)GainGreen_RBV"
-								clr=54
-								bclr=4
-							}
-							align="horiz. centered"
-							limits {
-							}
-						}
-						"text update" {
-							object {
-								x=162
-								y=211
-								width=61
-								height=18
-							}
-							monitor {
-								chan="$(P)$(R)GainBlue_RBV"
-								clr=54
-								bclr=4
-							}
-							align="horiz. centered"
-							limits {
-							}
-						}
-					}
-				}
-			}
-		}
+	"basic attribute" {
+		clr=14
+		fill="outline"
 	}
 }
-composite {
+text {
+	object {
+		x=82
+		y=110
+		width=10
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Y"
+	align="horiz. right"
+}
+text {
+	object {
+		x=82
+		y=85
+		width=10
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="X"
+	align="horiz. right"
+}
+text {
+	object {
+		x=22
+		y=135
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Overall"
+	align="horiz. right"
+}
+text {
+	object {
+		x=62
+		y=160
+		width=30
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Red"
+	align="horiz. right"
+}
+text {
+	object {
+		x=42
+		y=185
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Green"
+	align="horiz. right"
+}
+text {
+	object {
+		x=52
+		y=210
+		width=40
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Blue"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=97
+		y=110
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)GainY"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=97
+		y=85
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)GainX"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=97
+		y=135
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)Gain"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=97
+		y=160
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)GainRed"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=97
+		y=185
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)GainGreen"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=97
+		y=210
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)GainBlue"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=162
+		y=111
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)GainY_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=162
+		y=86
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)GainX_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=162
+		y=136
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)Gain_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=162
+		y=161
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)GainRed_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=162
+		y=186
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)GainGreen_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=162
+		y=211
+		width=61
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)GainBlue_RBV"
+		clr=54
+		bclr=4
+	}
+	align="horiz. centered"
+	limits {
+	}
+}
+menu {
+	object {
+		x=64
+		y=275
+		width=150
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SimMode"
+		clr=14
+		bclr=51
+	}
+}
+text {
 	object {
 		x=64
 		y=250
 		width=150
-		height=45
+		height=20
 	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=64
-				y=275
-				width=150
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SimMode"
-				clr=14
-				bclr=51
-			}
-		}
-		text {
-			object {
-				x=64
-				y=250
-				width=150
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Simulation mode"
-			align="horiz. centered"
-		}
+	"basic attribute" {
+		clr=14
 	}
+	textix="Simulation mode"
+	align="horiz. centered"
 }
 text {
 	object {
@@ -1027,665 +928,610 @@ rectangle {
 		fill="outline"
 	}
 }
-composite {
+text {
 	object {
 		x=500
+		y=130
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Frequency"
+}
+text {
+	object {
+		x=500
+		y=105
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Amplitude"
+}
+text {
+	object {
+		x=540
+		y=155
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Phase"
+}
+"text entry" {
+	object {
+		x=595
+		y=130
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)XSine1Frequency"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=595
+		y=105
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)XSine1Amplitude"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=595
+		y=155
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)XSine1Phase"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=131
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)XSine1Frequency_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=106
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)XSine1Amplitude_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=156
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)XSine1Phase_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=610
 		y=80
-		width=355
-		height=95
+		width=90
+		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=500
-				y=130
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Frequency"
-		}
-		text {
-			object {
-				x=500
-				y=105
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Amplitude"
-		}
-		text {
-			object {
-				x=540
-				y=155
-				width=50
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Phase"
-		}
-		"text entry" {
-			object {
-				x=595
-				y=130
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)XSine1Frequency"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=595
-				y=105
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)XSine1Amplitude"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=595
-				y=155
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)XSine1Phase"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=131
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)XSine1Frequency_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=106
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)XSine1Amplitude_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=156
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)XSine1Phase_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=610
-				y=80
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="X sine #1"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=730
-				y=130
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)YSine1Frequency"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=730
-				y=105
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)YSine1Amplitude"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=730
-				y=155
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)YSine1Phase"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=795
-				y=131
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)YSine1Frequency_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=795
-				y=106
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)YSine1Amplitude_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=795
-				y=156
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)YSine1Phase_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=745
-				y=80
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Y sine #1"
-			align="horiz. right"
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="X sine #1"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=730
+		y=130
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)YSine1Frequency"
+		clr=14
+		bclr=51
+	}
+	limits {
 	}
 }
-composite {
+"text entry" {
+	object {
+		x=730
+		y=105
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)YSine1Amplitude"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=730
+		y=155
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)YSine1Phase"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=795
+		y=131
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)YSine1Frequency_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=795
+		y=106
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)YSine1Amplitude_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=795
+		y=156
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)YSine1Phase_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=745
+		y=80
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Y sine #1"
+	align="horiz. right"
+}
+text {
 	object {
 		x=500
-		y=180
-		width=355
-		height=95
+		y=230
+		width=90
+		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=500
-				y=230
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Frequency"
-		}
-		text {
-			object {
-				x=500
-				y=205
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Amplitude"
-		}
-		text {
-			object {
-				x=540
-				y=255
-				width=50
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Phase"
-		}
-		text {
-			object {
-				x=610
-				y=180
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="X sine #2"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=595
-				y=230
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)XSine2Frequency"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=595
-				y=205
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)XSine2Amplitude"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=595
-				y=255
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)XSine2Phase"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=231
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)XSine2Frequency_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=206
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)XSine2Amplitude_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=660
-				y=256
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)XSine2Phase_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=745
-				y=180
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Y sine #2"
-			align="horiz. right"
-		}
-		"text entry" {
-			object {
-				x=730
-				y=230
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)YSine2Frequency"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=730
-				y=205
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)YSine2Amplitude"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=730
-				y=255
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)YSine2Phase"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=795
-				y=231
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)YSine2Frequency_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=795
-				y=206
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)YSine2Amplitude_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=795
-				y=256
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)YSine2Phase_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Frequency"
+}
+text {
+	object {
+		x=500
+		y=205
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Amplitude"
+}
+text {
+	object {
+		x=540
+		y=255
+		width=50
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Phase"
+}
+text {
+	object {
+		x=610
+		y=180
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="X sine #2"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=595
+		y=230
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)XSine2Frequency"
+		clr=14
+		bclr=51
+	}
+	limits {
 	}
 }
-composite {
+"text entry" {
+	object {
+		x=595
+		y=205
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)XSine2Amplitude"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=595
+		y=255
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)XSine2Phase"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=231
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)XSine2Frequency_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=206
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)XSine2Amplitude_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=660
+		y=256
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)XSine2Phase_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=745
+		y=180
+		width=90
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Y sine #2"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=730
+		y=230
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)YSine2Frequency"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=730
+		y=205
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)YSine2Amplitude"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=730
+		y=255
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)YSine2Phase"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=795
+		y=231
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)YSine2Frequency_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=795
+		y=206
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)YSine2Amplitude_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=795
+		y=256
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)YSine2Phase_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
 	object {
 		x=500
 		y=280
-		width=350
+		width=90
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=500
-				y=280
-				width=90
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Operation"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=595
-				y=280
-				width=120
-				height=20
-			}
-			control {
-				chan="$(P)$(R)XSineOperation"
-				clr=14
-				bclr=51
-			}
-		}
-		menu {
-			object {
-				x=730
-				y=280
-				width=120
-				height=20
-			}
-			control {
-				chan="$(P)$(R)YSineOperation"
-				clr=14
-				bclr=51
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Operation"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=595
+		y=280
+		width=120
+		height=20
+	}
+	control {
+		chan="$(P)$(R)XSineOperation"
+		clr=14
+		bclr=51
 	}
 }
-composite {
+menu {
+	object {
+		x=730
+		y=280
+		width=120
+		height=20
+	}
+	control {
+		chan="$(P)$(R)YSineOperation"
+		clr=14
+		bclr=51
+	}
+}
+text {
 	object {
 		x=600
 		y=310
-		width=190
+		width=60
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=600
-				y=310
-				width=60
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Offset"
-		}
-		"text entry" {
-			object {
-				x=665
-				y=310
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SineOffset"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=730
-				y=311
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)SineOffset_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Offset"
+}
+"text entry" {
+	object {
+		x=665
+		y=310
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SineOffset"
+		clr=14
+		bclr=51
+	}
+	limits {
 	}
 }
-composite {
+"text update" {
+	object {
+		x=730
+		y=311
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)SineOffset_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
+	}
+}
+text {
 	object {
 		x=610
 		y=335
-		width=180
+		width=50
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=610
-				y=335
-				width=50
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Noise"
-		}
-		"text entry" {
-			object {
-				x=665
-				y=335
-				width=60
-				height=20
-			}
-			control {
-				chan="$(P)$(R)SineNoise"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=730
-				y=336
-				width=60
-				height=18
-			}
-			monitor {
-				chan="$(P)$(R)SineNoise_RBV"
-				clr=54
-				bclr=4
-			}
-			limits {
-			}
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Noise"
+}
+"text entry" {
+	object {
+		x=665
+		y=335
+		width=60
+		height=20
+	}
+	control {
+		chan="$(P)$(R)SineNoise"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=730
+		y=336
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)SineNoise_RBV"
+		clr=54
+		bclr=4
+	}
+	limits {
 	}
 }
