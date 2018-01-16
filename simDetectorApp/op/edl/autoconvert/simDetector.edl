@@ -24,29 +24,15 @@ gridSize 5
 endScreenProperties
 
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 100
-y 4
-w 500
-h 26
-
-beginGroup
-
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
 major 4
 minor 0
 release 0
-x 100
+x 0
 y 4
-w 499
+w 714
 h 24
 lineColor index 2
 fill
@@ -60,9 +46,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 158
+x 0
 y 5
-w 384
+w 715
 h 25
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -72,11 +58,6 @@ value {
  "Simulation Detector - $(P)$(R)"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Group)
 object activeGroupClass
@@ -283,34 +264,6 @@ visMin "A"
 visMax "1"
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 360
-y 205
-w 350
-h 360
-
-beginGroup
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 487
-y 207
-w 105
-h 21
-
-beginGroup
-
-
 # (Rectangle)
 object activeRectangleClass
 beginObjectProperties
@@ -326,11 +279,6 @@ fill
 fillColor index 2
 lineWidth 0
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Rectangle)
 object activeRectangleClass
@@ -353,9 +301,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 467
+x 510
 y 208
-w 157
+w 70
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "center"
@@ -579,9 +527,9 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 376
+x 366
 y 304
-w 160
+w 170
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
@@ -615,20 +563,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 364
-y 329
-w 340
-h 229
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -716,20 +650,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 383
-y 463
-w 214
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -773,25 +693,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 453
-y 393
-w 203
-h 40
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -810,20 +711,6 @@ value {
  "Acquire"
 }
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 530
-y 393
-w 126
-h 40
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -870,30 +757,6 @@ visMin 0
 visMax 1
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 383
-y 438
-w 305
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -931,45 +794,12 @@ fgColor index 54
 fgAlarm
 bgColor index 2
 autoHeight
-format decimal
+format "string"
 nullColor index 32
 useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 393
-y 488
-w 303
-h 20
-
-beginGroup
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 530
-y 488
-w 166
-h 20
-
-beginGroup
-
 
 # (Text Control)
 object activeXTextDspClass
@@ -1021,11 +851,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1044,25 +869,6 @@ value {
  "Image counter"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 423
-y 513
-w 207
-h 20
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -1106,11 +912,6 @@ useHexPrefix
 objType "controls"
 newPos
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -1156,30 +957,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 410
-y 690
-w 238
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1198,73 +975,6 @@ value {
  "Simulation setup"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 100
-y 4
-w 500
-h 26
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 360
-y 205
-w 350
-h 360
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 487
-y 207
-w 105
-h 21
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 364
-y 329
-w 340
-h 229
-
-beginGroup
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -1305,50 +1015,6 @@ controlPv "$(P)$(R)TriggerMode"
 indicatorPv "$(P)$(R)TriggerMode"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 383
-y 463
-w 214
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 453
-y 393
-w 203
-h 40
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 530
-y 393
-w 126
-h 40
-
-beginGroup
-
 
 # (Message Button)
 object activeMessageButtonClass
@@ -1400,88 +1066,6 @@ useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 383
-y 438
-w 305
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 393
-y 488
-w 303
-h 20
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 530
-y 488
-w 166
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 423
-y 513
-w 207
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
@@ -1501,29 +1085,6 @@ controlPv "$(P)$(R)ArrayCallbacks"
 indicatorPv "$(P)$(R)ArrayCallbacks"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 410
-y 690
-w 238
-h 20
-
-beginGroup
-
 
 # (Related Display)
 object relatedDisplayClass
@@ -1548,9 +1109,4 @@ displayFileName {
 menuLabel {
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 

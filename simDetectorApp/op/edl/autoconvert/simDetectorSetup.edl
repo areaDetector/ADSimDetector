@@ -62,20 +62,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 39
-y 300
-w 155
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -94,11 +80,6 @@ value {
  "Reset"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -133,20 +114,6 @@ lineColor index 14
 fillColor index 14
 lineWidth 0
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 297
-y 310
-w 181
-h 20
-
-beginGroup
-
 
 # (Text Control)
 object activeXTextDspClass
@@ -217,11 +184,6 @@ value {
  "Noise"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Text Control)
 object activeXTextDspClass
@@ -457,20 +419,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 417
-y 86
-w 60
-h 217
-
-beginGroup
-
-
 # (Text Control)
 object activeXTextDspClass
 beginObjectProperties
@@ -687,11 +635,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -854,20 +797,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 50
-w 235
-h 195
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -901,34 +830,6 @@ lineColor index 14
 fillColor index 14
 lineWidth 0
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 22
-y 85
-w 201
-h 145
-
-beginGroup
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 22
-y 85
-w 70
-h 145
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -1043,25 +944,6 @@ value {
  "Blue"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 97
-y 85
-w 60
-h 145
-
-beginGroup
-
 
 # (Text Control)
 object activeXTextDspClass
@@ -1219,25 +1101,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 162
-y 86
-w 61
-h 143
-
-beginGroup
-
-
 # (Text Control)
 object activeXTextDspClass
 beginObjectProperties
@@ -1388,35 +1251,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 64
-y 250
-w 150
-h 45
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -1435,11 +1269,6 @@ value {
  "Simulation mode"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Static Text)
 object activeXTextClass
@@ -1474,20 +1303,6 @@ lineColor index 14
 fillColor index 14
 lineWidth 0
 endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 500
-y 80
-w 355
-h 95
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -1881,25 +1696,6 @@ value {
 }
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 500
-y 180
-w 355
-h 95
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2292,25 +2088,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 500
-y 280
-w 350
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2329,25 +2106,6 @@ value {
  "Operation"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 600
-y 310
-w 190
-h 20
-
-beginGroup
-
 
 # (Static Text)
 object activeXTextClass
@@ -2417,25 +2175,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 610
-y 335
-w 180
-h 20
-
-beginGroup
-
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
@@ -2504,24 +2243,6 @@ objType "controls"
 newPos
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 39
-y 300
-w 155
-h 20
-
-beginGroup
-
-
 # (Message Button)
 object activeMessageButtonClass
 beginObjectProperties
@@ -2547,150 +2268,6 @@ useEnumNumeric
 font "helvetica-medium-r-10.0"
 endObjectProperties
 
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 297
-y 310
-w 181
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 417
-y 86
-w 60
-h 217
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 5
-y 50
-w 235
-h 195
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 22
-y 85
-w 201
-h 145
-
-beginGroup
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 22
-y 85
-w 70
-h 145
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 97
-y 85
-w 60
-h 145
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 162
-y 86
-w 61
-h 143
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 64
-y 250
-w 150
-h 45
-
-beginGroup
-
-
 # (Menu Button)
 object activeMenuButtonClass
 beginObjectProperties
@@ -2710,60 +2287,6 @@ controlPv "$(P)$(R)SimMode"
 indicatorPv "$(P)$(R)SimMode"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 500
-y 80
-w 355
-h 95
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 500
-y 180
-w 355
-h 95
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 500
-y 280
-w 350
-h 20
-
-beginGroup
-
 
 # (Menu Button)
 object activeMenuButtonClass
@@ -2804,45 +2327,4 @@ controlPv "$(P)$(R)YSineOperation"
 indicatorPv "$(P)$(R)YSineOperation"
 font "helvetica-medium-r-10.0"
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 600
-y 310
-w 190
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 610
-y 335
-w 180
-h 20
-
-beginGroup
-
-
-endGroup
-
-endObjectProperties
-
 
