@@ -34,6 +34,13 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-7 (January 28, 2018)
+========================
+* Fixed simDetectorNoIOCApp/src/Makefile so it handles external locations of HDF, SZIP, and XML2 correctly.
+* Add simDetectorApp/op/Makefile to automatically convert adl files to edl, ui, and opi.
+* New versions of edl/autoconvert, ui/autoconvert, and opi/autoconvert OPI files.
+
+
 R2-6 (July 4, 2017)
 ========================
 * Change startup scripts in iocSimDetector.  st.cmd now loads envPaths and st_base.cmd, so it can be
