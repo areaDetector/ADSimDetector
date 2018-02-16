@@ -1,7 +1,10 @@
 TOP = ..
 include $(TOP)/configure/CONFIG
 
-DIRS += simDetectorNoIOC
+ifeq ($(WITH_HDF5),YES)
+  DIRS += simDetectorNoIOC
+endif
+
 ifneq ($(EPICS_LIBCOM_ONLY),YES)
   DIRS += simDetectorIOC
 endif
