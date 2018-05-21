@@ -8,7 +8,7 @@ display {
 		x=144
 		y=119
 		width=715
-		height=850
+		height=875
 	}
 	clr=14
 	bclr=4
@@ -689,31 +689,52 @@ menu {
 	limits {
 	}
 }
-"related display" {
+composite {
 	object {
-		x=578
-		y=690
-		width=70
-		height=20
+		x=360
+		y=685
+		width=350
+		height=160
 	}
-	display[0] {
-		label="Simulation setup"
-		name="simDetectorSetup.adl"
-		args="P=$(P),R=$(R)"
-	}
-	clr=14
-	bclr=51
+	"composite name"=""
+	"composite file"="ADBuffers.adl"
 }
-text {
+composite {
 	object {
-		x=410
-		y=690
-		width=160
+		x=405
+		y=850
+		width=238
 		height=20
 	}
-	"basic attribute" {
-		clr=14
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=405
+				y=850
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Simulation setup"
+			align="horiz. right"
+		}
+		"related display" {
+			object {
+				x=573
+				y=850
+				width=70
+				height=20
+			}
+			display[0] {
+				label="Simulation setup"
+				name="simDetectorSetup.adl"
+				args="P=$(P),R=$(R)"
+			}
+			clr=14
+			bclr=51
+		}
 	}
-	textix="Simulation setup"
-	align="horiz. right"
 }
