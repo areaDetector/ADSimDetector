@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/devel/areaDetector-3-2/ADSimDetector/simDetectorApp/op/adl/simDetector.adl"
+	name="/home/epics/devel/areaDetector/ADSimDetector/simDetectorApp/op/adl/simDetector.adl"
 	version=030109
 }
 display {
 	object {
-		x=144
-		y=119
+		x=794
+		y=75
 		width=715
-		height=875
+		height=920
 	}
 	clr=14
 	bclr=4
@@ -134,7 +134,7 @@ composite {
 composite {
 	object {
 		x=360
-		y=570
+		y=665
 		width=350
 		height=110
 	}
@@ -161,15 +161,53 @@ composite {
 	"composite name"=""
 	"composite file"="ADPlugins.adl"
 }
-rectangle {
+composite {
 	object {
-		x=487
-		y=207
-		width=105
-		height=21
+		x=360
+		y=780
+		width=350
+		height=135
 	}
-	"basic attribute" {
-		clr=2
+	"composite name"=""
+	"composite file"="ADBuffers.adl"
+}
+composite {
+	object {
+		x=66
+		y=867
+		width=238
+		height=20
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=66
+				y=867
+				width=160
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Simulation setup"
+			align="horiz. right"
+		}
+		"related display" {
+			object {
+				x=234
+				y=867
+				width=70
+				height=20
+			}
+			display[0] {
+				label="Simulation setup"
+				name="simDetectorSetup.adl"
+				args="P=$(P),R=$(R)"
+			}
+			clr=14
+			bclr=51
+		}
 	}
 }
 rectangle {
@@ -177,7 +215,7 @@ rectangle {
 		x=360
 		y=205
 		width=350
-		height=360
+		height=455
 	}
 	"basic attribute" {
 		clr=14
@@ -186,21 +224,8 @@ rectangle {
 }
 text {
 	object {
-		x=510
-		y=208
-		width=70
-		height=20
-	}
-	"basic attribute" {
-		clr=54
-	}
-	textix="Collect"
-	align="horiz. centered"
-}
-text {
-	object {
-		x=406
-		y=229
+		x=405
+		y=235
 		width=130
 		height=20
 	}
@@ -212,9 +237,9 @@ text {
 }
 "text entry" {
 	object {
-		x=545
-		y=229
-		width=59
+		x=540
+		y=235
+		width=60
 		height=20
 	}
 	control {
@@ -227,9 +252,9 @@ text {
 }
 "text update" {
 	object {
-		x=611
-		y=230
-		width=79
+		x=605
+		y=236
+		width=80
 		height=18
 	}
 	monitor {
@@ -242,8 +267,8 @@ text {
 }
 text {
 	object {
-		x=396
-		y=254
+		x=395
+		y=260
 		width=140
 		height=20
 	}
@@ -255,9 +280,9 @@ text {
 }
 "text entry" {
 	object {
-		x=545
-		y=254
-		width=59
+		x=540
+		y=260
+		width=60
 		height=20
 	}
 	control {
@@ -270,9 +295,9 @@ text {
 }
 "text update" {
 	object {
-		x=611
-		y=255
-		width=79
+		x=605
+		y=261
+		width=80
 		height=18
 	}
 	monitor {
@@ -285,8 +310,8 @@ text {
 }
 text {
 	object {
-		x=456
-		y=279
+		x=455
+		y=285
 		width=80
 		height=20
 	}
@@ -298,9 +323,9 @@ text {
 }
 "text entry" {
 	object {
-		x=545
-		y=279
-		width=59
+		x=540
+		y=285
+		width=60
 		height=20
 	}
 	control {
@@ -313,9 +338,9 @@ text {
 }
 "text update" {
 	object {
-		x=611
-		y=280
-		width=79
+		x=605
+		y=286
+		width=80
 		height=18
 	}
 	monitor {
@@ -326,24 +351,11 @@ text {
 	limits {
 	}
 }
-text {
-	object {
-		x=366
-		y=304
-		width=170
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="# Images complete"
-	align="horiz. right"
-}
 "text update" {
 	object {
-		x=611
-		y=305
-		width=67
+		x=605
+		y=311
+		width=80
 		height=18
 	}
 	monitor {
@@ -354,112 +366,56 @@ text {
 	limits {
 	}
 }
-menu {
+text {
 	object {
-		x=494
-		y=329
+		x=365
+		y=310
+		width=170
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# Images complete"
+	align="horiz. right"
+}
+text {
+	object {
+		x=415
+		y=335
 		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# Exp./image"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=540
+		y=335
+		width=60
 		height=20
 	}
 	control {
-		chan="$(P)$(R)ImageMode"
+		chan="$(P)$(R)NumExposures"
 		clr=14
 		bclr=51
 	}
-}
-text {
-	object {
-		x=385
-		y=329
-		width=100
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Image mode"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=621
-		y=331
-		width=79
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)ImageMode_RBV"
-		clr=54
-		bclr=4
-	}
-	format="string"
 	limits {
 	}
 }
-text {
-	object {
-		x=364
-		y=354
-		width=120
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Trigger mode"
-	align="horiz. right"
-}
-menu {
-	object {
-		x=493
-		y=354
-		width=120
-		height=20
-	}
-	control {
-		chan="$(P)$(R)TriggerMode"
-		clr=14
-		bclr=51
-	}
-}
 "text update" {
 	object {
-		x=620
-		y=356
-		width=79
+		x=605
+		y=336
+		width=80
 		height=18
 	}
 	monitor {
-		chan="$(P)$(R)TriggerMode_RBV"
-		clr=54
-		bclr=4
-	}
-	format="string"
-	limits {
-	}
-}
-text {
-	object {
-		x=383
-		y=463
-		width=140
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Time remaining"
-	align="horiz. right"
-}
-"text update" {
-	object {
-		x=530
-		y=464
-		width=67
-		height=18
-	}
-	monitor {
-		chan="$(P)$(R)TimeRemaining_RBV"
+		chan="$(P)$(R)NumExposures_RBV"
 		clr=54
 		bclr=4
 	}
@@ -468,21 +424,8 @@ text {
 }
 text {
 	object {
-		x=453
-		y=413
-		width=70
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Acquire"
-	align="horiz. right"
-}
-text {
-	object {
-		x=573
-		y=393
+		x=583
+		y=415
 		width=40
 		height=20
 	}
@@ -499,8 +442,8 @@ text {
 }
 text {
 	object {
-		x=544
-		y=393
+		x=554
+		y=415
 		width=100
 		height=20
 	}
@@ -517,8 +460,8 @@ text {
 }
 "message button" {
 	object {
-		x=530
-		y=413
+		x=540
+		y=435
 		width=59
 		height=20
 	}
@@ -532,8 +475,8 @@ text {
 }
 "message button" {
 	object {
-		x=597
-		y=413
+		x=607
+		y=435
 		width=59
 		height=20
 	}
@@ -547,8 +490,87 @@ text {
 }
 text {
 	object {
-		x=383
-		y=438
+		x=465
+		y=435
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Acquire"
+	align="horiz. right"
+}
+rectangle {
+	object {
+		x=483
+		y=207
+		width=105
+		height=21
+	}
+	"basic attribute" {
+		clr=2
+	}
+}
+text {
+	object {
+		x=500
+		y=208
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=54
+	}
+	textix="Collect"
+	align="horiz. centered"
+}
+text {
+	object {
+		x=385
+		y=360
+		width=100
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Image mode"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=490
+		y=360
+		width=120
+		height=20
+	}
+	control {
+		chan="$(P)$(R)ImageMode"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=615
+		y=362
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)ImageMode_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=395
+		y=535
 		width=140
 		height=20
 	}
@@ -560,9 +582,9 @@ text {
 }
 "text update" {
 	object {
-		x=530
-		y=438
-		width=158
+		x=540
+		y=535
+		width=160
 		height=18
 	}
 	monitor {
@@ -571,14 +593,41 @@ text {
 		bclr=2
 	}
 	clrmod="alarm"
-	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=395
+		y=560
+		width=140
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Time remaining"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=540
+		y=561
+		width=67
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)TimeRemaining_RBV"
+		clr=54
+		bclr=4
+	}
 	limits {
 	}
 }
 "text entry" {
 	object {
-		x=530
-		y=488
+		x=540
+		y=585
 		width=60
 		height=20
 	}
@@ -590,11 +639,24 @@ text {
 	limits {
 	}
 }
+text {
+	object {
+		x=405
+		y=585
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Image counter"
+	align="horiz. right"
+}
 "text update" {
 	object {
-		x=596
-		y=489
-		width=100
+		x=605
+		y=586
+		width=80
 		height=18
 	}
 	monitor {
@@ -607,21 +669,8 @@ text {
 }
 text {
 	object {
-		x=393
-		y=488
-		width=130
-		height=20
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Image counter"
-	align="horiz. right"
-}
-text {
-	object {
-		x=423
-		y=513
+		x=435
+		y=610
 		width=100
 		height=20
 	}
@@ -633,8 +682,8 @@ text {
 }
 "text update" {
 	object {
-		x=530
-		y=514
+		x=540
+		y=611
 		width=100
 		height=18
 	}
@@ -648,8 +697,8 @@ text {
 }
 text {
 	object {
-		x=373
-		y=538
+		x=365
+		y=635
 		width=150
 		height=20
 	}
@@ -661,8 +710,8 @@ text {
 }
 menu {
 	object {
-		x=530
-		y=538
+		x=520
+		y=635
 		width=90
 		height=20
 	}
@@ -674,9 +723,9 @@ menu {
 }
 "text update" {
 	object {
-		x=625
-		y=540
-		width=79
+		x=615
+		y=637
+		width=80
 		height=18
 	}
 	monitor {
@@ -689,52 +738,130 @@ menu {
 	limits {
 	}
 }
-composite {
+text {
 	object {
-		x=360
-		y=685
-		width=350
-		height=160
-	}
-	"composite name"=""
-	"composite file"="ADBuffers.adl"
-}
-composite {
-	object {
-		x=405
-		y=850
-		width=238
+		x=375
+		y=460
+		width=160
 		height=20
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=405
-				y=850
-				width=160
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Simulation setup"
-			align="horiz. right"
-		}
-		"related display" {
-			object {
-				x=573
-				y=850
-				width=70
-				height=20
-			}
-			display[0] {
-				label="Simulation setup"
-				name="simDetectorSetup.adl"
-				args="P=$(P),R=$(R)"
-			}
-			clr=14
-			bclr=51
-		}
+	"basic attribute" {
+		clr=14
+	}
+	textix="# active plugins"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=540
+		y=461
+		width=60
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)NumActivePlugins"
+		clr=54
+		bclr=4
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+text {
+	object {
+		x=365
+		y=385
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Trigger mode"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=490
+		y=385
+		width=120
+		height=20
+	}
+	control {
+		chan="$(P)$(R)TriggerMode"
+		clr=14
+		bclr=51
+	}
+}
+"text update" {
+	object {
+		x=615
+		y=386
+		width=80
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)TriggerMode_RBV"
+		clr=54
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+text {
+	object {
+		x=375
+		y=485
+		width=160
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Wait for plugins"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=540
+		y=485
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(R)WaitForPlugins"
+		clr=14
+		bclr=51
+	}
+}
+text {
+	object {
+		x=415
+		y=510
+		width=120
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Acquire busy"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=540
+		y=511
+		width=160
+		height=18
+	}
+	monitor {
+		chan="$(P)$(R)AcquireBusy"
+		clr=54
+		bclr=2
+	}
+	clrmod="alarm"
+	format="string"
+	limits {
 	}
 }
