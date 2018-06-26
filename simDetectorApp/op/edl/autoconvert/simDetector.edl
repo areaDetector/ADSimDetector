@@ -6,7 +6,7 @@ release 0
 x 794
 y 75
 w 715
-h 920
+h 945
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-medium-r-8.0"
 btnFont "helvetica-medium-r-18.0"
@@ -273,7 +273,7 @@ release 0
 x 360
 y 780
 w 350
-h 135
+h 160
 
 beginGroup
 
@@ -286,7 +286,7 @@ release 0
 x 360
 y 780
 w 350
-h 135
+h 160
 fgColor index 14
 bgColor index 0
 topShadowColor index 0
@@ -1068,16 +1068,16 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 375
+x 385
 y 460
-w 160
+w 150
 h 20
 font "helvetica-medium-r-8.0"
 fontAlign "right"
 fgColor index 14
 useDisplayBg
 value {
- "# active plugins"
+ "# Queued arrays"
 }
 endObjectProperties
 
@@ -1091,7 +1091,7 @@ x 540
 y 461
 w 60
 h 18
-controlPv "$(P)$(R)NumActivePlugins"
+controlPv "$(P)$(R)NumQueuedArrays"
 font "helvetica-medium-r-8.0"
 fontAlign "right"
 smartRefresh

@@ -7,7 +7,7 @@
             <x>794</x>
             <y>75</y>
             <width>715</width>
-            <height>920</height>
+            <height>945</height>
         </rect>
     </property>
     <property name="styleSheet">
@@ -301,7 +301,7 @@ border-radius: 2px;
                     <x>360</x>
                     <y>780</y>
                     <width>354</width>
-                    <height>139</height>
+                    <height>164</height>
                 </rect>
             </property>
             <property name="geometry">
@@ -309,7 +309,7 @@ border-radius: 2px;
                     <x>360</x>
                     <y>780</y>
                     <width>352</width>
-                    <height>137</height>
+                    <height>162</height>
                 </rect>
             </property>
             <property name="filename">
@@ -2038,7 +2038,7 @@ border-radius: 2px;
                 </color>
             </property>
             <property name="text">
-                <string># active plugins</string>
+                <string># Queued arrays</string>
             </property>
             <property name="fontScaleMode">
                 <enum>ESimpleLabel::WidthAndHeight</enum>
@@ -2048,9 +2048,9 @@ border-radius: 2px;
             </property>
             <property name="geometry">
                 <rect>
-                    <x>375</x>
+                    <x>385</x>
                     <y>460</y>
-                    <width>160</width>
+                    <width>150</width>
                     <height>20</height>
                 </rect>
             </property>
@@ -2068,7 +2068,7 @@ border-radius: 2px;
                 <enum>caLineEdit::WidthAndHeight</enum>
             </property>
             <property name="channel">
-                <string>$(P)$(R)NumActivePlugins</string>
+                <string>$(P)$(R)NumQueuedArrays</string>
             </property>
             <property name="foreground">
                 <color alpha="255">
