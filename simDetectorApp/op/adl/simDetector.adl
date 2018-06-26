@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/areaDetector/ADSimDetector/simDetectorApp/op/adl/simDetector.adl"
+	name="/home/epics/devel/areaDetector-3-3/ADSimDetector/simDetectorApp/op/adl/simDetector.adl"
 	version=030109
 }
 display {
@@ -8,7 +8,7 @@ display {
 		x=794
 		y=75
 		width=715
-		height=920
+		height=945
 	}
 	clr=14
 	bclr=4
@@ -166,7 +166,7 @@ composite {
 		x=360
 		y=780
 		width=350
-		height=135
+		height=160
 	}
 	"composite name"=""
 	"composite file"="ADBuffers.adl"
@@ -740,15 +740,15 @@ menu {
 }
 text {
 	object {
-		x=375
+		x=385
 		y=460
-		width=160
+		width=150
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="# active plugins"
+	textix="# Queued arrays"
 	align="horiz. right"
 }
 "text update" {
@@ -759,7 +759,7 @@ text {
 		height=18
 	}
 	monitor {
-		chan="$(P)$(R)NumActivePlugins"
+		chan="$(P)$(R)NumQueuedArrays"
 		clr=54
 		bclr=4
 	}
