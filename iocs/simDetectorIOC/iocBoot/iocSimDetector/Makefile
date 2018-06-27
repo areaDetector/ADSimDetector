@@ -3,6 +3,7 @@ include $(TOP)/configure/CONFIG
 #ARCH = win32-x86
 #ARCH = win32-x86-mingw
 #ARCH = windows-x64-static
+#ARCH = windows-x64-static-vs2017
 #ARCH = windows-x64-debug
 #ARCH = windows-x64
 #ARCH = cygwin-x86
