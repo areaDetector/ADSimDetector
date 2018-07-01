@@ -24,13 +24,13 @@ PROD_LIBS += simDetector
 include $(ADCORE)/ADApp/commonDriverMakefile
 
 ifdef HDF5_INCLUDE
-  USR_INCLUDES += -I$(HDF5_INCLUDE)
+  USR_INCLUDES += $(addprefix -I $(HDF5_INCLUDE))
 endif
 ifdef SZIP_INCLUDE
-  USR_INCLUDES += -I$(SZIP_INCLUDE)
+  USR_INCLUDES += $(addprefix -I $(SZIP_INCLUDE))
 endif
 ifdef XML2_INCLUDE
-  USR_INCLUDES += -I$(XML2_INCLUDE)
+  USR_INCLUDES += $(addprefix -I $(XML2_INCLUDE))
 endif
 
 #=============================
