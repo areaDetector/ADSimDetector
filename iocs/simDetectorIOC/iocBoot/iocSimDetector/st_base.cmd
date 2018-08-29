@@ -28,7 +28,7 @@ asynSetMinTimerPeriod(0.001)
 
 # The EPICS environment variable EPICS_CA_MAX_ARRAY_BYTES needs to be set to a value at least as large
 # as the largest image that the standard arrays plugin will send.
-# That vlaue is $(XSIZE) * $(YSIZE) * sizeof(FTVL data type) for the FTVL used when loading the NDStdArrays.template file.
+# That value is $(XSIZE) * $(YSIZE) * sizeof(FTVL data type) for the FTVL used when loading the NDStdArrays.template file.
 # The variable can be set in the environment before running the IOC or it can be set here.
 # It is often convenient to set it in the environment outside the IOC to the largest array any client 
 # or server will need.  For example 10000000 (ten million) bytes may be enough.
