@@ -14,4 +14,5 @@ cd topbin
 ld < simDetectorApp.munch
 cd startup
 
-iocsh("st.cmd")
+< envPaths.vxWorks
+iocsh("st_base.cmd")
