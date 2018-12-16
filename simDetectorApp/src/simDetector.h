@@ -2,7 +2,7 @@
 #include "ADDriver.h"
 
 #define DRIVER_VERSION      2
-#define DRIVER_REVISION     8
+#define DRIVER_REVISION     9
 #define DRIVER_MODIFICATION 0
 
 /** Simulation detector driver; demonstrates most of the features that areaDetector drivers can support. */
@@ -26,6 +26,7 @@ protected:
     int SimGainRed;
     int SimGainGreen;
     int SimGainBlue;
+    int simOffset;
     int SimNoise;
     int SimResetImage;
     int SimMode;
@@ -38,8 +39,7 @@ protected:
     int SimPeakStepX;
     int SimPeakStepY;
     int SimPeakHeightVariation;
-    int SimSineOffset;
-    int SimSineNoise;
+    int SimOffset;
     int SimXSineOperation;
     int SimXSine1Amplitude;
     int SimXSine1Frequency;
@@ -67,6 +67,11 @@ private:
     epicsEventId startEventId_;
     epicsEventId stopEventId_;
     NDArray *pRaw_;
+    NDArray *pBackground_;
+    bool useBackground_;
+    int backgroundStart_;
+    NDArray *pPeak_;
+    NDArrayInfo arrayInfo_;
     double *xSine1_;
     double *xSine2_;
     double *ySine1_;
@@ -91,6 +96,7 @@ typedef enum {
 #define SimGainRedString              "SIM_GAIN_RED"
 #define SimGainGreenString            "SIM_GAIN_GREEN"
 #define SimGainBlueString             "SIM_GAIN_BLUE"
+#define SimOffsetString               "SIM_OFFSET"
 #define SimNoiseString                "SIM_NOISE"
 #define SimResetImageString           "RESET_IMAGE"
 #define SimModeString                 "SIM_MODE"
@@ -103,8 +109,6 @@ typedef enum {
 #define SimPeakStepXString            "SIM_PEAK_STEP_X"
 #define SimPeakStepYString            "SIM_PEAK_STEP_Y"
 #define SimPeakHeightVariationString  "SIM_PEAK_HEIGHT_VARIATION"
-#define SimSineOffsetString           "SIM_SINE_OFFSET"
-#define SimSineNoiseString            "SIM_SINE_NOISE"
 #define SimXSineOperationString       "SIM_XSINE_OPERATION"
 #define SimXSine1AmplitudeString      "SIM_XSINE1_AMPLITUDE"
 #define SimXSine1FrequencyString      "SIM_XSINE1_FREQUENCY"
