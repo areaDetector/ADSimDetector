@@ -41,10 +41,42 @@ static const char *driverName = "simDetector";
 /** Template function to compute the simulated detector data for any data type */
 template <typename epicsType> int simDetector::computeArray(int sizeX, int sizeY)
 {
-    int simMode=0;
+    int simMode;
     int status = asynSuccess;
+    int resetImage;
+    epicsType offset;
+    double dOffset;
+    double noise;
+    int i;
 
-    status = getIntegerParam (SimMode, &simMode);
+    getIntegerParam(SimMode, &simMode);
+    getIntegerParam(SimResetImage, &resetImage);
+    getDoubleParam(SimOffset, &dOffset);
+    getDoubleParam(SimNoise, &noise);
+
+    offset = (epicsType)dOffset;
+    if (resetImage) {
+        useBackground_ = false;
+        if ((noise != 0.) || (offset != 0)) {
+            useBackground_ = true;
+            epicsType *pBackgroundData = (epicsType*)pBackground_->pData;
+            if (noise == 0) {
+                for (i=0; i<arrayInfo_.nElements; i++) {
+                    pBackgroundData[i] = offset;
+                }
+            } else {
+                for (i=0; i<arrayInfo_.nElements; i++) {
+                    pBackgroundData[i] = (epicsType)((noise * (rand() / (double)RAND_MAX)) + offset);
+                }
+            }
+        } 
+    }
+            
+    if (useBackground_) {
+        // Copy the pre-computed random noise array starting at a random location
+        backgroundStart_ = (int)((arrayInfo_.nElements-1) * (rand() / (double)RAND_MAX));
+    }
+             
     switch(simMode) {
         case SimModeLinearRamp:
             status = computeLinearRampArray<epicsType>(sizeX, sizeY);
@@ -56,6 +88,7 @@ template <typename epicsType> int simDetector::computeArray(int sizeX, int sizeY
             status = computeSineArray<epicsType>(sizeX, sizeY);
             break;
     }
+
     return status;
 }
 
@@ -181,8 +214,8 @@ template <typename epicsType> int simDetector::computePeaksArray(int sizeX, int 
     int i,j,k,l;
     int minX, maxX, minY,maxY;
     int offsetX, offsetY;
-    int peakVariation, noisePct;
-    double gainVariation, noise;
+    int peakVariation;
+    double gainVariation;
     double gain, gainX, gainY, gainRed, gainGreen, gainBlue;
     double gaussX, gaussY;
     double tmpValue;
@@ -203,9 +236,8 @@ template <typename epicsType> int simDetector::computePeaksArray(int sizeX, int 
     status = getIntegerParam (SimPeakWidthX,  &peaksWidthX);
     status = getIntegerParam (SimPeakWidthY,  &peaksWidthY);
     status = getIntegerParam (SimPeakHeightVariation,  &peakVariation);
-    status = getIntegerParam (SimNoise,  &noisePct);
 
-       switch (colorMode) {
+    switch (colorMode) {
         case NDColorModeMono:
             pMono = (epicsType *)pRaw_->pData;
             break;
@@ -251,15 +283,9 @@ template <typename epicsType> int simDetector::computePeaksArray(int sizeX, int 
                     for (k =minY; k<maxY; k++) {
                         pMono2 = pMono + (minX + k*sizeX);
                         for (l=minX; l<maxX; l++) {
-                            if (noisePct !=0) {
-                                noise = 1.0 + (rand()%noisePct+1)/100.0;
-                            }
-                            else {
-                                noise = 1.0;
-                            }
                             gaussY = gainY * exp( -pow((double)(k-offsetY)/(double)peaksWidthY,2.0)/2.0 );
                             gaussX = gainX * exp( -pow((double)(l-offsetX)/(double)peaksWidthX,2.0)/2.0 );
-                            tmpValue =  gainVariation*gain * gaussX * gaussY*noise;
+                            tmpValue =  gainVariation*gain * gaussX * gaussY;
                             (*pMono2) += (epicsType)tmpValue;
                             pMono2++;
                         }
@@ -314,15 +340,9 @@ template <typename epicsType> int simDetector::computePeaksArray(int sizeX, int 
                         }
                         //Fill in a row for this peak
                         for (l=minX; l<maxX; l++) {
-                            if (noisePct !=0) {
-                                noise = 1.0 + (rand()%noisePct+1)/100.0;
-                            }
-                            else {
-                                noise = 1.0;
-                            }
                             gaussY = gainY * exp( -pow((double)(k-offsetY)/(double)peaksWidthY,2.0)/2.0 );
                             gaussX = gainX * exp( -pow((double)(l-offsetX)/(double)peaksWidthX,2.0)/2.0 );
-                            tmpValue =  gainVariation*gain * gaussX * gaussY*noise;
+                            tmpValue =  gainVariation*gain * gaussX * gaussY;
                             (*pRed2) += (epicsType)(gainRed*tmpValue);
                             (*pGreen2) += (epicsType)(gainGreen*tmpValue);
                             (*pBlue2) += (epicsType)(gainBlue*tmpValue);
@@ -333,12 +353,20 @@ template <typename epicsType> int simDetector::computePeaksArray(int sizeX, int 
                         }
                     }
                 }
-            }
+        }
+        break;
+    }
 
-
-
-            break;
-
+    if (useBackground_) {
+        epicsType* pRawData = (epicsType*)pRaw_->pData;
+        epicsType* pBackgroundData = (epicsType*)pBackground_->pData;
+        int out = 0;
+        for (i=backgroundStart_; i<arrayInfo_.nElements; i++) {
+            pRawData[out++] += pBackgroundData[i];
+        }
+        for (i=0; i<backgroundStart_; i++) {
+            pRawData[out++] += pBackgroundData[i];
+        }
     }
     return status;
 }
@@ -351,12 +379,10 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
     int status = asynSuccess;
     int xSineOperation, ySineOperation;   
     double exposureTime, gain, gainX, gainY, gainRed, gainGreen, gainBlue;
-    double sineOffset, sineNoise;
     double xSine1Amplitude, xSine1Frequency, xSine1Phase;
     double xSine2Amplitude, xSine2Frequency, xSine2Phase;
     double ySine1Amplitude, ySine1Frequency, ySine1Phase;
     double ySine2Amplitude, ySine2Frequency, ySine2Phase;
-    double rndm;
     double xTime, yTime;
     int resetImage;
     int i, j;
@@ -370,8 +396,6 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
     status = getIntegerParam(SimResetImage,     &resetImage);
     status = getIntegerParam(NDColorMode,       &colorMode);
     status = getDoubleParam (ADAcquireTime,     &exposureTime);
-    status = getDoubleParam(SimSineOffset,      &sineOffset);
-    status = getDoubleParam(SimSineNoise,       &sineNoise);
     status = getIntegerParam(SimXSineOperation, &xSineOperation);
     status = getDoubleParam(SimXSine1Amplitude, &xSine1Amplitude);
     status = getDoubleParam(SimXSine1Frequency, &xSine1Frequency);
@@ -465,20 +489,16 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
         switch (colorMode) {
             case NDColorModeMono:
                 for (j=0; j<sizeX; j++) {
-                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-                    *pMono++ = (epicsType) (gain * (sineOffset + sineNoise*rndm + ySine1_[i] + xSine1_[j]));
+                    *pMono++ = (epicsType) (gain * (ySine1_[i] + xSine1_[j]));
                 }
                 break;
             case NDColorModeRGB1:
             case NDColorModeRGB2:
             case NDColorModeRGB3:
                 for (j=0; j<sizeX; j++) {
-                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-                    *pRed   = (epicsType)(gain * gainRed   * (sineOffset + sineNoise*rndm + xSine1_[j]));
-                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-                    *pGreen = (epicsType)(gain * gainGreen * (sineOffset + sineNoise*rndm + ySine1_[i]));
-                    rndm = 2.*(rand()/(double)RAND_MAX - 0.5);
-                    *pBlue  = (epicsType)(gain * gainBlue  * (sineOffset + sineNoise*rndm + (xSine2_[j] + ySine2_[i])/2.));
+                    *pRed   = (epicsType)(gain * gainRed   * xSine1_[j]);
+                    *pGreen = (epicsType)(gain * gainGreen * ySine1_[i]);
+                    *pBlue  = (epicsType)(gain * gainBlue  * (xSine2_[j] + ySine2_[i])/2.);
                     pRed   += columnStep;
                     pGreen += columnStep;
                     pBlue  += columnStep;
@@ -612,6 +632,8 @@ int simDetector::computeImage()
         dims[yDim] = maxSizeY;
         if (ndims > 2) dims[colorDim] = 3;
         pRaw_ = this->pNDArrayPool->alloc(ndims, dims, dataType, 0, NULL);
+        pBackground_ = this->pNDArrayPool->alloc(ndims, dims, dataType, 0, NULL);
+        pRaw_->getInfo(&arrayInfo_);
 
         if (!pRaw_) {
             asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
@@ -939,18 +961,12 @@ asynStatus simDetector::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
      * status at the end, but that's OK */
     status = setDoubleParam(function, value);
 
-    /* Changing any of the following parameters requires recomputing the base image */
-    if ((function == ADAcquireTime) ||
-        (function == ADGain) ||
-        (function == SimGainX) ||
-        (function == SimGainY) ||
-        (function == SimGainRed) ||
-        (function == SimGainGreen) ||
-        (function == SimGainBlue)) {
-            status = setIntegerParam(SimResetImage, 1);
+    /* Changing any of the simulation parameters requires recomputing the base image */
+    if (function >= FIRST_SIM_DETECTOR_PARAM) {
+        status = setIntegerParam(SimResetImage, 1);
     } else {
-        /* If this parameter belongs to a base class call its method */
-        if (function < FIRST_SIM_DETECTOR_PARAM) status = ADDriver::writeFloat64(pasynUser, value);
+        /* This parameter belongs to a base class call its method */
+        status = ADDriver::writeFloat64(pasynUser, value);
     }
 
     /* Do callbacks so higher layers see any changes */
@@ -1036,7 +1052,8 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
     createParam(SimGainRedString,             asynParamFloat64, &SimGainRed);
     createParam(SimGainGreenString,           asynParamFloat64, &SimGainGreen);
     createParam(SimGainBlueString,            asynParamFloat64, &SimGainBlue);
-    createParam(SimNoiseString,               asynParamInt32,   &SimNoise);
+    createParam(SimOffsetString,              asynParamFloat64, &SimOffset);
+    createParam(SimNoiseString,               asynParamFloat64, &SimNoise);
     createParam(SimResetImageString,          asynParamInt32,   &SimResetImage);
     createParam(SimModeString,                asynParamInt32,   &SimMode);
     createParam(SimPeakNumXString,            asynParamInt32,   &SimPeakNumX);
@@ -1048,8 +1065,6 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
     createParam(SimPeakWidthXString,          asynParamInt32,   &SimPeakWidthX);
     createParam(SimPeakWidthYString,          asynParamInt32,   &SimPeakWidthY);
     createParam(SimPeakHeightVariationString, asynParamInt32,   &SimPeakHeightVariation);
-    createParam(SimSineOffsetString,          asynParamFloat64, &SimSineOffset);
-    createParam(SimSineNoiseString,           asynParamFloat64, &SimSineNoise);
     createParam(SimXSineOperationString,      asynParamInt32,   &SimXSineOperation);
     createParam(SimYSineOperationString,      asynParamInt32,   &SimYSineOperation);
     createParam(SimXSine1AmplitudeString,     asynParamFloat64, &SimXSine1Amplitude);
@@ -1093,7 +1108,6 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
     status |= setDoubleParam (ADAcquireTime, .001);
     status |= setDoubleParam (ADAcquirePeriod, .005);
     status |= setIntegerParam(ADNumImages, 100);
-    status |= setIntegerParam(SimNoise, 3);
     status |= setIntegerParam(SimResetImage, 1);
     status |= setDoubleParam (SimGainX, 1);
     status |= setDoubleParam (SimGainY, 1);
