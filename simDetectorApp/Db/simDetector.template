@@ -143,18 +143,37 @@ record(longin, "$(P)$(R)Reset_RBV")
    field(SCAN, "I/O Intr")
 }
 
-record(longout, "$(P)$(R)Noise")
+record(ao, "$(P)$(R)Offset")
 {
    field(PINI, "YES")
-   field(DTYP, "asynInt32")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_NOISE")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_OFFSET")
+   field(PREC, "1")
    info(autosaveFields, "VAL")
 }
 
-record(longin, "$(P)$(R)Noise_RBV")
+record(ai, "$(P)$(R)Offset_RBV")
 {
-   field(DTYP, "asynInt32")
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_OFFSET")
+   field(PREC, "1")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)$(R)Noise")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_NOISE")
+   field(PREC, "1")
+   info(autosaveFields, "VAL")
+}
+
+record(ai, "$(P)$(R)Noise_RBV")
+{
+   field(DTYP, "asynFloat64")
    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_NOISE")
+   field(PREC, "1")
    field(SCAN, "I/O Intr")
 }
 
@@ -169,6 +188,8 @@ record(mbbo, "$(P)$(R)SimMode")
    field(ONVL, "1")
    field(TWST, "Sine")
    field(TWVL, "2")
+   field(THST, "Offset&Noise")
+   field(THVL, "3")
    info(autosaveFields, "VAL")
 }
 
@@ -182,6 +203,8 @@ record(mbbi, "$(P)$(R)SimMode_RBV")
    field(ONVL, "1")
    field(TWST, "Sine")
    field(TWVL, "2")
+   field(THST, "Offset&Noise")
+   field(THVL, "3")
    field(SCAN, "I/O Intr")
 }
 
@@ -306,56 +329,24 @@ record(longin, "$(P)$(R)PeakWidthY_RBV")
    field(SCAN, "I/O Intr")
 }
 
-record(longout, "$(P)$(R)PeakVariation")
+record(ao, "$(P)$(R)PeakVariation")
 {
    field(PINI, "YES")
-   field(DTYP, "asynInt32")
+   field(DTYP, "asynFloat64")
    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_PEAK_HEIGHT_VARIATION")
+   field(PREC, "1")
    info(autosaveFields, "VAL")
 }
 
-record(longin, "$(P)$(R)PeakVariation_RBV")
+record(ai, "$(P)$(R)PeakVariation_RBV")
 {
-   field(DTYP, "asynInt32")
+   field(DTYP, "asynFloat64")
    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_PEAK_HEIGHT_VARIATION")
+   field(PREC, "1")
    field(SCAN, "I/O Intr")
 }
 
 # Records for sine wave simulation mode
-record(ao, "$(P)$(R)SineOffset")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_SINE_OFFSET")
-   field(PREC, "2")
-   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)SineOffset_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_SINE_OFFSET")
-   field(PREC, "2")
-   field(SCAN, "I/O Intr")
-}
-
-record(ao, "$(P)$(R)SineNoise")
-{
-   field(PINI, "YES")
-   field(DTYP, "asynFloat64")
-   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_SINE_NOISE")
-   field(PREC, "2")
-   info(autosaveFields, "VAL")
-}
-
-record(ai, "$(P)$(R)SineNoise_RBV")
-{
-   field(DTYP, "asynFloat64")
-   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_SINE_NOISE")
-   field(PREC, "2")
-   field(SCAN, "I/O Intr")
-}
-
 record(mbbo, "$(P)$(R)XSineOperation")
 {
    field(PINI, "YES")
