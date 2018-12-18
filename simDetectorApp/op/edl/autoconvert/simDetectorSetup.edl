@@ -6,7 +6,7 @@ release 1
 x 233
 y 109
 w 870
-h 370
+h 350
 font "helvetica-medium-r-18.0"
 ctlFont "helvetica-bold-r-10.0"
 btnFont "helvetica-medium-r-18.0"
@@ -30,9 +30,9 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 0
+x 65
 y 10
-w 430
+w 300
 h 25
 font "helvetica-medium-r-18.0"
 fontAlign "center"
@@ -70,26 +70,6 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 38
-y 300
-w 51
-h 20
-font "helvetica-medium-r-14.0"
-fontAlign "right"
-fgColor rgb 0 0 0
-bgColor index 3
-useDisplayBg
-value {
-  "Reset"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
 x 322
 y 55
 w 90
@@ -113,80 +93,10 @@ release 0
 x 250
 y 50
 w 235
-h 290
+h 265
 lineColor rgb 0 0 0
 fillColor rgb 0 0 0
 lineWidth 0
-endObjectProperties
-
-# (Text Monitor)
-object activeXTextDspClass:noedit
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 417
-y 311
-w 61
-h 18
-controlPv "$(P)$(R)Noise_RBV"
-format "decimal"
-font "helvetica-medium-r-14.0"
-fontAlign "center"
-fgColor rgb 2560 0 47104
-bgColor rgb 47872 47872 47872
-limitsFromDb
-nullColor rgb 60928 46592 11008
-smartRefresh
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Text Control)
-object activeXTextDspClass
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 352
-y 310
-w 60
-h 20
-controlPv "$(P)$(R)Noise"
-format "decimal"
-font "helvetica-medium-r-12.0"
-fontAlign "left"
-fgColor rgb 0 0 0
-bgColor rgb 29440 57088 65280
-editable
-motifWidget
-limitsFromDb
-nullColor rgb 60928 46592 11008
-smartRefresh
-fastUpdate
-newPos
-objType "controls"
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 296
-y 310
-w 51
-h 20
-font "helvetica-medium-r-14.0"
-fontAlign "right"
-fgColor rgb 0 0 0
-bgColor index 3
-useDisplayBg
-value {
-  "Noise"
-}
 endObjectProperties
 
 # (Text Control)
@@ -816,9 +726,9 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 95
+x 22
 y 55
-w 52
+w 200
 h 20
 font "helvetica-medium-r-14.0"
 fontAlign "right"
@@ -826,7 +736,7 @@ fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
 value {
-  "Gains"
+  "Gains, Ofset & Noise"
 }
 endObjectProperties
 
@@ -839,7 +749,7 @@ release 0
 x 5
 y 50
 w 235
-h 195
+h 245
 lineColor rgb 0 0 0
 fillColor rgb 0 0 0
 lineWidth 0
@@ -1271,26 +1181,6 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 64
-y 250
-w 150
-h 20
-font "helvetica-medium-r-14.0"
-fontAlign "center"
-fgColor rgb 0 0 0
-bgColor index 3
-useDisplayBg
-value {
-  "Simulation mode"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
 x 632
 y 55
 w 90
@@ -1314,7 +1204,7 @@ release 0
 x 490
 y 50
 w 375
-h 310
+h 260
 lineColor rgb 0 0 0
 fillColor rgb 0 0 0
 lineWidth 0
@@ -2140,8 +2030,48 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 600
-y 310
+x 279
+y 322
+w 51
+h 20
+font "helvetica-medium-r-14.0"
+fontAlign "right"
+fgColor rgb 0 0 0
+bgColor index 3
+useDisplayBg
+value {
+  "Reset"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 54
+y 300
+w 150
+h 20
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor rgb 0 0 0
+bgColor index 3
+useDisplayBg
+value {
+  "Simulation mode"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 32
+y 235
 w 60
 h 20
 font "helvetica-medium-r-14.0"
@@ -2159,11 +2089,11 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 665
-y 310
+x 97
+y 235
 w 60
 h 20
-controlPv "$(P)$(R)SineOffset"
+controlPv "$(P)$(R)Offset"
 format "decimal"
 font "helvetica-medium-r-12.0"
 fontAlign "left"
@@ -2185,11 +2115,11 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 730
-y 311
+x 162
+y 236
 w 60
 h 18
-controlPv "$(P)$(R)SineOffset_RBV"
+controlPv "$(P)$(R)Offset_RBV"
 format "decimal"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
@@ -2209,8 +2139,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 610
-y 335
+x 42
+y 260
 w 51
 h 20
 font "helvetica-medium-r-14.0"
@@ -2228,11 +2158,11 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 665
-y 335
+x 97
+y 260
 w 60
 h 20
-controlPv "$(P)$(R)SineNoise"
+controlPv "$(P)$(R)Noise"
 format "decimal"
 font "helvetica-medium-r-12.0"
 fontAlign "left"
@@ -2254,11 +2184,11 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 730
-y 336
+x 162
+y 261
 w 60
 h 18
-controlPv "$(P)$(R)SineNoise_RBV"
+controlPv "$(P)$(R)Noise_RBV"
 format "decimal"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
@@ -2270,51 +2200,6 @@ smartRefresh
 fastUpdate
 newPos
 objType "controls"
-endObjectProperties
-
-# (Message Button)
-object activeMessageButtonClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 94
-y 300
-w 100
-h 20
-fgColor rgb 0 0 0
-onColor rgb 29440 57088 65280
-offColor rgb 29440 57088 65280
-topShadowColor rgb 65280 65280 65280
-botShadowColor rgb 0 0 0
-controlPv "$(P)$(R)Reset"
-pressValue "1"
-releaseValue 
-onLabel "Reset image"
-offLabel "Reset image"
-3d
-useEnumNumeric
-font "helvetica-medium-r-12.0"
-endObjectProperties
-
-# (Menu Button)
-object activeMenuButtonClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 64
-y 275
-w 150
-h 20
-fgColor rgb 0 0 0
-bgColor rgb 29440 57088 65280
-inconsistentColor rgb 17920 17920 17920
-topShadowColor rgb 55808 55808 55808
-botShadowColor rgb 17920 17920 17920
-controlPv "$(P)$(R)SimMode"
-indicatorPv "$(P)$(R)SimMode"
-font "helvetica-medium-r-12.0"
 endObjectProperties
 
 # (Menu Button)
@@ -2354,6 +2239,51 @@ topShadowColor rgb 55808 55808 55808
 botShadowColor rgb 17920 17920 17920
 controlPv "$(P)$(R)YSineOperation"
 indicatorPv "$(P)$(R)YSineOperation"
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 335
+y 322
+w 100
+h 20
+fgColor rgb 0 0 0
+onColor rgb 29440 57088 65280
+offColor rgb 29440 57088 65280
+topShadowColor rgb 65280 65280 65280
+botShadowColor rgb 0 0 0
+controlPv "$(P)$(R)Reset"
+pressValue "1"
+releaseValue 
+onLabel "Reset image"
+offLabel "Reset image"
+3d
+useEnumNumeric
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 54
+y 325
+w 150
+h 20
+fgColor rgb 0 0 0
+bgColor rgb 29440 57088 65280
+inconsistentColor rgb 17920 17920 17920
+topShadowColor rgb 55808 55808 55808
+botShadowColor rgb 17920 17920 17920
+controlPv "$(P)$(R)SimMode"
+indicatorPv "$(P)$(R)SimMode"
 font "helvetica-medium-r-12.0"
 endObjectProperties
 
