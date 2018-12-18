@@ -69,7 +69,7 @@ private:
     NDArray *pRaw_;
     NDArray *pBackground_;
     bool useBackground_;
-    int backgroundStart_;
+    NDArray *pRamp_;
     NDArray *pPeak_;
     NDArrayInfo arrayInfo_;
     double *xSine1_;
@@ -83,7 +83,8 @@ private:
 typedef enum {
     SimModeLinearRamp,
     SimModePeaks,
-    SimModeSine
+    SimModeSine,
+    SimModeOffsetNoise
 } SimModes_t;
 
 typedef enum {
