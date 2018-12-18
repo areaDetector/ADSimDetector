@@ -14,8 +14,7 @@ $(P)$(R)PeakWidthX
 $(P)$(R)PeakWidthY
 $(P)$(R)PeakVariation
 $(P)$(R)Noise
-$(P)$(R)SineOffset
-$(P)$(R)SineNoise
+$(P)$(R)Offset
 $(P)$(R)XSineOperation
 $(P)$(R)XSine1Amplitude
 $(P)$(R)XSine1Frequency
