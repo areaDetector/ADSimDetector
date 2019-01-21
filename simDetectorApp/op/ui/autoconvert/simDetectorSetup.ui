@@ -1503,7 +1503,7 @@ border-radius: 2px;
                 </color>
             </property>
             <property name="text">
-                <string>Variation</string>
+                <string>% Variat.</string>
             </property>
             <property name="fontScaleMode">
                 <enum>ESimpleLabel::WidthAndHeight</enum>

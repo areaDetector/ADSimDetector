@@ -716,7 +716,7 @@ fgColor rgb 0 0 0
 bgColor index 3
 useDisplayBg
 value {
-  "Variation"
+  "% Variat."
 }
 endObjectProperties
 
