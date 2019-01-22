@@ -17,109 +17,171 @@
 #include <simDetector.h>
 
 #define NUM_FRAMES 10
-#define FILE_PATH "/home/epics/scratch/";
+#define FILE_PATH "/tmp/"
 #define REPORT_LEVEL 10
 
 #ifndef EPICS_LIBCOM_ONLY
   #include <dbAccess.h>
 #endif
 
-void statsCounterCallback(void *drvPvt, asynUser *pasynUser, epicsInt32 data)
+class callbackStruct {
+public:
+  callbackStruct(const char *paramStringIn, asynParamClient *pClientIn, class simDetectorDemo *pSimDetectorDemoIn)
+  : paramString(paramStringIn), pClient(pClientIn), pSimDetectorDemo(pSimDetectorDemoIn), pasynUser(0) {};
+  const char *paramString;
+  asynParamClient *pClient;
+  class simDetectorDemo *pSimDetectorDemo;
+  asynUser *pasynUser;
+};
+
+
+class epicsShareClass simDetectorDemo
 {
-    printf("statsCounterCallback, counter=%d\n", data);
+public:
+  simDetectorDemo();
+  ~simDetectorDemo();
+  void testAcquire();
+  void int32Callback(callbackStruct *pCallback, epicsInt32 data);
+  void float64Callback(callbackStruct *pCallback, epicsFloat64 data);
+  void NDArrayCallback(callbackStruct *pCallback, NDArray *pArray);
+
+private:
+  simDetector    *pSimDetector_;
+  asynPortClient *pSimClient_;
+  NDPluginStats  *pStatsPlugin_;
+  asynPortClient *pStatsClient_;
+  NDFileHDF5     *pHDF5Plugin_;
+  asynPortClient *pHDF5Client_;
+  bool isAcquiring_;
+};
+
+void int32CallbackC(void *drvPvt, asynUser *pasynUser, epicsInt32 data)
+{
+  callbackStruct *pCallback = (callbackStruct*)drvPvt;
+  pCallback->pasynUser = pasynUser;
+  pCallback->pSimDetectorDemo->int32Callback(pCallback, data);
 }
 
-void acquireFrame(asynInt32Client *acquire)
+void simDetectorDemo::int32Callback(callbackStruct *pCallback, epicsInt32 data)
 {
-  int acquiring;
-  acquire->write(1);
-  do {
-    acquire->read(&acquiring);
+  if (strcmp(pCallback->paramString, ADAcquireString) == 0) {
+    isAcquiring_ = data ? true : false;
+  }
+}
+
+void float64CallbackC(void *drvPvt, asynUser *pasynUser, epicsFloat64 data)
+{
+  callbackStruct *pCallback = (callbackStruct*)drvPvt;
+  pCallback->pasynUser = pasynUser;
+  pCallback->pSimDetectorDemo->float64Callback(pCallback, data);
+}
+
+
+void simDetectorDemo::float64Callback(callbackStruct *pCallback, epicsFloat64 data)
+{
+  if (strcmp(pCallback->paramString, NDPluginStatsMeanValueString) == 0) {
+    printf("Statistics: mean value=%f\n", data);
+  }
+}
+
+void NDArrayCallbackC(void *drvPvt, asynUser *pasynUser, void* pData)
+{
+  callbackStruct *pCallback = (callbackStruct*)drvPvt;
+  pCallback->pasynUser = pasynUser;
+  pCallback->pSimDetectorDemo->NDArrayCallback(pCallback, (NDArray *)pData);
+}
+
+
+void simDetectorDemo::NDArrayCallback(callbackStruct *pCallback, NDArray *pArray)
+{
+  if (strcmp(pCallback->paramString, NDArrayDataString) == 0) {
+    printf("NDArray.uniqueId=%d\n", pArray->uniqueId);
+  }
+}
+
+simDetectorDemo::simDetectorDemo()
+{
+
+  // Create a simDetector driver
+  pSimDetector_ =  new simDetector("SIM1", 1024, 1024, NDUInt8, 0, 0, 0, 0);
+  // Create an asynPortClient for the simDetector
+  pSimClient_   =  new asynPortClient("SIM1");
+  pSimClient_->write(NDArrayCallbacksString, 1);           // Enable NDArray callbacks
+  pSimClient_->write(ADGainString, 1.0);                   // Set the Gain to 1.0
+  pSimClient_->write(ADImageModeString, ADImageMultiple);  // Set the image mode to Multiple
+  pSimClient_->write(SimNoiseString, 50.0);                // Set random noise to 50 counts
+  pSimClient_->write(ADAcquireTimeString, 0.2);            // 0.2 seconds per image
+  pSimClient_->write(ADNumImagesString, NUM_FRAMES);       // Collect 10 frames
+  pSimClient_->write(ADNumImagesString, NUM_FRAMES);       // Collect 10 frames
+
+  // Create a statistics plugin getting its data from the simDetector
+  pStatsPlugin_ =  new NDPluginStats("STATS1", 20, 0, "SIM1", 0, 0, 0, 0, 0);
+  pStatsClient_ =  new asynPortClient("STATS1"); 
+  pStatsPlugin_->start();  // Start the plugin
+  pStatsClient_->write(NDPluginDriverEnableCallbacksString, 1);  // Enable callbacks to this plugin
+  pStatsClient_->write(NDPluginStatsComputeStatisticsString, 1); // Enable computing basic statistics
+
+  // Create an HDF5 plugin getting its data from the simDetector
+  pHDF5Plugin_  = new NDFileHDF5("HDF5",   20, 0, "SIM1", 0, 0, 0);
+  pHDF5Client_  = new asynPortClient("HDF5"); 
+  pHDF5Plugin_->start();  // Start the plugin
+  pHDF5Client_->write(NDPluginDriverEnableCallbacksString, 1);  // Enable callbacks to this plugin
+  pHDF5Client_->write(NDFileNameString, "test");                // Set the file name
+  pHDF5Client_->write(NDFilePathString, FILE_PATH);             // Set the file path
+  pHDF5Client_->write(NDFileNumberString, 1);                   // Set the file number
+  pHDF5Client_->write(NDAutoIncrementString, 1);                // Enable file number auto-increment
+  pHDF5Client_->write(NDFileTemplateString, "%s%s_%3.3d.h5");   // Set the file name format string (C-style)
+  pHDF5Client_->write(NDFileWriteModeString, NDFileModeStream); // Set the file mode to stream (multiple arrays per file)
+  pHDF5Client_->write(NDFileNumCaptureString, NUM_FRAMES);      // Number of arrays to stream before closing file 
+  pHDF5Client_->write(NDFileLazyOpenString, 1);                 // Wait to open file till first frame arrives 
+
+  // Enable callbacks for some parameters
+  asynInt32Client *pAcquire = (asynInt32Client*)pSimClient_->getParamClient(ADAcquireString);
+  callbackStruct *pAcquireCallback = new callbackStruct(ADAcquireString, pAcquire, this);
+  pAcquire->registerInterruptUser(int32CallbackC, pAcquireCallback);
+
+  asynFloat64Client *pMean = (asynFloat64Client*)pStatsClient_->getParamClient(NDPluginStatsMeanValueString);
+  callbackStruct *pMeanCallback = new callbackStruct(NDPluginStatsMeanValueString, pMean, this);
+  pMean->registerInterruptUser(float64CallbackC, pMeanCallback);
+
+  asynGenericPointerClient *pNDArray = (asynGenericPointerClient*)pSimClient_->getParamClient(NDArrayDataString);
+  callbackStruct *pNDArrayCallback = new callbackStruct(NDArrayDataString, pNDArray, this);
+  pNDArray->registerInterruptUser(NDArrayCallbackC, pNDArrayCallback);
+
+}
+
+simDetectorDemo::~simDetectorDemo()
+{}
+
+void simDetectorDemo::testAcquire()
+{
+  // Start the HDF5 plugin streaming
+  pHDF5Client_->write(NDFileCaptureString, 1);
+
+  // Start the simDetector acquiring
+  pSimClient_->write(ADAcquireString, 1);
+
+  // Wait for acquisition to complete. isAcquiring_ is cleared in the int32Callback function
+  while (isAcquiring_) {
     epicsThreadSleep(0.1);
-  } while (acquiring);
+  }
+  int numHDF5Captured;
+  pHDF5Client_->read(NDFileNumCapturedString, &numHDF5Captured);
+  printf("HDF5 numCaptured = %d\n", numHDF5Captured);
 }
 
 int main(int argc, char **argv)
 {
-  int numStd;
-  int numStats;
-  int numHDF5Captured;
-  double meanCounts;
-  size_t numWritten;
-  asynStatus status;
-  const char *str;
-  
 #ifndef EPICS_LIBCOM_ONLY
   // Must set this for callbacks to work if EPICS_LIBCOM_ONLY is not defined
   interruptAccept = 1;  
 #endif
-
-  simDetector                   simD  =       simDetector("SIM1", 1024, 1024, NDUInt8, 0, 0, 0, 0);
-  NDPluginStats                stats  =     NDPluginStats("STATS1", 20, 0, "SIM1", 0, 0, 0, 0, 0);
-  NDPluginStdArrays        stdArrays  = NDPluginStdArrays("STD1",   20, 0, "SIM1", 0, 0, 0, 0, 0);
-  NDFileHDF5                fileHDF5  =        NDFileHDF5("HDF5",   20, 0, "SIM1", 0, 0, 0);
-  asynInt32Client            acquire  =   asynInt32Client("SIM1",   0, ADAcquireString);
-  asynInt32Client        acquireMode  =   asynInt32Client("SIM1",   0, ADImageModeString);
-  asynInt32Client     arrayCallbacks  =   asynInt32Client("SIM1",   0, NDArrayCallbacksString);
-  asynFloat64Client          simGain  = asynFloat64Client("SIM1",   0, ADGainString);
-  asynInt32Client        statsEnable  =   asynInt32Client("STATS1", 0, NDPluginDriverEnableCallbacksString);
-  asynInt32Client       statsCounter  =   asynInt32Client("STATS1", 0, NDArrayCounterString);
-  asynInt32Client       statsCompute  =   asynInt32Client("STATS1", 0, NDPluginStatsComputeStatisticsString);
-  asynFloat64Client        statsMean  = asynFloat64Client("STATS1", 0, NDPluginStatsMeanValueString);
-  asynInt32Client    stdArraysEnable  =   asynInt32Client("STD1",   0, NDPluginDriverEnableCallbacksString);
-  asynInt32Client   stdArraysCounter  =   asynInt32Client("STD1",   0, NDArrayCounterString);
-  asynInt32Client         hdf5Enable  =   asynInt32Client("HDF5",   0, NDPluginDriverEnableCallbacksString);
-  asynOctetClient           hdf5Name  =   asynOctetClient("HDF5",   0, NDFileNameString);
-  asynOctetClient           hdf5Path  =   asynOctetClient("HDF5",   0, NDFilePathString);
-  asynOctetClient       hdf5Template  =   asynOctetClient("HDF5",   0, NDFileTemplateString);
-  asynInt32Client         hdf5Number  =   asynInt32Client("HDF5",   0, NDFileNumberString);
-  asynInt32Client     hdf5NumCapture  =   asynInt32Client("HDF5",   0, NDFileNumCaptureString);
-  asynInt32Client    hdf5NumCaptured  =   asynInt32Client("HDF5",   0, NDFileNumCapturedString);
-  asynInt32Client      hdf5WriteMode  =   asynInt32Client("HDF5",   0, NDFileWriteModeString);
-  asynInt32Client        hdf5Capture  =   asynInt32Client("HDF5",   0, NDFileCaptureString);
-
-  // Need to start each plugin
-  stats.start();
-  stdArrays.start();
-  fileHDF5.start();
-
-  arrayCallbacks.write(1);
-  simGain.write(1.0);
-  acquireMode.write(ADImageSingle);
-  statsEnable.write(1);
-  statsCompute.write(1);
-  stdArraysEnable.write(1);
-  hdf5Enable.write(1);
-  str = "test";
-  hdf5Name.write(str, strlen(str), &numWritten);
-  str = FILE_PATH;
-  hdf5Path.write(str, strlen(str), &numWritten);
-  str = "%s%s_%3.3d.h5";
-  hdf5Template.write(str, strlen(str), &numWritten);
-  hdf5Number.write(1);
-  hdf5NumCapture.write(NUM_FRAMES);
-  hdf5WriteMode.write(NDFileModeStream);
-  status = statsCounter.registerInterruptUser(statsCounterCallback);
-  if (status) {
-    printf("Error calling registerInterruptUser, status=%d\n", status);
-  }
-  pasynManager->report(stdout, REPORT_LEVEL, "SIM1");
-  pasynManager->report(stdout, REPORT_LEVEL, "STATS1");
-  // Acquire 1 frame so HDF5 plugin is configured
-  acquireFrame(&acquire);
-  hdf5Capture.write(1);
-  pasynManager->report(stdout, REPORT_LEVEL, "HDF5");
-  for (int i=0; i<NUM_FRAMES; i++) {
-    acquireFrame(&acquire);
-    stdArraysCounter.read(&numStd);
-    printf("\nNDStdArrays callbacks=%d\n", numStd);
-    statsCounter.read(&numStats);
-    printf("NDStats callbacks    =%d\n", numStats);
-    statsMean.read(&meanCounts);
-    printf("NDStats mean counts =%f\n", meanCounts);
-    hdf5NumCaptured.read(&numHDF5Captured);
-    printf("HDF5 numCaptured     =%d\n", numHDF5Captured);
-  }
-
-  return 0;
+  // Create the object and acquire 3 times
+  simDetectorDemo demo;
+  demo.testAcquire();
+  demo.testAcquire();
+  demo.testAcquire();
 }
+
+
+
