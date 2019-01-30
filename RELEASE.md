@@ -34,6 +34,40 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-9 (February XXX, 2019)
+===================
+* Requires asyn R4-35 because of changes to the asynPortClient class used in simDetectorNoIOC (see below).
+* Changes in the simulation modes and parameters to improve utility and performance.
+  * The Noise parameter now applies to all simulation modes, not just to Peaks mode.
+  * The Noise computation only calls rand() when the image is reset, i.e. the data type,
+    dimensions, etc. are changed.  In normal cases it just adds the precomputed noise
+    to each pixel starting at a random pixel.  This means the noise spatial pattern is the same
+    in each successive image, but starting at a different pixel.  This makes it look quite random
+    while being very fast.
+  * A new Offset parameter now applies to all simulation modes.
+  * The sineNoise and sineOffset parameters were removed, replaced by Noise and Offset.
+  * PeakVariation was changed from longout record to ao record so it is not constrained to be an integer.
+  * Removed the dependence of the image data on the AcquireTime.  This was confusing and meant the data
+    changed significantly when the AcquireTime changed.
+  * Improved performance of Peaks mode by more than 10X.  Previously it computed the Gaussian peak profile
+    for each peak in the image.  Now it only does the Gausssian calculation once into a scratch buffer
+    and then copies that peak multiple times into the output image at different locations.
+  * A new simulation mode Offset&Noise was added.  This mode only does offset and noise, and
+    is the fastest simulation mode.  It can generate >700 frames/s using 1024x1024 images and asynFloat64
+    data type, which is >5GB/s.  In asynUInt8 mode it can generate >3000 frames/s which is >3GB/s.
+* simDetectorNoIOC
+  * This directory contains a pure C++ application that instantiates a simDetector, a statistics plugin,
+    and an HDF5 file plugin outside the context of an EPICS IOC.  
+    It is intended in part to demonstrate that areaDetector drivers and plugins can be used with other
+    control systems such as Tango. 
+  * This application has been considerably improved and simplified by using the new versions of the
+    asynPortClient and asynParamClient classes in asyn R4-35.
+* iocHDF5Test
+  * Fixed the startup scripts.
+
+  
+
+
 R2-8 (July 1, 2018)
 ===================
 * Changed Makefile to use addprefix to add -I to user-defined include file directory paths
