@@ -10,7 +10,7 @@
     <h1 style="text-align: center">
       areaDetector Simulation driver</h1>
     <h2>
-      October 8, 2016</h2>
+      April 19, 2019</h2>
     <h2>
       Mark Rivers and John Hammonds</h2>
     <h2>
@@ -28,6 +28,7 @@
         <li><a href="#LinearRamp">Linear ramp</a></li>
         <li><a href="#Peaks">Array of peaks</a></li>
         <li><a href="#Sine">Sums or products of sine waves</a></li>
+        <li><a href="#Offset_Noise">Offset and noise</a></li>
       </ol>
     </li>
     <li><a href="#Unsupported">Unsupported standard driver parameters</a></li>
@@ -70,19 +71,26 @@
       </tr>
       <tr>
         <th>
-          Parameter index variable</th>
+          Parameter index variable
+        </th>
         <th>
-          asyn interface</th>
+          asyn interface
+        </th>
         <th>
-          Access</th>
+          Access
+        </th>
         <th>
-          Description</th>
+          Description
+        </th>
         <th>
-          drvInfo string</th>
+          drvInfo string
+        </th>
         <th>
-          EPICS record name</th>
+          EPICS record name
+        </th>
         <th>
-          EPICS record type</th>
+          EPICS record type
+        </th>
       </tr>
       <tr>
         <td>
@@ -176,6 +184,42 @@
       </tr>
       <tr>
         <td>
+          SimOffset</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The offset added to the image. </td>
+        <td>
+          SIM_OFFSET</td>
+        <td>
+          $(P)$(R)Offset<br />
+          $(P)$(R)Offset_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
+      </tr>
+      <tr>
+        <td>
+          SimNoise</td>
+        <td>
+          asynFloat64</td>
+        <td>
+          r/w</td>
+        <td>
+          The amount of random noise added to the image. </td>
+        <td>
+          SIM_NOISE</td>
+        <td>
+          $(P)$(R)Noise<br />
+          $(P)$(R)Noise_RBV</td>
+        <td>
+          ao<br />
+          ai</td>
+      </tr>
+      <tr>
+        <td>
           SimResetImage</td>
         <td>
           asynInt32</td>
@@ -204,7 +248,8 @@
           <ul>
             <li>0: LinearRamp (linear ramp)</li>
             <li>1: Peaks (Array of peaks)</li>
-            <li>1: Sine (Sum or product of sine waves)</li>
+            <li>2: Sine (Sum or product of sine waves)</li>
+            <li>2: Offset&Noise (Offset and noise only, fastest mode)</li>
           </ul>
         </td>
         <td>
@@ -385,64 +430,8 @@
           longin</td>
       </tr>
       <tr>
-        <td>
-          SimNoise</td>
-        <td>
-          asynInt32</td>
-        <td>
-          r/w</td>
-        <td>
-          Used to introduce randomness. If non-zero then each affected pixel is assigned a
-          scaling factor.<br />
-          scalingFactor = 1.0 + (rand()%noise +1)/100.0 </td>
-        <td>
-          SIM_NOISE</td>
-        <td>
-          $(P)$(R)Noise<br />
-          $(P)$(R)Noise_RBV</td>
-        <td>
-          longout<br />
-          longin</td>
-      </tr>
-      <tr>
         <td align="center" colspan="7">
           <b>Parameters for Sine Mode</b></td>
-      </tr>
-      <tr>
-        <td>
-          SimSinOffset</td>
-        <td>
-          asynFloat64</td>
-        <td>
-          r/w</td>
-        <td>
-          The offset value added to the image. </td>
-        <td>
-          SIM_SIN_OFFSET</td>
-        <td>
-          $(P)$(R)SineOffset<br />
-          $(P)$(R)SineOffset_RBV</td>
-        <td>
-          ao<br />
-          ai</td>
-      </tr>
-      <tr>
-        <td>
-          SimSinNoise</td>
-        <td>
-          asynFloat64</td>
-        <td>
-          r/w</td>
-        <td>
-          The amount of random noise added to the image. </td>
-        <td>
-          SIM_SIN_NOISE</td>
-        <td>
-          $(P)$(R)SineNoise<br />
-          $(P)$(R)SineNoise_RBV</td>
-        <td>
-          ao<br />
-          ai</td>
       </tr>
       <tr>
         <td>
@@ -664,6 +653,11 @@
     red image is a single sine wave in the X direction (XSine1), the green image is
     a single sine wave in the Y direction (YSine1), and the blue image is the sum of
     XSine2 and YSine2.</p>
+  <h3 id="Offset_Noise">
+    Offset&Noise</h3>
+  <p>
+    The image is controlled only by the Offset and Noise parameters. This is the fastest
+    mode.</p>
   <h2 id="Unsupported">
     Unsupported standard driver parameters</h2>
   <ul>
