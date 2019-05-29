@@ -34,7 +34,7 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-9 (February XXX, 2019)
+R2-9 (May 29, 2019)
 ===================
 * Requires asyn R4-35 because of changes to the asynPortClient class used in simDetectorNoIOC (see below).
 * Changes in the simulation modes and parameters to improve utility and performance.
@@ -64,8 +64,6 @@ R2-9 (February XXX, 2019)
     asynPortClient and asynParamClient classes in asyn R4-35.
 * iocHDF5Test
   * Fixed the startup scripts.
-
-  
 
 
 R2-8 (July 1, 2018)
