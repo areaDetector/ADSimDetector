@@ -638,6 +638,12 @@ int simDetector::computeImage()
         case NDUInt32:
             status |= computeArray<epicsUInt32>(maxSizeX, maxSizeY);
             break;
+        case NDInt64:
+            status |= computeArray<epicsInt64>(maxSizeX, maxSizeY);
+            break;
+        case NDUInt64:
+            status |= computeArray<epicsUInt64>(maxSizeX, maxSizeY);
+            break;
         case NDFloat32:
             status |= computeArray<epicsFloat32>(maxSizeX, maxSizeY);
             break;
