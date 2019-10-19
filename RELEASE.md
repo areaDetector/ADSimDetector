@@ -34,6 +34,14 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-10 (October XXX, 2019)
+=========================
+* Added support for NDArray datatypes NDInt64 and NDUInt64
+  * This requires asyn R4-37 and ADCore R3-8 
+* Added iocSimDetector/testHDF5Compression.py to test HDF5 compression.
+* Added Time64 attribute to iocSimDetector/simDetectorAttributes.xml.  This tests attributes of type NDAttrUInt64.
+
+
 R2-9 (May 29, 2019)
 ===================
 * Requires asyn R4-35 because of changes to the asynPortClient class used in simDetectorNoIOC (see below).
