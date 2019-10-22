@@ -34,7 +34,7 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
-R2-10 (October XXX, 2019)
+R2-10 (October 22, 2019)
 =========================
 * Added support for NDArray datatypes NDInt64 and NDUInt64
   * This requires asyn R4-37 and ADCore R3-8 
