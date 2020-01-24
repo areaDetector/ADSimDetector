@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/areaDetector-3-3/ADSimDetector/simDetectorApp/op/adl/simDetector.adl"
+	name="/home/epics/devel/areaDetector-3-8/ADSimDetector/simDetectorApp/op/adl/simDetector.adl"
 	version=030109
 }
 display {
@@ -593,6 +593,7 @@ text {
 		bclr=2
 	}
 	clrmod="alarm"
+	format="string"
 	limits {
 	}
 }
