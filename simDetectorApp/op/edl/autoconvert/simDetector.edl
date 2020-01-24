@@ -873,7 +873,7 @@ y 535
 w 160
 h 18
 controlPv "$(P)$(R)DetectorState_RBV"
-format "decimal"
+format "string"
 font "helvetica-medium-r-14.0"
 fontAlign "left"
 fgColor rgb 0 65535 0

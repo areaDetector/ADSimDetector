@@ -598,7 +598,7 @@
       <color red="218" green="218" blue="218">
       </color>
     </background_color>
-    <format>1</format>
+    <format>6</format>
     <show_units>false</show_units>
   </widget>
   <widget type="label" version="2.0.0">
