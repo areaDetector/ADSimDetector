@@ -11,5 +11,5 @@ and the first release of the new repository was called R2-3 to continue the
 release numbering from ADExample.
 
 Additional information:
-* [Documentation](https://areadetector.github.io/master/ADSimDetector/simDetector.html).
+* [Documentation](https://areadetector.github.io/master/ADSimDetector/simDetector.html)
 * [Release notes and links to source and binary releases](RELEASE.md).
