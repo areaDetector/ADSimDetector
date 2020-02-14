@@ -12,4 +12,4 @@ release numbering from ADExample.
 
 Additional information:
 * [Documentation](https://areadetector.github.io/master/ADSimDetector/simDetector.html)
-* [Release notes and links to source and binary releases](RELEASE.md).
+* [Release notes and links to source and binary releases](RELEASE.md)
