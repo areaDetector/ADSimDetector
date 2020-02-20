@@ -2,7 +2,7 @@ ADSimDetector
 =============
 The home of the simDetector for the
 [EPICS](http://www.aps.anl.gov/epics/) 
-[areaDetector](https://cars.uchicago.edu/software/epics/areaDetector.html) 
+[areaDetector](https://github.com/areaDetector/areaDetector/blob/master/README.md) 
 software.  It contains this example driver and an example IOC directory.
 
 Prior to R2-3 the files in this repository were contained in the ADExample
