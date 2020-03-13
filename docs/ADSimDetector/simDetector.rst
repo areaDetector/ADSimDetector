@@ -342,8 +342,16 @@ refer to the detailed documentation on the simDetectorConfig function
 in the `simDetector.cpp`_ and in the documentation for
 the constructor for the `simDetector class`_.
 
+Example st.cmd startup file
+---------------------------
+
+.. toctree::
+   :hidden:
+   
+   st_cmd.rst
+
 There an example IOC boot directory and startup script
-(:doc:`stcmd`) provided with areaDetector.
+provided with areaDetector: :doc:`st_cmd`.
 
 Screenshots
 ------------
