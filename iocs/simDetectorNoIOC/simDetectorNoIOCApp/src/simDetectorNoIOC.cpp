@@ -116,14 +116,14 @@ simDetectorDemo::simDetectorDemo()
 
   // Create a statistics plugin getting its data from the simDetector
   pStatsPlugin_ =  new NDPluginStats("STATS1", 20, 0, "SIM1", 0, 0, 0, 0, 0);
-  pStatsClient_ =  new asynPortClient("STATS1"); 
+  pStatsClient_ =  new asynPortClient("STATS1");
   pStatsPlugin_->start();  // Start the plugin
   pStatsClient_->write(NDPluginDriverEnableCallbacksString, 1);  // Enable callbacks to this plugin
   pStatsClient_->write(NDPluginStatsComputeStatisticsString, 1); // Enable computing basic statistics
 
   // Create an HDF5 plugin getting its data from the simDetector
   pHDF5Plugin_  = new NDFileHDF5("HDF5",   20, 0, "SIM1", 0, 0, 0);
-  pHDF5Client_  = new asynPortClient("HDF5"); 
+  pHDF5Client_  = new asynPortClient("HDF5");
   pHDF5Plugin_->start();  // Start the plugin
   pHDF5Client_->write(NDPluginDriverEnableCallbacksString, 1);  // Enable callbacks to this plugin
   pHDF5Client_->write(NDFileNameString, "test");                // Set the file name
@@ -132,8 +132,8 @@ simDetectorDemo::simDetectorDemo()
   pHDF5Client_->write(NDAutoIncrementString, 1);                // Enable file number auto-increment
   pHDF5Client_->write(NDFileTemplateString, "%s%s_%3.3d.h5");   // Set the file name format string (C-style)
   pHDF5Client_->write(NDFileWriteModeString, NDFileModeStream); // Set the file mode to stream (multiple arrays per file)
-  pHDF5Client_->write(NDFileNumCaptureString, NUM_FRAMES);      // Number of arrays to stream before closing file 
-  pHDF5Client_->write(NDFileLazyOpenString, 1);                 // Wait to open file till first frame arrives 
+  pHDF5Client_->write(NDFileNumCaptureString, NUM_FRAMES);      // Number of arrays to stream before closing file
+  pHDF5Client_->write(NDFileLazyOpenString, 1);                 // Wait to open file till first frame arrives
 
   // Enable callbacks for some parameters
   asynInt32Client *pAcquire = (asynInt32Client*)pSimClient_->getParamClient(ADAcquireString);
@@ -174,7 +174,7 @@ int main(int argc, char **argv)
 {
 #ifndef EPICS_LIBCOM_ONLY
   // Must set this for callbacks to work if EPICS_LIBCOM_ONLY is not defined
-  interruptAccept = 1;  
+  interruptAccept = 1;
 #endif
   // Create the object and acquire 3 times
   simDetectorDemo demo;
