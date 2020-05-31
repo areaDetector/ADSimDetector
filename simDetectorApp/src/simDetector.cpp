@@ -73,22 +73,22 @@ template <typename epicsType> int simDetector::computeArray(int sizeX, int sizeY
                     pBackgroundData[i] = (epicsType)((noise * (rand() / (double)RAND_MAX)) + offset);
                 }
             }
-        } 
+        }
     }
-            
+
     if (useBackground_) {
         // Copy the pre-computed random noise array starting at a random location
         int backgroundStart = (int)((arrayInfo_.nElements) * (rand() / (double)RAND_MAX));
         int numCopy1 = (arrayInfo_.nElements - backgroundStart) * arrayInfo_.bytesPerElement;
         int numCopy2 = backgroundStart * arrayInfo_.bytesPerElement;
-        memcpy(pRawData, pBackgroundData + backgroundStart, numCopy1); 
-        memcpy(pRawData + arrayInfo_.nElements - backgroundStart, pBackgroundData, numCopy2); 
+        memcpy(pRawData, pBackgroundData + backgroundStart, numCopy1);
+        memcpy(pRawData + arrayInfo_.nElements - backgroundStart, pBackgroundData, numCopy2);
     } else {
         if (simMode != SimModeLinearRamp) {
             memset(pRawData, 0, arrayInfo_.totalBytes);
         }
     }
-             
+
     switch(simMode) {
         case SimModeLinearRamp:
             status = computeLinearRampArray<epicsType>(sizeX, sizeY);
@@ -128,14 +128,14 @@ template <typename epicsType> int simDetector::computeLinearRampArray(int sizeX,
     status = getDoubleParam (SimGainBlue,   &gainBlue);
     status = getIntegerParam(SimResetImage, &resetImage);
     status = getIntegerParam(NDColorMode,   &colorMode);
- 
+
     /* The intensity at each pixel[i,j] is:
      * (i * gainX + j* gainY) + imageCounter * gain */
     incMono  = (epicsType) (gain);
     incRed   = (epicsType) gainRed   * incMono;
     incGreen = (epicsType) gainGreen * incMono;
     incBlue  = (epicsType) gainBlue  * incMono;
-    
+
     if (useBackground_) {
         pData = pRampData;
     } else {
@@ -351,7 +351,7 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
     epicsType *pMono=NULL, *pRed=NULL, *pGreen=NULL, *pBlue=NULL;
     int columnStep=0, rowStep=0, colorMode;
     int status = asynSuccess;
-    int xSineOperation, ySineOperation;   
+    int xSineOperation, ySineOperation;
     double exposureTime, gain, gainX, gainY, gainRed, gainGreen, gainBlue;
     double xSine1Amplitude, xSine1Frequency, xSine1Phase;
     double xSine2Amplitude, xSine2Frequency, xSine2Phase;
@@ -424,8 +424,8 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
       ySine2_ = (double *)calloc(sizeY, sizeof(double));
       xSineCounter_ = 0;
       ySineCounter_ = 0;
-    } 
-    
+    }
+
     for (i=0; i<sizeX; i++) {
         xTime = xSineCounter_++ * gainX / sizeX;
         xSine1_[i] = xSine1Amplitude * sin((xTime  * xSine1Frequency + xSine1Phase/360.) * 2. * M_PI);
@@ -435,8 +435,8 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
         yTime = ySineCounter_++ * gainY / sizeY;
         ySine1_[i] = ySine1Amplitude * sin((yTime  * ySine1Frequency + ySine1Phase/360.) * 2. * M_PI);
         ySine2_[i] = ySine2Amplitude * sin((yTime  * ySine2Frequency + ySine2Phase/360.) * 2. * M_PI);
-    }                             
-    
+    }
+
     if (colorMode == NDColorModeMono) {
         if (xSineOperation == SimSineOperationAdd) {
             for (i=0; i<sizeX; i++) {
@@ -774,7 +774,7 @@ void simDetector::simTask()
 
         /* Close the shutter */
         setShutter(ADShutterClosed);
-        
+
         if (!acquire) continue;
 
         setIntegerParam(ADStatus, ADStatusReadout);
@@ -817,7 +817,7 @@ void simDetector::simTask()
             setStringParam(ADStatusMessage, "Waiting for acquisition");
             setIntegerParam(ADStatus, ADStatusIdle);
             callParamCallbacks();
-  
+
             acquire = 0;
             setIntegerParam(ADAcquire, acquire);
             asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
@@ -856,7 +856,7 @@ void simDetector::simTask()
     }
 }
 
-
+
 /** Called when asyn clients call pasynInt32->write().
   * This function performs actions for some parameters, including ADAcquire, ADColorMode, etc.
   * For all parameters it sets the value in the parameter library and calls any registered callbacks..
@@ -885,11 +885,11 @@ asynStatus simDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
         } else {
           setIntegerParam(ADStatus, ADStatusAborted);
         }
-        setIntegerParam(ADStatus, ADStatusAcquire); 
+        setIntegerParam(ADStatus, ADStatusAcquire);
       }
     }
     callParamCallbacks();
- 
+
     /* Set the parameter and readback in the parameter library.  This may be overwritten when we read back the
      * status at the end, but that's OK */
     status = setIntegerParam(function, value);
@@ -899,14 +899,14 @@ asynStatus simDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
         if (value && !acquiring) {
             /* Send an event to wake up the simulation task.
              * It won't actually start generating new images until we release the lock below */
-            epicsEventSignal(startEventId_); 
+            epicsEventSignal(startEventId_);
         }
         if (!value && acquiring) {
             /* This was a command to stop acquisition */
             /* Send the stop event */
-            epicsEventSignal(stopEventId_); 
+            epicsEventSignal(stopEventId_);
         }
-    } else if ((function == NDDataType) || 
+    } else if ((function == NDDataType) ||
                (function == NDColorMode) ||
                (function == SimMode) ||
                ((function >= SimPeakStartX) && (function <= SimPeakStepY))) {  // This assumes order in simDetector.h!
@@ -966,7 +966,7 @@ asynStatus simDetector::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
     return status;
 }
 
-
+
 /** Report status of the driver.
   * Prints details about the driver if details>0.
   * It then calls the ADDriver::report() method.
@@ -1067,7 +1067,7 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
     /* Set some default values for parameters */
     status =  setStringParam (ADManufacturer, "Simulated detector");
     status |= setStringParam (ADModel, "Basic simulator");
-    epicsSnprintf(versionString, sizeof(versionString), "%d.%d.%d", 
+    epicsSnprintf(versionString, sizeof(versionString), "%d.%d.%d",
                   DRIVER_VERSION, DRIVER_REVISION, DRIVER_MODIFICATION);
     setStringParam(NDDriverVersion, versionString);
     setStringParam(ADSDKVersion, versionString);
@@ -1132,7 +1132,7 @@ extern "C" int simDetectorConfig(const char *portName, int maxSizeX, int maxSize
 {
     new simDetector(portName, maxSizeX, maxSizeY, (NDDataType_t)dataType,
                     (maxBuffers < 0) ? 0 : maxBuffers,
-                    (maxMemory < 0) ? 0 : maxMemory, 
+                    (maxMemory < 0) ? 0 : maxMemory,
                     priority, stackSize);
     return(asynSuccess);
 }
