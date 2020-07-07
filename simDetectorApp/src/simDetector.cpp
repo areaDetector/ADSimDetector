@@ -1113,6 +1113,11 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
         return;
     }
 
+    // Test setting the device connected to false.  
+    // Real drivers should do this if they fail to connect to the hardware
+    //this->deviceIsConnected = false;
+    //this->disconnect(pasynUserSelf);
+
     /* Create the thread that updates the images */
     status = (epicsThreadCreate("SimDetTask",
                                 epicsThreadPriorityMedium,
