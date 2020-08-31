@@ -14,15 +14,18 @@
 #include <NDPluginStats.h>
 #include <NDPluginStdArrays.h>
 #include <NDFileHDF5.h>
+#include <shareLib.h>
 #include <simDetector.h>
+#ifndef EPICS_LIBCOM_ONLY
+  #include <dbAccess.h>
+#endif
 
 #define NUM_FRAMES 10
 #define FILE_PATH "/tmp/"
 #define REPORT_LEVEL 10
 
-#ifndef EPICS_LIBCOM_ONLY
-  #include <dbAccess.h>
-#endif
+#define epicsExportSharedSymbols
+#include <shareLib.h>
 
 class callbackStruct {
 public:
