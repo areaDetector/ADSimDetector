@@ -6,8 +6,8 @@
     {"Pixel" : [200,200], "Replace" : [1,0]},
     {"Pixel" : [300,200], "Replace" : [2,0]},
     {"Pixel" : [400,200], "Replace" : [1,1]},
-    {"Pixel" : [200,300], "Median" : 1},
-    {"Pixel" : [300,300], "Median" : 2},
-    {"Pixel" : [400,300], "Median" : 3}
+    {"Pixel" : [200,300], "Median" : [1,1]},
+    {"Pixel" : [300,300], "Median" : [2,2]},
+    {"Pixel" : [400,300], "Median" : [3,3]}
   ]
 }
