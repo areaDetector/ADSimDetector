@@ -599,8 +599,11 @@ int simDetector::computeImage()
     }
 
     if (resetImage) {
-    /* Free the previous raw buffer */
+        /* Free the previous buffers */
         if (pRaw_) pRaw_->release();
+        if (pBackground_) pBackground_->release();
+        if (pRamp_) pRamp_->release();
+        if (pPeak_) pPeak_->release();
         /* Allocate the raw buffer we use to compute images. */
         dims[xDim] = maxSizeX;
         dims[yDim] = maxSizeY;
