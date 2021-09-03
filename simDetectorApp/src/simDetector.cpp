@@ -539,14 +539,6 @@ int simDetector::computeImage()
                     driverName, functionName);
 
     /* Make sure parameters are consistent, fix them if they are not */
-    if (binX < 1) {
-        binX = 1;
-        status |= setIntegerParam(ADBinX, binX);
-    }
-    if (binY < 1) {
-        binY = 1;
-        status |= setIntegerParam(ADBinY, binY);
-    }
     if (minX < 0) {
         minX = 0;
         status |= setIntegerParam(ADMinX, minX);
@@ -563,12 +555,44 @@ int simDetector::computeImage()
         minY = maxSizeY-1;
         status |= setIntegerParam(ADMinY, minY);
     }
-    if (minX+sizeX > maxSizeX) {
+    if (sizeX < 1) {
+	sizeX = 1;
+        status |= setIntegerParam(ADSizeX, sizeX);
+    }
+    if (sizeY < 1) {
+	sizeY = 1;
+        status |= setIntegerParam(ADSizeY, sizeY);
+    }
+    if (sizeX > maxSizeX-minX) {
         sizeX = maxSizeX-minX;
         status |= setIntegerParam(ADSizeX, sizeX);
     }
-    if (minY+sizeY > maxSizeY) {
+    if (sizeY > maxSizeY-minY) {
         sizeY = maxSizeY-minY;
+        status |= setIntegerParam(ADSizeY, sizeY);
+    }
+    if (binX < 1) {
+        binX = 1;
+        status |= setIntegerParam(ADBinX, binX);
+    }
+    if (binY < 1) {
+        binY = 1;
+        status |= setIntegerParam(ADBinY, binY);
+    }
+    if (binX > sizeX) {
+	binX = sizeX;
+        status |= setIntegerParam(ADBinX, binX);
+    }
+    if (binY > sizeY) {
+	binY = sizeY;
+        status |= setIntegerParam(ADBinY, binY);
+    }
+    if (sizeX % binX != 0) {
+	sizeX = (sizeX / binX) * binX;
+        status |= setIntegerParam(ADSizeX, sizeX);
+    }
+    if (sizeY % binY != 0) {
+	sizeY = (sizeY / binY) * binY;
         status |= setIntegerParam(ADSizeY, sizeY);
     }
 
