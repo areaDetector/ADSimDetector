@@ -12,6 +12,12 @@ ifeq (vxWorks,$(findstring vxWorks, $(T_A)))
 CODE_CXXFLAGS=
 endif
 
+# Regenerate param set files from PVI YAML files if RULES_PVI exists
+PVI_PARAMSETS=YES
+PVI_YAML_PATHS = $(ADCORE)/pvi $(TOP)/pvi
+-include $(PVI)/configure/RULES_PVI
+
+INC += simDetectorParamSet.h
 INC += simDetector.h
 
 LIBRARY_IOC = simDetector
