@@ -54,10 +54,10 @@ template <typename epicsType> int simDetector::computeArray(int sizeX, int sizeY
     epicsType* pRawData = (epicsType*)pRaw_->pData;
     epicsType* pBackgroundData = (epicsType*)pBackground_->pData;
 
-    getIntegerParam(SimMode, &simMode);
-    getIntegerParam(SimResetImage, &resetImage);
-    getDoubleParam(SimOffset, &dOffset);
-    getDoubleParam(SimNoise, &noise);
+    getIntegerParam(paramSet->SimMode, &simMode);
+    getIntegerParam(paramSet->SimResetImage, &resetImage);
+    getDoubleParam(paramSet->SimOffset, &dOffset);
+    getDoubleParam(paramSet->SimNoise, &noise);
 
     offset = (epicsType)dOffset;
     if (resetImage) {
@@ -120,14 +120,14 @@ template <typename epicsType> int simDetector::computeLinearRampArray(int sizeX,
     epicsType* pRampData = (epicsType*)pRamp_->pData;
     epicsType *pData;
 
-    status = getDoubleParam (ADGain,        &gain);
-    status = getDoubleParam (SimGainX,      &gainX);
-    status = getDoubleParam (SimGainY,      &gainY);
-    status = getDoubleParam (SimGainRed,    &gainRed);
-    status = getDoubleParam (SimGainGreen,  &gainGreen);
-    status = getDoubleParam (SimGainBlue,   &gainBlue);
-    status = getIntegerParam(SimResetImage, &resetImage);
-    status = getIntegerParam(NDColorMode,   &colorMode);
+    status = getDoubleParam (paramSet->ADGain,        &gain);
+    status = getDoubleParam (paramSet->SimGainX,      &gainX);
+    status = getDoubleParam (paramSet->SimGainY,      &gainY);
+    status = getDoubleParam (paramSet->SimGainRed,    &gainRed);
+    status = getDoubleParam (paramSet->SimGainGreen,  &gainGreen);
+    status = getDoubleParam (paramSet->SimGainBlue,   &gainBlue);
+    status = getIntegerParam(paramSet->SimResetImage, &resetImage);
+    status = getIntegerParam(paramSet->NDColorMode,   &colorMode);
 
     /* The intensity at each pixel[i,j] is:
      * (i * gainX + j* gainY) + imageCounter * gain */
@@ -248,21 +248,21 @@ template <typename epicsType> int simDetector::computePeaksArray(int sizeX, int 
     epicsType *pRawData = (epicsType*)pRaw_->pData;
     epicsType *pIn, *pOut;
 
-    status = getIntegerParam(NDColorMode,   &colorMode);
-    status = getDoubleParam (ADGain,        &gain);
-    status = getDoubleParam (SimGainRed,    &gainRed);
-    status = getDoubleParam (SimGainGreen,  &gainGreen);
-    status = getDoubleParam (SimGainBlue,   &gainBlue);
-    status = getIntegerParam (SimPeakStartX,  &peaksStartX);
-    status = getIntegerParam (SimPeakStartY,  &peaksStartY);
-    status = getIntegerParam (SimPeakStepX,  &peaksStepX);
-    status = getIntegerParam (SimPeakStepY,  &peaksStepY);
-    status = getIntegerParam (SimPeakNumX,  &peaksNumX);
-    status = getIntegerParam (SimPeakNumY,  &peaksNumY);
-    status = getIntegerParam (SimPeakWidthX,  &peaksWidthX);
-    status = getIntegerParam (SimPeakWidthY,  &peaksWidthY);
-    status = getDoubleParam (SimPeakHeightVariation,  &peakVariation);
-    status = getIntegerParam(SimResetImage, &resetImage);
+    status = getIntegerParam(paramSet->NDColorMode,   &colorMode);
+    status = getDoubleParam (paramSet->ADGain,        &gain);
+    status = getDoubleParam (paramSet->SimGainRed,    &gainRed);
+    status = getDoubleParam (paramSet->SimGainGreen,  &gainGreen);
+    status = getDoubleParam (paramSet->SimGainBlue,   &gainBlue);
+    status = getIntegerParam (paramSet->SimPeakStartX,  &peaksStartX);
+    status = getIntegerParam (paramSet->SimPeakStartY,  &peaksStartY);
+    status = getIntegerParam (paramSet->SimPeakStepX,  &peaksStepX);
+    status = getIntegerParam (paramSet->SimPeakStepY,  &peaksStepY);
+    status = getIntegerParam (paramSet->SimPeakNumX,  &peaksNumX);
+    status = getIntegerParam (paramSet->SimPeakNumY,  &peaksNumY);
+    status = getIntegerParam (paramSet->SimPeakWidthX,  &peaksWidthX);
+    status = getIntegerParam (paramSet->SimPeakWidthY,  &peaksWidthY);
+    status = getDoubleParam (paramSet->SimPeakHeightVariation,  &peakVariation);
+    status = getIntegerParam(paramSet->SimResetImage, &resetImage);
 
     peakFullWidthX = ((2 * MAX_PEAK_SIGMA * peaksWidthX + 1) < sizeX) ? (2 * MAX_PEAK_SIGMA * peaksWidthX + 1) : (sizeX - 1);
     peakFullWidthY = ((2 * MAX_PEAK_SIGMA * peaksWidthY + 1) < sizeY) ? (2 * MAX_PEAK_SIGMA * peaksWidthY + 1) : (sizeY - 1);
@@ -361,29 +361,29 @@ template <typename epicsType> int simDetector::computeSineArray(int sizeX, int s
     int resetImage;
     int i, j;
 
-    status = getDoubleParam (ADGain,            &gain);
-    status = getDoubleParam (SimGainX,          &gainX);
-    status = getDoubleParam (SimGainY,          &gainY);
-    status = getDoubleParam (SimGainRed,        &gainRed);
-    status = getDoubleParam (SimGainGreen,      &gainGreen);
-    status = getDoubleParam (SimGainBlue,       &gainBlue);
-    status = getIntegerParam(SimResetImage,     &resetImage);
-    status = getIntegerParam(NDColorMode,       &colorMode);
-    status = getDoubleParam (ADAcquireTime,     &exposureTime);
-    status = getIntegerParam(SimXSineOperation, &xSineOperation);
-    status = getDoubleParam(SimXSine1Amplitude, &xSine1Amplitude);
-    status = getDoubleParam(SimXSine1Frequency, &xSine1Frequency);
-    status = getDoubleParam(SimXSine1Phase,     &xSine1Phase);
-    status = getDoubleParam(SimXSine2Amplitude, &xSine2Amplitude);
-    status = getDoubleParam(SimXSine2Frequency, &xSine2Frequency);
-    status = getDoubleParam(SimXSine2Phase,     &xSine2Phase);
-    status = getIntegerParam(SimYSineOperation, &ySineOperation);
-    status = getDoubleParam(SimYSine1Amplitude, &ySine1Amplitude);
-    status = getDoubleParam(SimYSine1Frequency, &ySine1Frequency);
-    status = getDoubleParam(SimYSine1Phase,     &ySine1Phase);
-    status = getDoubleParam(SimYSine2Amplitude, &ySine2Amplitude);
-    status = getDoubleParam(SimYSine2Frequency, &ySine2Frequency);
-    status = getDoubleParam(SimYSine2Phase,     &ySine2Phase);
+    status = getDoubleParam (paramSet->ADGain,            &gain);
+    status = getDoubleParam (paramSet->SimGainX,          &gainX);
+    status = getDoubleParam (paramSet->SimGainY,          &gainY);
+    status = getDoubleParam (paramSet->SimGainRed,        &gainRed);
+    status = getDoubleParam (paramSet->SimGainGreen,      &gainGreen);
+    status = getDoubleParam (paramSet->SimGainBlue,       &gainBlue);
+    status = getIntegerParam(paramSet->SimResetImage,     &resetImage);
+    status = getIntegerParam(paramSet->NDColorMode,       &colorMode);
+    status = getDoubleParam (paramSet->ADAcquireTime,     &exposureTime);
+    status = getIntegerParam(paramSet->SimXSineOperation, &xSineOperation);
+    status = getDoubleParam(paramSet->SimXSine1Amplitude, &xSine1Amplitude);
+    status = getDoubleParam(paramSet->SimXSine1Frequency, &xSine1Frequency);
+    status = getDoubleParam(paramSet->SimXSine1Phase,     &xSine1Phase);
+    status = getDoubleParam(paramSet->SimXSine2Amplitude, &xSine2Amplitude);
+    status = getDoubleParam(paramSet->SimXSine2Frequency, &xSine2Frequency);
+    status = getDoubleParam(paramSet->SimXSine2Phase,     &xSine2Phase);
+    status = getIntegerParam(paramSet->SimYSineOperation, &ySineOperation);
+    status = getDoubleParam(paramSet->SimYSine1Amplitude, &ySine1Amplitude);
+    status = getDoubleParam(paramSet->SimYSine1Frequency, &ySine1Frequency);
+    status = getDoubleParam(paramSet->SimYSine1Phase,     &ySine1Phase);
+    status = getDoubleParam(paramSet->SimYSine2Amplitude, &ySine2Amplitude);
+    status = getDoubleParam(paramSet->SimYSine2Frequency, &ySine2Frequency);
+    status = getDoubleParam(paramSet->SimYSine2Phase,     &ySine2Phase);
 
     switch (colorMode) {
         case NDColorModeMono:
@@ -491,10 +491,10 @@ void simDetector::setShutter(int open)
 {
     int shutterMode;
 
-    getIntegerParam(ADShutterMode, &shutterMode);
+    getIntegerParam(paramSet->ADShutterMode, &shutterMode);
     if (shutterMode == ADShutterModeDetector) {
         /* Simulate a shutter by just changing the status readback */
-        setIntegerParam(ADShutterStatus, open);
+        setIntegerParam(paramSet->ADShutterStatus, open);
     } else {
         /* For no shutter or EPICS shutter call the base class method */
         ADDriver::setShutter(open);
@@ -521,19 +521,19 @@ int simDetector::computeImage()
 
     /* NOTE: The caller of this function must have taken the mutex */
 
-    status |= getIntegerParam(ADBinX,         &binX);
-    status |= getIntegerParam(ADBinY,         &binY);
-    status |= getIntegerParam(ADMinX,         &minX);
-    status |= getIntegerParam(ADMinY,         &minY);
-    status |= getIntegerParam(ADSizeX,        &sizeX);
-    status |= getIntegerParam(ADSizeY,        &sizeY);
-    status |= getIntegerParam(ADReverseX,     &reverseX);
-    status |= getIntegerParam(ADReverseY,     &reverseY);
-    status |= getIntegerParam(ADMaxSizeX,     &maxSizeX);
-    status |= getIntegerParam(ADMaxSizeY,     &maxSizeY);
-    status |= getIntegerParam(NDColorMode,    &colorMode);
-    status |= getIntegerParam(NDDataType,     &itemp); dataType = (NDDataType_t)itemp;
-    status |= getIntegerParam(SimResetImage,  &resetImage);
+    status |= getIntegerParam(paramSet->ADBinX,         &binX);
+    status |= getIntegerParam(paramSet->ADBinY,         &binY);
+    status |= getIntegerParam(paramSet->ADMinX,         &minX);
+    status |= getIntegerParam(paramSet->ADMinY,         &minY);
+    status |= getIntegerParam(paramSet->ADSizeX,        &sizeX);
+    status |= getIntegerParam(paramSet->ADSizeY,        &sizeY);
+    status |= getIntegerParam(paramSet->ADReverseX,     &reverseX);
+    status |= getIntegerParam(paramSet->ADReverseY,     &reverseY);
+    status |= getIntegerParam(paramSet->ADMaxSizeX,     &maxSizeX);
+    status |= getIntegerParam(paramSet->ADMaxSizeY,     &maxSizeY);
+    status |= getIntegerParam(paramSet->NDColorMode,    &colorMode);
+    status |= getIntegerParam(paramSet->NDDataType,     &itemp); dataType = (NDDataType_t)itemp;
+    status |= getIntegerParam(paramSet->SimResetImage,  &resetImage);
     if (status) asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
                     "%s:%s: error getting parameters\n",
                     driverName, functionName);
@@ -541,59 +541,59 @@ int simDetector::computeImage()
     /* Make sure parameters are consistent, fix them if they are not */
     if (minX < 0) {
         minX = 0;
-        status |= setIntegerParam(ADMinX, minX);
+        status |= setIntegerParam(paramSet->ADMinX, minX);
     }
     if (minY < 0) {
         minY = 0;
-        status |= setIntegerParam(ADMinY, minY);
+        status |= setIntegerParam(paramSet->ADMinY, minY);
     }
     if (minX > maxSizeX-1) {
         minX = maxSizeX-1;
-        status |= setIntegerParam(ADMinX, minX);
+        status |= setIntegerParam(paramSet->ADMinX, minX);
     }
     if (minY > maxSizeY-1) {
         minY = maxSizeY-1;
-        status |= setIntegerParam(ADMinY, minY);
+        status |= setIntegerParam(paramSet->ADMinY, minY);
     }
     if (sizeX < 1) {
 	sizeX = 1;
-        status |= setIntegerParam(ADSizeX, sizeX);
+        status |= setIntegerParam(paramSet->ADSizeX, sizeX);
     }
     if (sizeY < 1) {
 	sizeY = 1;
-        status |= setIntegerParam(ADSizeY, sizeY);
+        status |= setIntegerParam(paramSet->ADSizeY, sizeY);
     }
     if (sizeX > maxSizeX-minX) {
         sizeX = maxSizeX-minX;
-        status |= setIntegerParam(ADSizeX, sizeX);
+        status |= setIntegerParam(paramSet->ADSizeX, sizeX);
     }
     if (sizeY > maxSizeY-minY) {
         sizeY = maxSizeY-minY;
-        status |= setIntegerParam(ADSizeY, sizeY);
+        status |= setIntegerParam(paramSet->ADSizeY, sizeY);
     }
     if (binX < 1) {
         binX = 1;
-        status |= setIntegerParam(ADBinX, binX);
+        status |= setIntegerParam(paramSet->ADBinX, binX);
     }
     if (binY < 1) {
         binY = 1;
-        status |= setIntegerParam(ADBinY, binY);
+        status |= setIntegerParam(paramSet->ADBinY, binY);
     }
     if (binX > sizeX) {
 	binX = sizeX;
-        status |= setIntegerParam(ADBinX, binX);
+        status |= setIntegerParam(paramSet->ADBinX, binX);
     }
     if (binY > sizeY) {
 	binY = sizeY;
-        status |= setIntegerParam(ADBinY, binY);
+        status |= setIntegerParam(paramSet->ADBinY, binY);
     }
     if (sizeX % binX != 0) {
 	sizeX = (sizeX / binX) * binX;
-        status |= setIntegerParam(ADSizeX, sizeX);
+        status |= setIntegerParam(paramSet->ADSizeX, sizeX);
     }
     if (sizeY % binY != 0) {
 	sizeY = (sizeY / binY) * binY;
-        status |= setIntegerParam(ADSizeY, sizeY);
+        status |= setIntegerParam(paramSet->ADSizeY, sizeY);
     }
 
     switch (colorMode) {
@@ -707,10 +707,10 @@ int simDetector::computeImage()
     pImage = this->pArrays[0];
     pImage->getInfo(&arrayInfo);
     status = asynSuccess;
-    status |= setIntegerParam(NDArraySize,  (int)arrayInfo.totalBytes);
-    status |= setIntegerParam(NDArraySizeX, (int)pImage->dims[xDim].size);
-    status |= setIntegerParam(NDArraySizeY, (int)pImage->dims[yDim].size);
-    status |= setIntegerParam(SimResetImage, 0);
+    status |= setIntegerParam(paramSet->NDArraySize,  (int)arrayInfo.totalBytes);
+    status |= setIntegerParam(paramSet->NDArraySizeX, (int)pImage->dims[xDim].size);
+    status |= setIntegerParam(paramSet->NDArraySizeY, (int)pImage->dims[yDim].size);
+    status |= setIntegerParam(paramSet->SimResetImage, 0);
     if (status) asynPrint(this->pasynUserSelf, ASYN_TRACE_ERROR,
                     "%s:%s: error setting parameters\n",
                     driverName, functionName);
@@ -752,20 +752,20 @@ void simDetector::simTask()
             status = epicsEventWait(startEventId_);
             this->lock();
             acquire = 1;
-            setStringParam(ADStatusMessage, "Acquiring data");
-            setIntegerParam(ADNumImagesCounter, 0);
+            setStringParam(paramSet->ADStatusMessage, "Acquiring data");
+            setIntegerParam(paramSet->ADNumImagesCounter, 0);
         }
 
         /* We are acquiring. */
         /* Get the current time */
         epicsTimeGetCurrent(&startTime);
-        getIntegerParam(ADImageMode, &imageMode);
+        getIntegerParam(paramSet->ADImageMode, &imageMode);
 
         /* Get the exposure parameters */
-        getDoubleParam(ADAcquireTime, &acquireTime);
-        getDoubleParam(ADAcquirePeriod, &acquirePeriod);
+        getDoubleParam(paramSet->ADAcquireTime, &acquireTime);
+        getDoubleParam(paramSet->ADAcquirePeriod, &acquirePeriod);
 
-        setIntegerParam(ADStatus, ADStatusAcquire);
+        setIntegerParam(paramSet->ADStatus, ADStatusAcquire);
 
         /* Open the shutter */
         setShutter(ADShutterOpen);
@@ -792,9 +792,9 @@ void simDetector::simTask()
         if (status == epicsEventWaitOK) {
             acquire = 0;
             if (imageMode == ADImageContinuous) {
-              setIntegerParam(ADStatus, ADStatusIdle);
+              setIntegerParam(paramSet->ADStatus, ADStatusIdle);
             } else {
-              setIntegerParam(ADStatus, ADStatusAborted);
+              setIntegerParam(paramSet->ADStatus, ADStatusAborted);
             }
             callParamCallbacks();
         }
@@ -804,21 +804,21 @@ void simDetector::simTask()
 
         if (!acquire) continue;
 
-        setIntegerParam(ADStatus, ADStatusReadout);
+        setIntegerParam(paramSet->ADStatus, ADStatusReadout);
         /* Call the callbacks to update any changes */
         callParamCallbacks();
 
         pImage = this->pArrays[0];
 
         /* Get the current parameters */
-        getIntegerParam(NDArrayCounter, &imageCounter);
-        getIntegerParam(ADNumImages, &numImages);
-        getIntegerParam(ADNumImagesCounter, &numImagesCounter);
-        getIntegerParam(NDArrayCallbacks, &arrayCallbacks);
+        getIntegerParam(paramSet->NDArrayCounter, &imageCounter);
+        getIntegerParam(paramSet->ADNumImages, &numImages);
+        getIntegerParam(paramSet->ADNumImagesCounter, &numImagesCounter);
+        getIntegerParam(paramSet->NDArrayCallbacks, &arrayCallbacks);
         imageCounter++;
         numImagesCounter++;
-        setIntegerParam(NDArrayCounter, imageCounter);
-        setIntegerParam(ADNumImagesCounter, numImagesCounter);
+        setIntegerParam(paramSet->NDArrayCounter, imageCounter);
+        setIntegerParam(paramSet->ADNumImagesCounter, numImagesCounter);
 
         /* Put the frame number and time stamp into the buffer */
         pImage->uniqueId = imageCounter;
@@ -832,7 +832,7 @@ void simDetector::simTask()
             /* Call the NDArray callback */
             asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
                       "%s:%s: calling imageData callback\n", driverName, functionName);
-            doCallbacksGenericPointer(pImage, NDArrayData, 0);
+            doCallbacksGenericPointer(pImage, paramSet->NDArrayData, 0);
         }
 
         /* See if acquisition is done */
@@ -840,13 +840,13 @@ void simDetector::simTask()
             ((imageMode == ADImageMultiple) &&
              (numImagesCounter >= numImages))) {
 
-            /* First do callback on ADStatus. */
-            setStringParam(ADStatusMessage, "Waiting for acquisition");
-            setIntegerParam(ADStatus, ADStatusIdle);
+            /* First do callback on paramSet->ADStatus. */
+            setStringParam(paramSet->ADStatusMessage, "Waiting for acquisition");
+            setIntegerParam(paramSet->ADStatus, ADStatusIdle);
             callParamCallbacks();
 
             acquire = 0;
-            setIntegerParam(ADAcquire, acquire);
+            setIntegerParam(paramSet->ADAcquire, acquire);
             asynPrint(this->pasynUserSelf, ASYN_TRACE_FLOW,
                       "%s:%s: acquisition completed\n", driverName, functionName);
         }
@@ -864,7 +864,7 @@ void simDetector::simTask()
                       driverName, functionName, delay);
             if (delay >= 0.0) {
                 /* We set the status to waiting to indicate we are in the period delay */
-                setIntegerParam(ADStatus, ADStatusWaiting);
+                setIntegerParam(paramSet->ADStatus, ADStatusWaiting);
                 callParamCallbacks();
                 this->unlock();
                 status = epicsEventWaitWithTimeout(stopEventId_, delay);
@@ -872,9 +872,9 @@ void simDetector::simTask()
                 if (status == epicsEventWaitOK) {
                   acquire = 0;
                   if (imageMode == ADImageContinuous) {
-                    setIntegerParam(ADStatus, ADStatusIdle);
+                    setIntegerParam(paramSet->ADStatus, ADStatusIdle);
                   } else {
-                    setIntegerParam(ADStatus, ADStatusAborted);
+                    setIntegerParam(paramSet->ADStatus, ADStatusAborted);
                   }
                   callParamCallbacks();
                 }
@@ -885,7 +885,7 @@ void simDetector::simTask()
 
 
 /** Called when asyn clients call pasynInt32->write().
-  * This function performs actions for some parameters, including ADAcquire, ADColorMode, etc.
+  * This function performs actions for some parameters, including paramSet->ADAcquire, ADColorMode, etc.
   * For all parameters it sets the value in the parameter library and calls any registered callbacks..
   * \param[in] pasynUser pasynUser structure that encodes the reason and address.
   * \param[in] value Value to write. */
@@ -897,22 +897,22 @@ asynStatus simDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
     int imageMode;
     asynStatus status = asynSuccess;
 
-    /* Ensure that ADStatus is set correctly before we set ADAcquire.*/
-    getIntegerParam(ADStatus, &adstatus);
-    getIntegerParam(ADAcquire, &acquiring);
-    getIntegerParam(ADImageMode, &imageMode);
-    if (function == ADAcquire) {
+    /* Ensure that paramSet->ADStatus is set correctly before we set paramSet->ADAcquire.*/
+    getIntegerParam(paramSet->ADStatus, &adstatus);
+    getIntegerParam(paramSet->ADAcquire, &acquiring);
+    getIntegerParam(paramSet->ADImageMode, &imageMode);
+    if (function == paramSet->ADAcquire) {
       if (value && !acquiring) {
-        setStringParam(ADStatusMessage, "Acquiring data");
+        setStringParam(paramSet->ADStatusMessage, "Acquiring data");
       }
       if (!value && acquiring) {
-        setStringParam(ADStatusMessage, "Acquisition stopped");
+        setStringParam(paramSet->ADStatusMessage, "Acquisition stopped");
         if (imageMode == ADImageContinuous) {
-          setIntegerParam(ADStatus, ADStatusIdle);
+          setIntegerParam(paramSet->ADStatus, ADStatusIdle);
         } else {
-          setIntegerParam(ADStatus, ADStatusAborted);
+          setIntegerParam(paramSet->ADStatus, ADStatusAborted);
         }
-        setIntegerParam(ADStatus, ADStatusAcquire);
+        setIntegerParam(paramSet->ADStatus, ADStatusAcquire);
       }
     }
     callParamCallbacks();
@@ -922,7 +922,7 @@ asynStatus simDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
     status = setIntegerParam(function, value);
 
     /* For a real detector this is where the parameter is sent to the hardware */
-    if (function == ADAcquire) {
+    if (function == paramSet->ADAcquire) {
         if (value && !acquiring) {
             /* Send an event to wake up the simulation task.
              * It won't actually start generating new images until we release the lock below */
@@ -933,11 +933,11 @@ asynStatus simDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
             /* Send the stop event */
             epicsEventSignal(stopEventId_);
         }
-    } else if ((function == NDDataType) ||
-               (function == NDColorMode) ||
-               (function == SimMode) ||
-               ((function >= SimPeakStartX) && (function <= SimPeakStepY))) {  // This assumes order in simDetector.h!
-        status = setIntegerParam(SimResetImage, 1);
+    } else if ((function == paramSet->NDDataType) ||
+               (function == paramSet->NDColorMode) ||
+               (function == paramSet->SimMode) ||
+               ((function >= paramSet->SimPeakStartX) && (function <= paramSet->SimPeakStepY))) {  // This assumes order in simDetector.h!
+        status = setIntegerParam(paramSet->SimResetImage, 1);
     } else {
         /* If this parameter belongs to a base class call its method */
         if (function < FIRST_SIM_DETECTOR_PARAM) status = ADDriver::writeInt32(pasynUser, value);
@@ -959,7 +959,7 @@ asynStatus simDetector::writeInt32(asynUser *pasynUser, epicsInt32 value)
 
 
 /** Called when asyn clients call pasynFloat64->write().
-  * This function performs actions for some parameters, including ADAcquireTime, ADGain, etc.
+  * This function performs actions for some parameters, including paramSet->ADAcquireTime, paramSet->ADGain, etc.
   * For all parameters it sets the value in the parameter library and calls any registered callbacks..
   * \param[in] pasynUser pasynUser structure that encodes the reason and address.
   * \param[in] value Value to write. */
@@ -973,8 +973,8 @@ asynStatus simDetector::writeFloat64(asynUser *pasynUser, epicsFloat64 value)
     status = setDoubleParam(function, value);
 
     /* Changing any of the simulation parameters requires recomputing the base image */
-    if ((function == ADGain) || (function >= FIRST_SIM_DETECTOR_PARAM)) {
-        status = setIntegerParam(SimResetImage, 1);
+    if ((function == paramSet->ADGain) || (function >= FIRST_SIM_DETECTOR_PARAM)) {
+        status = setIntegerParam(paramSet->SimResetImage, 1);
     } else {
         /* This parameter belongs to a base class call its method */
         status = ADDriver::writeFloat64(pasynUser, value);
@@ -1006,9 +1006,9 @@ void simDetector::report(FILE *fp, int details)
     fprintf(fp, "Simulation detector %s\n", this->portName);
     if (details > 0) {
         int nx, ny, dataType;
-        getIntegerParam(ADSizeX, &nx);
-        getIntegerParam(ADSizeY, &ny);
-        getIntegerParam(NDDataType, &dataType);
+        getIntegerParam(paramSet->ADSizeX, &nx);
+        getIntegerParam(paramSet->ADSizeY, &ny);
+        getIntegerParam(paramSet->NDDataType, &dataType);
         fprintf(fp, "  NX, NY:            %d  %d\n", nx, ny);
         fprintf(fp, "  Data type:         %d\n", dataType);
     }
@@ -1030,14 +1030,15 @@ void simDetector::report(FILE *fp, int details)
   * \param[in] priority The thread priority for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
   * \param[in] stackSize The stack size for the asyn port driver thread if ASYN_CANBLOCK is set in asynFlags.
   */
-simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDataType_t dataType,
+simDetector::simDetector(simDetectorParamSet* paramSet, const char *portName, int maxSizeX, int maxSizeY, NDDataType_t dataType,
                          int maxBuffers, size_t maxMemory, int priority, int stackSize)
 
-    : ADDriver(portName, 1, 0, maxBuffers, maxMemory,
+    : ADDriver(static_cast<ADDriverParamSet*>(paramSet), portName, 1, 0, maxBuffers, maxMemory,
                0, 0, /* No interfaces beyond those set in ADDriver.cpp */
                0, 1, /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
                priority, stackSize),
       pRaw_(NULL), pBackground_(NULL), pRamp_(NULL), pPeak_(NULL), xSine1_(0), xSine2_(0), ySine1_(0), ySine2_(0),
+    paramSet(paramSet)
 
 {
     int status = asynSuccess;
@@ -1058,82 +1059,50 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
         return;
     }
 
-    createParam(SimGainXString,               asynParamFloat64, &SimGainX);
-    createParam(SimGainYString,               asynParamFloat64, &SimGainY);
-    createParam(SimGainRedString,             asynParamFloat64, &SimGainRed);
-    createParam(SimGainGreenString,           asynParamFloat64, &SimGainGreen);
-    createParam(SimGainBlueString,            asynParamFloat64, &SimGainBlue);
-    createParam(SimOffsetString,              asynParamFloat64, &SimOffset);
-    createParam(SimNoiseString,               asynParamFloat64, &SimNoise);
-    createParam(SimResetImageString,          asynParamInt32,   &SimResetImage);
-    createParam(SimModeString,                asynParamInt32,   &SimMode);
-    createParam(SimPeakStartXString,          asynParamInt32,   &SimPeakStartX);
-    createParam(SimPeakStartYString,          asynParamInt32,   &SimPeakStartY);
-    createParam(SimPeakWidthXString,          asynParamInt32,   &SimPeakWidthX);
-    createParam(SimPeakWidthYString,          asynParamInt32,   &SimPeakWidthY);
-    createParam(SimPeakNumXString,            asynParamInt32,   &SimPeakNumX);
-    createParam(SimPeakNumYString,            asynParamInt32,   &SimPeakNumY);
-    createParam(SimPeakStepXString,           asynParamInt32,   &SimPeakStepX);
-    createParam(SimPeakStepYString,           asynParamInt32,   &SimPeakStepY);
-    createParam(SimPeakHeightVariationString, asynParamFloat64, &SimPeakHeightVariation);
-    createParam(SimXSineOperationString,      asynParamInt32,   &SimXSineOperation);
-    createParam(SimYSineOperationString,      asynParamInt32,   &SimYSineOperation);
-    createParam(SimXSine1AmplitudeString,     asynParamFloat64, &SimXSine1Amplitude);
-    createParam(SimXSine1FrequencyString,     asynParamFloat64, &SimXSine1Frequency);
-    createParam(SimXSine1PhaseString,         asynParamFloat64, &SimXSine1Phase);
-    createParam(SimXSine2AmplitudeString,     asynParamFloat64, &SimXSine2Amplitude);
-    createParam(SimXSine2FrequencyString,     asynParamFloat64, &SimXSine2Frequency);
-    createParam(SimXSine2PhaseString,         asynParamFloat64, &SimXSine2Phase);
-    createParam(SimYSine1AmplitudeString,     asynParamFloat64, &SimYSine1Amplitude);
-    createParam(SimYSine1FrequencyString,     asynParamFloat64, &SimYSine1Frequency);
-    createParam(SimYSine1PhaseString,         asynParamFloat64, &SimYSine1Phase);
-    createParam(SimYSine2AmplitudeString,     asynParamFloat64, &SimYSine2Amplitude);
-    createParam(SimYSine2FrequencyString,     asynParamFloat64, &SimYSine2Frequency);
-    createParam(SimYSine2PhaseString,         asynParamFloat64, &SimYSine2Phase);
 
     /* Set some default values for parameters */
-    status =  setStringParam (ADManufacturer, "Simulated detector");
-    status |= setStringParam (ADModel, "Basic simulator");
+    status =  setStringParam (paramSet->ADManufacturer, "Simulated detector");
+    status |= setStringParam (paramSet->ADModel, "Basic simulator");
     epicsSnprintf(versionString, sizeof(versionString), "%d.%d.%d",
                   DRIVER_VERSION, DRIVER_REVISION, DRIVER_MODIFICATION);
-    setStringParam(NDDriverVersion, versionString);
-    setStringParam(ADSDKVersion, versionString);
-    setStringParam(ADSerialNumber, "No serial number");
-    setStringParam(ADFirmwareVersion, "No firmware");
+    setStringParam(paramSet->NDDriverVersion, versionString);
+    setStringParam(paramSet->ADSDKVersion, versionString);
+    setStringParam(paramSet->ADSerialNumber, "No serial number");
+    setStringParam(paramSet->ADFirmwareVersion, "No firmware");
 
-    status |= setIntegerParam(ADMaxSizeX, maxSizeX);
-    status |= setIntegerParam(ADMaxSizeY, maxSizeY);
-    status |= setIntegerParam(ADMinX, 0);
-    status |= setIntegerParam(ADMinY, 0);
-    status |= setIntegerParam(ADBinX, 1);
-    status |= setIntegerParam(ADBinY, 1);
-    status |= setIntegerParam(ADReverseX, 0);
-    status |= setIntegerParam(ADReverseY, 0);
-    status |= setIntegerParam(ADSizeX, maxSizeX);
-    status |= setIntegerParam(ADSizeY, maxSizeY);
-    status |= setIntegerParam(NDArraySizeX, maxSizeX);
-    status |= setIntegerParam(NDArraySizeY, maxSizeY);
-    status |= setIntegerParam(NDArraySize, 0);
-    status |= setIntegerParam(NDDataType, dataType);
-    status |= setIntegerParam(ADImageMode, ADImageContinuous);
-    status |= setDoubleParam (ADAcquireTime, .001);
-    status |= setDoubleParam (ADAcquirePeriod, .005);
-    status |= setIntegerParam(ADNumImages, 100);
-    status |= setIntegerParam(SimResetImage, 1);
-    status |= setDoubleParam (SimGainX, 1);
-    status |= setDoubleParam (SimGainY, 1);
-    status |= setDoubleParam (SimGainRed, 1);
-    status |= setDoubleParam (SimGainGreen, 1);
-    status |= setDoubleParam (SimGainBlue, 1);
-    status |= setIntegerParam(SimMode, 0);
-    status |= setIntegerParam(SimPeakStartX, 1);
-    status |= setIntegerParam(SimPeakStartY, 1);
-    status |= setIntegerParam(SimPeakWidthX, 10);
-    status |= setIntegerParam(SimPeakWidthY, 20);
-    status |= setIntegerParam(SimPeakNumX, 1);
-    status |= setIntegerParam(SimPeakNumY, 1);
-    status |= setIntegerParam(SimPeakStepX, 1);
-    status |= setIntegerParam(SimPeakStepY, 1);
+    status |= setIntegerParam(paramSet->ADMaxSizeX, maxSizeX);
+    status |= setIntegerParam(paramSet->ADMaxSizeY, maxSizeY);
+    status |= setIntegerParam(paramSet->ADMinX, 0);
+    status |= setIntegerParam(paramSet->ADMinY, 0);
+    status |= setIntegerParam(paramSet->ADBinX, 1);
+    status |= setIntegerParam(paramSet->ADBinY, 1);
+    status |= setIntegerParam(paramSet->ADReverseX, 0);
+    status |= setIntegerParam(paramSet->ADReverseY, 0);
+    status |= setIntegerParam(paramSet->ADSizeX, maxSizeX);
+    status |= setIntegerParam(paramSet->ADSizeY, maxSizeY);
+    status |= setIntegerParam(paramSet->NDArraySizeX, maxSizeX);
+    status |= setIntegerParam(paramSet->NDArraySizeY, maxSizeY);
+    status |= setIntegerParam(paramSet->NDArraySize, 0);
+    status |= setIntegerParam(paramSet->NDDataType, dataType);
+    status |= setIntegerParam(paramSet->ADImageMode, ADImageContinuous);
+    status |= setDoubleParam (paramSet->ADAcquireTime, .001);
+    status |= setDoubleParam (paramSet->ADAcquirePeriod, .005);
+    status |= setIntegerParam(paramSet->ADNumImages, 100);
+    status |= setIntegerParam(paramSet->SimResetImage, 1);
+    status |= setDoubleParam (paramSet->SimGainX, 1);
+    status |= setDoubleParam (paramSet->SimGainY, 1);
+    status |= setDoubleParam (paramSet->SimGainRed, 1);
+    status |= setDoubleParam (paramSet->SimGainGreen, 1);
+    status |= setDoubleParam (paramSet->SimGainBlue, 1);
+    status |= setIntegerParam(paramSet->SimMode, 0);
+    status |= setIntegerParam(paramSet->SimPeakStartX, 1);
+    status |= setIntegerParam(paramSet->SimPeakStartY, 1);
+    status |= setIntegerParam(paramSet->SimPeakWidthX, 10);
+    status |= setIntegerParam(paramSet->SimPeakWidthY, 20);
+    status |= setIntegerParam(paramSet->SimPeakNumX, 1);
+    status |= setIntegerParam(paramSet->SimPeakNumY, 1);
+    status |= setIntegerParam(paramSet->SimPeakStepX, 1);
+    status |= setIntegerParam(paramSet->SimPeakStepY, 1);
 
     if (status) {
         printf("%s: unable to set camera parameters\n", functionName);
@@ -1162,7 +1131,8 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
 extern "C" int simDetectorConfig(const char *portName, int maxSizeX, int maxSizeY, int dataType,
                                  int maxBuffers, int maxMemory, int priority, int stackSize)
 {
-    new simDetector(portName, maxSizeX, maxSizeY, (NDDataType_t)dataType,
+    simDetectorParamSet* paramSet = new simDetectorParamSet;
+    new simDetector(paramSet, portName, maxSizeX, maxSizeY, (NDDataType_t)dataType,
                     (maxBuffers < 0) ? 0 : maxBuffers,
                     (maxMemory < 0) ? 0 : maxMemory,
                     priority, stackSize);

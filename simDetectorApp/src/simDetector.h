@@ -1,4 +1,5 @@
 #include <epicsEvent.h>
+#include "simDetectorParamSet.h"
 #include "ADDriver.h"
 
 #define DRIVER_VERSION      2
@@ -8,7 +9,7 @@
 /** Simulation detector driver; demonstrates most of the features that areaDetector drivers can support. */
 class epicsShareClass simDetector : public ADDriver {
 public:
-    simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDataType_t dataType,
+    simDetector(simDetectorParamSet* paramSet, const char *portName, int maxSizeX, int maxSizeY, NDDataType_t dataType,
                 int maxBuffers, size_t maxMemory,
                 int priority, int stackSize);
 
@@ -20,40 +21,9 @@ public:
     void simTask(); /**< Should be private, but gets called from C, so must be public */
 
 protected:
-    int SimGainX;
-    #define FIRST_SIM_DETECTOR_PARAM SimGainX
-    int SimGainY;
-    int SimGainRed;
-    int SimGainGreen;
-    int SimGainBlue;
+    simDetectorParamSet* paramSet;
+    #define FIRST_SIM_DETECTOR_PARAM paramSet->FIRST_SIMDETECTORPARAMSET_PARAM
     int simOffset;
-    int SimNoise;
-    int SimResetImage;
-    int SimMode;
-    int SimPeakStartX;
-    int SimPeakStartY;
-    int SimPeakWidthX;
-    int SimPeakWidthY;
-    int SimPeakNumX;
-    int SimPeakNumY;
-    int SimPeakStepX;
-    int SimPeakStepY;
-    int SimPeakHeightVariation;
-    int SimOffset;
-    int SimXSineOperation;
-    int SimXSine1Amplitude;
-    int SimXSine1Frequency;
-    int SimXSine1Phase;
-    int SimXSine2Amplitude;
-    int SimXSine2Frequency;
-    int SimXSine2Phase;
-    int SimYSineOperation;
-    int SimYSine1Amplitude;
-    int SimYSine1Frequency;
-    int SimYSine1Phase;
-    int SimYSine2Amplitude;
-    int SimYSine2Frequency;
-    int SimYSine2Phase;
 
 private:
     /* These are the methods that are new to this class */
@@ -91,36 +61,3 @@ typedef enum {
     SimSineOperationAdd,
     SimSineOperationMultiply
 } SimSineOperation_t;
-
-#define SimGainXString                "SIM_GAIN_X"
-#define SimGainYString                "SIM_GAIN_Y"
-#define SimGainRedString              "SIM_GAIN_RED"
-#define SimGainGreenString            "SIM_GAIN_GREEN"
-#define SimGainBlueString             "SIM_GAIN_BLUE"
-#define SimOffsetString               "SIM_OFFSET"
-#define SimNoiseString                "SIM_NOISE"
-#define SimResetImageString           "RESET_IMAGE"
-#define SimModeString                 "SIM_MODE"
-#define SimPeakStartXString           "SIM_PEAK_START_X"
-#define SimPeakStartYString           "SIM_PEAK_START_Y"
-#define SimPeakWidthXString           "SIM_PEAK_WIDTH_X"
-#define SimPeakWidthYString           "SIM_PEAK_WIDTH_Y"
-#define SimPeakNumXString             "SIM_PEAK_NUM_X"
-#define SimPeakNumYString             "SIM_PEAK_NUM_Y"
-#define SimPeakStepXString            "SIM_PEAK_STEP_X"
-#define SimPeakStepYString            "SIM_PEAK_STEP_Y"
-#define SimPeakHeightVariationString  "SIM_PEAK_HEIGHT_VARIATION"
-#define SimXSineOperationString       "SIM_XSINE_OPERATION"
-#define SimXSine1AmplitudeString      "SIM_XSINE1_AMPLITUDE"
-#define SimXSine1FrequencyString      "SIM_XSINE1_FREQUENCY"
-#define SimXSine1PhaseString          "SIM_XSINE1_PHASE"
-#define SimXSine2AmplitudeString      "SIM_XSINE2_AMPLITUDE"
-#define SimXSine2FrequencyString      "SIM_XSINE2_FREQUENCY"
-#define SimXSine2PhaseString          "SIM_XSINE2_PHASE"
-#define SimYSineOperationString       "SIM_YSINE_OPERATION"
-#define SimYSine1AmplitudeString      "SIM_YSINE1_AMPLITUDE"
-#define SimYSine1FrequencyString      "SIM_YSINE1_FREQUENCY"
-#define SimYSine1PhaseString          "SIM_YSINE1_PHASE"
-#define SimYSine2AmplitudeString      "SIM_YSINE2_AMPLITUDE"
-#define SimYSine2FrequencyString      "SIM_YSINE2_FREQUENCY"
-#define SimYSine2PhaseString          "SIM_YSINE2_PHASE"
