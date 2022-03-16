@@ -1037,7 +1037,7 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
                0, 0, /* No interfaces beyond those set in ADDriver.cpp */
                0, 1, /* ASYN_CANBLOCK=0, ASYN_MULTIDEVICE=0, autoConnect=1 */
                priority, stackSize),
-      pRaw_(NULL), xSine1_(0), xSine2_(0), ySine1_(0), ySine2_(0)
+      pRaw_(NULL), pBackground_(NULL), pRamp_(NULL), pPeak_(NULL), xSine1_(0), xSine2_(0), ySine1_(0), ySine2_(0),
 
 {
     int status = asynSuccess;
@@ -1140,7 +1140,7 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
         return;
     }
 
-    // Test setting the device connected to false.  
+    // Test setting the device connected to false.
     // Real drivers should do this if they fail to connect to the hardware
     //this->deviceIsConnected = false;
     //this->disconnect(pasynUserSelf);
