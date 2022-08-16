@@ -6,311 +6,309 @@ address: $(ADDR)
 timeout: $(TIMEOUT)
 parent: ADDriver
 parameters:
+  - type: Group
+    name: SimDetectorSetup
+    layout:
+      type: Grid
+    children:
+      - type: AsynFloat64
+        name: GainX
+        description: GainX
+        index_name: SimGainX
+        drv_info: SIM_GAIN_X
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-- type: Group
-  name: ComponentGroupOne
-  layout:
-    type: Grid
-  children:
+      - type: AsynLong
+        name: PeakStartX
+        description: PeakStartX
+        index_name: SimPeakStartX
+        drv_info: SIM_PEAK_START_X
+        record_fields:
+          SCAN: I/O Intr
 
-  - type: AsynFloat64
-    name: GainX
-    description: GainX
-    index_name: SimGainX
-    drv_info: SIM_GAIN_X
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynFloat64
+        name: XSine1Amplitude
+        description: XSine1Amplitude
+        index_name: SimXSine1Amplitude
+        drv_info: SIM_XSINE1_AMPLITUDE
+        initial: "1"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynFloat64
-    name: GainY
-    description: GainY
-    index_name: SimGainY
-    drv_info: SIM_GAIN_Y
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynFloat64
+        name: YSine1Amplitude
+        description: YSine1Amplitude
+        index_name: SimYSine1Amplitude
+        drv_info: SIM_YSINE1_AMPLITUDE
+        initial: "1"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynFloat64
-    name: GainRed
-    description: GainRed
-    index_name: SimGainRed
-    drv_info: SIM_GAIN_RED
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynFloat64
+        name: GainY
+        description: GainY
+        index_name: SimGainY
+        drv_info: SIM_GAIN_Y
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynFloat64
-    name: GainGreen
-    description: GainGreen
-    index_name: SimGainGreen
-    drv_info: SIM_GAIN_GREEN
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynLong
+        name: PeakStartY
+        description: PeakStartY
+        index_name: SimPeakStartY
+        drv_info: SIM_PEAK_START_Y
+        record_fields:
+          SCAN: I/O Intr
 
-  - type: AsynFloat64
-    name: GainBlue
-    description: GainBlue
-    index_name: SimGainBlue
-    drv_info: SIM_GAIN_BLUE
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynFloat64
+        name: XSine1Frequency
+        description: XSine1Frequency
+        index_name: SimXSine1Frequency
+        drv_info: SIM_XSINE1_FREQUENCY
+        initial: "1"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynLong
-    name: Reset
-    description: Reset
-    index_name: SimResetImage
-    drv_info: RESET_IMAGE
-    record_fields:
-      SCAN: I/O Intr
+      - type: AsynFloat64
+        name: YSine1Frequency
+        description: YSine1Frequency
+        index_name: SimYSine1Frequency
+        drv_info: SIM_YSINE1_FREQUENCY
+        initial: "1"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynFloat64
-    name: Offset
-    description: Offset
-    index_name: SimOffset
-    drv_info: SIM_OFFSET
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '1'
+      - type: AsynLong
+        name: PeakNumX
+        description: PeakNumX
+        index_name: SimPeakNumX
+        drv_info: SIM_PEAK_NUM_X
+        record_fields:
+          SCAN: I/O Intr
 
-  - type: AsynFloat64
-    name: Noise
-    description: Noise
-    index_name: SimNoise
-    drv_info: SIM_NOISE
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '1'
+      - type: AsynFloat64
+        name: XSine1Phase
+        description: XSine1Phase
+        index_name: SimXSine1Phase
+        drv_info: SIM_XSINE1_PHASE
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynMultiBitBinary
-    name: SimMode
-    description: SimMode
-    index_name: SimMode
-    drv_info: SIM_MODE
-    record_fields:
-      SCAN: I/O Intr
-      ZRVL: '0'
-      ONVL: '1'
-      TWVL: '2'
-      THVL: '3'
-      ZRST: LinearRamp
-      ONST: Peaks
-      TWST: Sine
-      THST: Offset&Noise
+      - type: AsynFloat64
+        name: YSine1Phase
+        description: YSine1Phase
+        index_name: SimYSine1Phase
+        drv_info: SIM_YSINE1_PHASE
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynLong
-    name: PeakStartX
-    description: PeakStartX
-    index_name: SimPeakStartX
-    drv_info: SIM_PEAK_START_X
-    record_fields:
-      SCAN: I/O Intr
+      - type: AsynFloat64
+        name: GainRed
+        description: GainRed
+        index_name: SimGainRed
+        drv_info: SIM_GAIN_RED
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynLong
-    name: PeakStartY
-    description: PeakStartY
-    index_name: SimPeakStartY
-    drv_info: SIM_PEAK_START_Y
-    record_fields:
-      SCAN: I/O Intr
+      - type: AsynLong
+        name: PeakNumY
+        description: PeakNumY
+        index_name: SimPeakNumY
+        drv_info: SIM_PEAK_NUM_Y
+        record_fields:
+          SCAN: I/O Intr
 
-  - type: AsynLong
-    name: PeakNumX
-    description: PeakNumX
-    index_name: SimPeakNumX
-    drv_info: SIM_PEAK_NUM_X
-    record_fields:
-      SCAN: I/O Intr
+      - type: AsynFloat64
+        name: GainGreen
+        description: GainGreen
+        index_name: SimGainGreen
+        drv_info: SIM_GAIN_GREEN
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynLong
-    name: PeakNumY
-    description: PeakNumY
-    index_name: SimPeakNumY
-    drv_info: SIM_PEAK_NUM_Y
-    record_fields:
-      SCAN: I/O Intr
+      - type: AsynLong
+        name: PeakStepX
+        description: PeakStepX
+        index_name: SimPeakStepX
+        drv_info: SIM_PEAK_STEP_X
+        record_fields:
+          SCAN: I/O Intr
 
-  - type: AsynLong
-    name: PeakStepX
-    description: PeakStepX
-    index_name: SimPeakStepX
-    drv_info: SIM_PEAK_STEP_X
-    record_fields:
-      SCAN: I/O Intr
+      - type: AsynFloat64
+        name: XSine2Amplitude
+        description: XSine2Amplitude
+        index_name: SimXSine2Amplitude
+        drv_info: SIM_XSINE2_AMPLITUDE
+        initial: "1"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynLong
-    name: PeakStepY
-    description: PeakStepY
-    index_name: SimPeakStepY
-    drv_info: SIM_PEAK_STEP_Y
-    record_fields:
-      SCAN: I/O Intr
+      - type: AsynFloat64
+        name: YSine2Amplitude
+        description: YSine2Amplitude
+        index_name: SimYSine2Amplitude
+        drv_info: SIM_YSINE2_AMPLITUDE
+        initial: "1"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynLong
-    name: PeakWidthX
-    description: PeakWidthX
-    index_name: SimPeakWidthX
-    drv_info: SIM_PEAK_WIDTH_X
-    record_fields:
-      SCAN: I/O Intr
+      - type: AsynFloat64
+        name: GainBlue
+        description: GainBlue
+        index_name: SimGainBlue
+        drv_info: SIM_GAIN_BLUE
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynLong
-    name: PeakWidthY
-    description: PeakWidthY
-    index_name: SimPeakWidthY
-    drv_info: SIM_PEAK_WIDTH_Y
-    record_fields:
-      SCAN: I/O Intr
+      - type: AsynLong
+        name: PeakStepY
+        description: PeakStepY
+        index_name: SimPeakStepY
+        drv_info: SIM_PEAK_STEP_Y
+        record_fields:
+          SCAN: I/O Intr
 
-  - type: AsynFloat64
-    name: PeakVariation
-    description: PeakVariation
-    index_name: SimPeakHeightVariation
-    drv_info: SIM_PEAK_HEIGHT_VARIATION
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '1'
+      - type: AsynFloat64
+        name: XSine2Frequency
+        description: XSine2Frequency
+        index_name: SimXSine2Frequency
+        drv_info: SIM_XSINE2_FREQUENCY
+        initial: "2"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynMultiBitBinary
-    name: XSineOperation
-    description: XSineOperation
-    index_name: SimXSineOperation
-    drv_info: SIM_XSINE_OPERATION
-    record_fields:
-      SCAN: I/O Intr
-      ZRVL: '0'
-      ONVL: '1'
-      ZRST: Add
-      ONST: Multiply
+      - type: AsynFloat64
+        name: YSine2Frequency
+        description: YSine2Frequency
+        index_name: SimYSine2Frequency
+        drv_info: SIM_YSINE2_FREQUENCY
+        initial: "2"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynFloat64
-    name: XSine1Amplitude
-    description: XSine1Amplitude
-    index_name: SimXSine1Amplitude
-    drv_info: SIM_XSINE1_AMPLITUDE
-    initial: '1'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynFloat64
+        name: Offset
+        description: Offset
+        index_name: SimOffset
+        drv_info: SIM_OFFSET
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "1"
 
-  - type: AsynFloat64
-    name: XSine1Frequency
-    description: XSine1Frequency
-    index_name: SimXSine1Frequency
-    drv_info: SIM_XSINE1_FREQUENCY
-    initial: '1'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynLong
+        name: PeakWidthX
+        description: PeakWidthX
+        index_name: SimPeakWidthX
+        drv_info: SIM_PEAK_WIDTH_X
+        record_fields:
+          SCAN: I/O Intr
 
-  - type: AsynFloat64
-    name: XSine1Phase
-    description: XSine1Phase
-    index_name: SimXSine1Phase
-    drv_info: SIM_XSINE1_PHASE
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynFloat64
+        name: XSine2Phase
+        description: XSine2Phase
+        index_name: SimXSine2Phase
+        drv_info: SIM_XSINE2_PHASE
+        initial: "90"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynFloat64
-    name: XSine2Amplitude
-    description: XSine2Amplitude
-    index_name: SimXSine2Amplitude
-    drv_info: SIM_XSINE2_AMPLITUDE
-    initial: '1'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynFloat64
+        name: YSine2Phase
+        description: YSine2Phase
+        index_name: SimYSine2Phase
+        drv_info: SIM_YSINE2_PHASE
+        initial: "90"
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "2"
 
-  - type: AsynFloat64
-    name: XSine2Frequency
-    description: XSine2Frequency
-    index_name: SimXSine2Frequency
-    drv_info: SIM_XSINE2_FREQUENCY
-    initial: '2'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynFloat64
+        name: Noise
+        description: Noise
+        index_name: SimNoise
+        drv_info: SIM_NOISE
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "1"
 
-  - type: AsynFloat64
-    name: XSine2Phase
-    description: XSine2Phase
-    index_name: SimXSine2Phase
-    drv_info: SIM_XSINE2_PHASE
-    initial: '90'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynLong
+        name: PeakWidthY
+        description: PeakWidthY
+        index_name: SimPeakWidthY
+        drv_info: SIM_PEAK_WIDTH_Y
+        record_fields:
+          SCAN: I/O Intr
 
-  - type: AsynMultiBitBinary
-    name: YSineOperation
-    description: YSineOperation
-    index_name: SimYSineOperation
-    drv_info: SIM_YSINE_OPERATION
-    record_fields:
-      SCAN: I/O Intr
-      ZRVL: '0'
-      ONVL: '1'
-      ZRST: Add
-      ONST: Multiply
+      - type: AsynMultiBitBinary
+        name: XSineOperation
+        description: XSineOperation
+        index_name: SimXSineOperation
+        drv_info: SIM_XSINE_OPERATION
+        record_fields:
+          SCAN: I/O Intr
+          ZRVL: "0"
+          ONVL: "1"
+          ZRST: Add
+          ONST: Multiply
 
-  - type: AsynFloat64
-    name: YSine1Amplitude
-    description: YSine1Amplitude
-    index_name: SimYSine1Amplitude
-    drv_info: SIM_YSINE1_AMPLITUDE
-    initial: '1'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynMultiBitBinary
+        name: YSineOperation
+        description: YSineOperation
+        index_name: SimYSineOperation
+        drv_info: SIM_YSINE_OPERATION
+        record_fields:
+          SCAN: I/O Intr
+          ZRVL: "0"
+          ONVL: "1"
+          ZRST: Add
+          ONST: Multiply
 
-  - type: AsynFloat64
-    name: YSine1Frequency
-    description: YSine1Frequency
-    index_name: SimYSine1Frequency
-    drv_info: SIM_YSINE1_FREQUENCY
-    initial: '1'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynFloat64
+        name: PeakVariation
+        description: PeakVariation
+        index_name: SimPeakHeightVariation
+        drv_info: SIM_PEAK_HEIGHT_VARIATION
+        record_fields:
+          SCAN: I/O Intr
+          PREC: "1"
 
-  - type: AsynFloat64
-    name: YSine1Phase
-    description: YSine1Phase
-    index_name: SimYSine1Phase
-    drv_info: SIM_YSINE1_PHASE
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynLong
+        name: Reset
+        description: Reset
+        index_name: SimResetImage
+        drv_info: RESET_IMAGE
+        record_fields:
+          SCAN: I/O Intr
 
-  - type: AsynFloat64
-    name: YSine2Amplitude
-    description: YSine2Amplitude
-    index_name: SimYSine2Amplitude
-    drv_info: SIM_YSINE2_AMPLITUDE
-    initial: '1'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
-
-  - type: AsynFloat64
-    name: YSine2Frequency
-    description: YSine2Frequency
-    index_name: SimYSine2Frequency
-    drv_info: SIM_YSINE2_FREQUENCY
-    initial: '2'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
-
-  - type: AsynFloat64
-    name: YSine2Phase
-    description: YSine2Phase
-    index_name: SimYSine2Phase
-    drv_info: SIM_YSINE2_PHASE
-    initial: '90'
-    record_fields:
-      SCAN: I/O Intr
-      PREC: '2'
+      - type: AsynMultiBitBinary
+        name: SimMode
+        description: SimMode
+        index_name: SimMode
+        drv_info: SIM_MODE
+        record_fields:
+          SCAN: I/O Intr
+          ZRVL: "0"
+          ONVL: "1"
+          TWVL: "2"
+          THVL: "3"
+          ZRST: LinearRamp
+          ONST: Peaks
+          TWST: Sine
+          THST: Offset&Noise
