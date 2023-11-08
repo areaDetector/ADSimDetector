@@ -9,6 +9,24 @@ include "ADBase.template"
 # Redefine the color mode choices from ADBase.template to only have those that the simDetector
 # driver supports.  Keep the same values (xxVL), but change the menu numbers.
 
+record(bo, "$(P)$(R)TimeStampMode")
+{
+   field(PINI, "YES")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_TIME_STAMP_MODE")
+   field(ZNAM, "Camera")
+   field(ONAM, "EPICS")
+}
+
+record(bi, "$(P)$(R)TimeStampMode_RBV")
+{
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))SIM_TIME_STAMP_MODE")
+   field(ZNAM, "Camera")
+   field(ONAM, "EPICS")
+   field(SCAN, "I/O Intr")
+}
+
 record(mbbo, "$(P)$(R)ColorMode")
 {
    field(ZRST, "Mono")

@@ -5,6 +5,28 @@
 #define DRIVER_REVISION     9
 #define DRIVER_MODIFICATION 0
 
+#if defined (_MSC_VER)
+    // For Microsoft systems
+    typedef __int8              SimInt8_t;
+    typedef unsigned __int8     SimUint8_t;
+    typedef __int16             SimInt16_t;
+    typedef unsigned __int16    SimUint16_t;
+    typedef __int32             SimInt32_t;
+    typedef unsigned __int32    SimUint32_t;
+    typedef __int64             SimInt64_t;
+    typedef unsigned __int64    SimUint64_t;
+#else // for non MS or GNU compilers without any warranty for the size
+    typedef signed char         SimInt8_t;
+    typedef unsigned char       SimUint8_t;
+    typedef short               SimInt16_t;
+    typedef unsigned short      SimUint16_t;
+    typedef int                 SimInt32_t;
+    typedef unsigned int        SimUint32_t;
+    typedef long long           Simnt64_t;
+    typedef unsigned long long  SimUint64_t;
+
+#endif
+
 /** Simulation detector driver; demonstrates most of the features that areaDetector drivers can support. */
 class epicsShareClass simDetector : public ADDriver {
 public:
@@ -54,6 +76,7 @@ protected:
     int SimYSine2Amplitude;
     int SimYSine2Frequency;
     int SimYSine2Phase;
+    int SimTimeStampMode;
 
 private:
     /* These are the methods that are new to this class */
@@ -124,3 +147,4 @@ typedef enum {
 #define SimYSine2AmplitudeString      "SIM_YSINE2_AMPLITUDE"
 #define SimYSine2FrequencyString      "SIM_YSINE2_FREQUENCY"
 #define SimYSine2PhaseString          "SIM_YSINE2_PHASE"
+#define SimTimeStampModeString       "SIM_TIME_STAMP_MODE"

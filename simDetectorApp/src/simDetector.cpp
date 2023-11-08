@@ -41,6 +41,11 @@ static const char *driverName = "simDetector";
   #define M_PI 3.14159265358979323846
 #endif
 
+typedef enum {
+    TimeStampCamera,
+    TimeStampEPICS
+} VMBTimeStamp_t;
+
 /** Template function to compute the simulated detector data for any data type */
 template <typename epicsType> int simDetector::computeArray(int sizeX, int sizeY)
 {
@@ -825,6 +830,15 @@ void simDetector::simTask()
         pImage->timeStamp = startTime.secPastEpoch + startTime.nsec / 1.e9;
         updateTimeStamp(&pImage->epicsTS);
 
+        getIntegerParam(SimTimeStampMode, &timeStampMode);
+        if (timeStampMode == TimeStampCamera) {
+            SimUint64_t timeStamp;
+            pImage->GetTimestamp(timeStamp);
+            pImage->timeStamp = timeStamp / 1e9;
+        } else {
+            pImage->timeStamp = pImage->epicsTS.secPastEpoch + pImage->epicsTS.nsec/1e9;
+        }
+
         /* Get any attributes that have been defined for this driver */
         this->getAttributes(pImage->pAttributeList);
 
@@ -1089,6 +1103,7 @@ simDetector::simDetector(const char *portName, int maxSizeX, int maxSizeY, NDDat
     createParam(SimYSine2AmplitudeString,     asynParamFloat64, &SimYSine2Amplitude);
     createParam(SimYSine2FrequencyString,     asynParamFloat64, &SimYSine2Frequency);
     createParam(SimYSine2PhaseString,         asynParamFloat64, &SimYSine2Phase);
+    createParam(SimTimeStampModeString,       asynParamInt32,   &SimTimeStampMode);
 
     /* Set some default values for parameters */
     status =  setStringParam (ADManufacturer, "Simulated detector");
