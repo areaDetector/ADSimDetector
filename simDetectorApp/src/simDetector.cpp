@@ -65,11 +65,11 @@ template <typename epicsType> int simDetector::computeArray(int sizeX, int sizeY
         if ((noise != 0.) || (offset != 0)) {
             useBackground_ = true;
             if (noise == 0) {
-                for (i=0; i<arrayInfo_.nElements; i++) {
+                for (i=0; (size_t)i<arrayInfo_.nElements; i++) {
                     pBackgroundData[i] = offset;
                 }
             } else {
-                for (i=0; i<arrayInfo_.nElements; i++) {
+                for (i=0; (size_t)i<arrayInfo_.nElements; i++) {
                     pBackgroundData[i] = (epicsType)((noise * (rand() / (double)RAND_MAX)) + offset);
                 }
             }
@@ -222,7 +222,7 @@ template <typename epicsType> int simDetector::computeLinearRampArray(int sizeX,
         }
     }
     if (useBackground_) {
-        for (i=0; i<arrayInfo_.nElements; i++) {
+        for (i=0; (size_t)i<arrayInfo_.nElements; i++) {
             pRawData[i] += pRampData[i];
         }
     }
@@ -822,8 +822,7 @@ void simDetector::simTask()
 
         /* Put the frame number and time stamp into the buffer */
         pImage->uniqueId = imageCounter;
-        pImage->timeStamp = startTime.secPastEpoch + startTime.nsec / 1.e9;
-        updateTimeStamp(&pImage->epicsTS);
+        updateTimeStamps(pImage);
 
         /* Get any attributes that have been defined for this driver */
         this->getAttributes(pImage->pAttributeList);
