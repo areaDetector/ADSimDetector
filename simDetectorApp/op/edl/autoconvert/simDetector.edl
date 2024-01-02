@@ -1273,10 +1273,10 @@ icon
 numPvs 2
 numDsps 1
 displayFileName {
-  0 simDetectorSetup.edl
+  0 "simDetectorSetup.edl"
 }
 menuLabel {
-  0 Simulation setup
+  0 "Simulation setup"
 }
 symbols {
   0 "P=$(P),R=$(R)"
