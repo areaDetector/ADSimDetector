@@ -36,7 +36,7 @@ Release Notes
 
 R2-11 (April 7, 2024)
 =========================
-* Moved documentation to areaetector.github.io/areaDetector/ADSimDetector/simDetector.html
+* Moved documentation to https://areadetector.github.io/areaDetector/ADSimDetector/simDetector.html
 * Added .bob OPI files for Phoebus.
 * Use new asyn NDArrayDriver::updateTimeStamps method.
 * Initialize pointer to NULL.
