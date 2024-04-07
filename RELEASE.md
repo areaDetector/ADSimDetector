@@ -34,6 +34,15 @@ files respectively, in the configure/ directory of the appropriate release of th
 Release Notes
 =============
 
+R2-11 (April 7, 2024)
+=========================
+* Moved documentation to areaetector.github.io/areaDetector/ADSimDetector/simDetector.html
+* Added .bob OPI files for Phoebus.
+* Use new asyn NDArrayDriver::updateTimeStamps method.
+* Initialize pointer to NULL.
+* Improve validation of Min/Size/Bin.
+
+
 R2-10 (October 22, 2019)
 =========================
 * Added support for NDArray datatypes NDInt64 and NDUInt64
