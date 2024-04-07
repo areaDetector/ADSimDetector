@@ -39,7 +39,7 @@ R2-11 (April 7, 2024)
 * Moved documentation to https://areadetector.github.io/areaDetector/ADSimDetector/simDetector.html
 * Added .bob OPI files for Phoebus.
 * Use new asyn NDArrayDriver::updateTimeStamps method.
-* Initialize pointer to NULL.
+* Initialize NDArray pointers to NULL and release them in computeImage().
 * Improve validation of Min/Size/Bin.
 
 
