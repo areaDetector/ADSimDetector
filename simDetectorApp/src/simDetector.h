@@ -2,7 +2,7 @@
 #include "ADDriver.h"
 
 #define DRIVER_VERSION      2
-#define DRIVER_REVISION     9
+#define DRIVER_REVISION    11
 #define DRIVER_MODIFICATION 0
 
 /** Simulation detector driver; demonstrates most of the features that areaDetector drivers can support. */
