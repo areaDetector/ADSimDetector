@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no" ?>
+<!-- Attributes -->
+<Attributes
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../ADCore/XML_schema/NDAttributes.xsd"
+    >
+    <Attribute name="Int8"                  type="FUNCTION" source="myAttrFunct1"                 param="INT8"          description="Int8 attribute"/>
+    <Attribute name="UInt8"                 type="FUNCTION" source="myAttrFunct1"                 param="UINT8"         description="UInt8 attribute"/>
+    <Attribute name="Int16"                 type="FUNCTION" source="myAttrFunct1"                 param="INT16"         description="Int16 attribute"/>
+    <Attribute name="UInt16"                type="FUNCTION" source="myAttrFunct1"                 param="UINT16"        description="UInt16 attribute"/>
+    <Attribute name="Int32"                 type="FUNCTION" source="myAttrFunct1"                 param="INT32"         description="Int32 attribute"/>
+    <Attribute name="UInt32"                type="FUNCTION" source="myAttrFunct1"                 param="UINT32"        description="UInt32 attribute"/>
+    <Attribute name="Int64"                 type="FUNCTION" source="myAttrFunct1"                 param="INT64"         description="Int64 attribute"/>
+    <Attribute name="UInt64"                type="FUNCTION" source="myAttrFunct1"                 param="UINT64"        description="UInt64 attribute"/>
+    <Attribute name="Float32"               type="FUNCTION" source="myAttrFunct1"                 param="FLOAT32"       description="Float32 attribute"/>
+    <Attribute name="Float64"               type="FUNCTION" source="myAttrFunct1"                 param="FLOAT64"       description="Float64 attribute"/>
+</Attributes>
+
